@@ -4,10 +4,15 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'vue-swipe/dist/vue-swipe.css'
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App }
+  components: {
+    App
+  }
 })
