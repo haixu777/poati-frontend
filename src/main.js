@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'vue-swipe/dist/vue-swipe.css'
@@ -11,6 +12,7 @@ import 'vue-swipe/dist/vue-swipe.css'
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: {
     App

@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import store from '../store'
+
 export default {
   data: function () {
     return {
@@ -25,14 +27,21 @@ export default {
         { path: '/news', text: '新闻' },
         { path: '/expert', text: '专家' },
         { path: '/help', text: '帮助' }
-      ],
-      activeText: '首页'
+      ]
+    }
+  },
+  computed: {
+    activeText () {
+      return store.state.activeText
     }
   },
   methods: {
     toogleActive: function (text) {
-      this.activeText = text
+      store.commit('changeTitle', text)
     }
+  },
+  mounted: function () {
+    console.log(111)
   }
 }
 </script>
@@ -44,6 +53,8 @@ export default {
     li {
       float: left;
       a {
+        display: inline-block;
+        width: 100%;
         text-decoration: none;
       }
     }

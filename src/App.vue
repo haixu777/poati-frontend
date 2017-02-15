@@ -16,6 +16,10 @@ import myFooter from 'components/Footer'
 
 export default {
   name: 'app',
+  data: function () {
+    return {
+    }
+  },
   components: {
     myHeader,
     myContent,
