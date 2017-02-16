@@ -1,36 +1,34 @@
 <template lang="html">
   <div class="home_container">
-    <swipe class="my-swipe" :speed="1000" :auto="5000">
-      <swipe-item class="slide1">
-        <img src="" alt="111">
-      </swipe-item>
-      <swipe-item class="slide2">
-        <img src="" alt="222">
-      </swipe-item>
-      <swipe-item class="slide3">
-        <img src="" alt="333">
-      </swipe-item>
-    </swipe>
+    <el-carousel height="400px">
+      <el-carousel-item v-for="item in 4">
+        <h3>{{ item }}</h3>
+      </el-carousel-item>
+    </el-carousel>
     <div class="newest_contest">
       <div class="title_container container">
         <h3>最新竞赛</h3>
-        <router-link :to="'/news'">
+        <router-link :to="'/contest'">
           <button type="button" name="button" class="btn btn-sm btn-success" @click="toogleActive('竞赛')">更多竞赛</button>
         </router-link>
       </div>
-      <div class="newest_contest_container container">
-        <div class="">
-          111
-        </div>
-        <div class="">
-          222
-        </div>
-        <div class="">
-          333
-        </div>
-        <div class="">
-          444
-        </div>
+      <div class="container">
+        <el-row type="flex" justify="center">
+          <el-col :span="4" v-for="item,index in newest_contest_list" :offset="index > 0 ? 2 : 0">
+            <el-card :body-style="{ padding: '0px' }">
+              <img src="../../assets/test.png" class="image">
+              <div style="padding: 14px;">
+                <span>{{ item.title }}</span>
+                <div class="bottom clearfix">
+                  <time class="time">{{ item.time }}</time>
+                  <router-link :to="'/contest/'+item.path">
+                    <el-button type="text" class="button" @click="handleContestClick(item.path)">立即参赛</el-button>
+                  </router-link>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
       </div>
     </div>
     <div class="newest_news ">
@@ -47,7 +45,7 @@
     <div class="expert_recommend ">
       <div class="title_container container">
         <h3>专家推荐</h3>
-        <router-link :to="'/news'">
+        <router-link :to="'/expert'">
           <button type="button" name="button" class="btn btn-sm btn-success" @click="toogleActive('专家')">更多专家</button>
         </router-link>
       </div>
@@ -71,15 +69,26 @@ import { Swipe, SwipeItem } from 'vue-swipe'
 import store from '../../store'
 
 export default {
+  data () {
+    return {
+      newest_contest_list: [
+        { path: 'shrsb', img: '../../assets/test.jpg', title: '说话人识别', time: '2017-3-1 ～ 2017-3-15' },
+        { path: 'ypdb', img: '../../assets/test.jpg', title: '音频对比', time: '2017-3-1 ～ 2017-3-15' },
+        { path: 'yygjcjc', img: '../../assets/test.jpg', title: '语音关键词检测', time: '2017-3-1 ～ 2017-3-15' },
+        { path: 'tdspsb', img: '../../assets/test.jpg', title: '特定视频识别', time: '2017-3-1 ～ 2017-3-15' }
+      ]
+    }
+  },
   components: {
     Swipe,
     SwipeItem
   },
   methods: {
     toogleActive: function (text) {
-      console.log(222)
       store.commit('changeTitle', text)
-      console.log(store)
+    },
+    handleContestClick: function (text) {
+      store.commit('changeTitle', '竞赛')
     }
   }
 }
@@ -139,5 +148,57 @@ export default {
     .newest_news {
 
     }
+
+    .el-carousel__item h3 {
+      color: #475669;
+      font-size: 14px;
+      opacity: 0.75;
+      line-height: 150px;
+      margin: 0;
+    }
+
+    .el-carousel__item:nth-child(2n) {
+      background-color: #99a9bf;
+    }
+
+    .el-carousel__item:nth-child(2n+1) {
+      background-color: #d3dce6;
+    }
+
+    // -------- <el-card> start ------------
+    .el-card {
+      text-align: left;
+    }
+
+    .time {
+      font-size: 13px;
+      color: #999;
+    }
+
+    .bottom {
+      margin-top: 13px;
+      line-height: 12px;
+    }
+
+    .button {
+      padding: 0;
+      float: right;
+    }
+
+    .image {
+      width: 100%;
+      display: block;
+    }
+
+    .clearfix:before,
+    .clearfix:after {
+        display: table;
+        content: "";
+    }
+
+    .clearfix:after {
+        clear: both
+    }
+    // -------- </el-card> end -------------
   }
 </style>

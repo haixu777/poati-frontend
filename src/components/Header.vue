@@ -8,8 +8,24 @@
           </li>
       </ul>
       <ul class="login_list">
-        <li><a href="#">登录</a></li>
-        <li class="btn_register"><a href="#">注册</a></li>
+        <li class="btn_register" v-if="!isLogin">
+          <div class="login">
+            <router-link :to="'/login'">
+              <button type="button" name="button" class="btn btn-sm btn-success" @click="toogleActive('')">登录</button>
+            </router-link>
+          </div>
+        </li>
+        <li class="btn_register" v-else>
+          <el-dropdown>
+            <span class="el-dropdown-link">
+              {{ username }}<i class="el-icon-caret-bottom el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>我的竞赛</el-dropdown-item>
+              <el-dropdown-item>退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </li>
       </ul>
     </div>
   </div>
@@ -27,7 +43,9 @@ export default {
         { path: '/news', text: '新闻' },
         { path: '/expert', text: '专家' },
         { path: '/help', text: '帮助' }
-      ]
+      ],
+      isLogin: true,
+      username: 'username_test'
     }
   },
   computed: {
@@ -41,13 +59,17 @@ export default {
     }
   },
   mounted: function () {
-    console.log(111)
   }
 }
 </script>
 
 <style lang="scss">
-  ul {
+  .btn_register {
+    float: left;
+    list-style: none;
+    margin-top: 8px;
+  }
+  .nav_list {
     display: inline;
     list-style: none;
     li {
@@ -93,19 +115,14 @@ export default {
       line-height:42px;
       margin-bottom: 0;
       font-size: 16px;
-      li {
-        width: 60px;
-        height: 40px;
-        margin-top: 10px;
-        a {
-          text-decoration: none;
-        }
-      }
-      :nth-child(2) {
-        border: 1px solid #000;
-        border-radius: 10px;
-        &:hover {
-          background: red;
+      .login {
+        li {
+          width: 60px;
+          height: 40px;
+          margin-top: 10px;
+          a {
+            text-decoration: none;
+          }
         }
       }
     }

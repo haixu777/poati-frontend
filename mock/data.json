@@ -1,0 +1,76 @@
+{
+  "contestList": [
+    { "logo": "", "title": "说话人识别", "introdution": "行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要", "time": "2017-4-12 ~ 2017-5-10", "location": "北京益园", "reach_deadLine": true },
+    { "logo": "", "title": "说话人识别", "introdution": "行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要", "time": "2017-4-12 ~ 2017-5-10", "location": "北京益园", "reach_deadLine": false },
+    { "logo": "", "title": "说话人识别", "introdution": "行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要", "time": "2017-4-12 ~ 2017-5-10", "location": "北京益园", "reach_deadLine": true },
+    { "logo": "", "title": "说话人识别", "introdution": "行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要", "time": "2017-4-12 ~ 2017-5-10", "location": "北京益园", "reach_deadLine": true },
+    { "logo": "", "title": "说话人识别", "introdution": "行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要", "time": "2017-4-12 ~ 2017-5-10", "location": "北京益园", "reach_deadLine": false },
+    { "logo": "", "title": "说话人识别", "introdution": "行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要", "time": "2017-4-12 ~ 2017-5-10", "location": "北京益园", "reach_deadLine": true },
+    { "logo": "", "title": "说话人识别", "introdution": "行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要", "time": "2017-4-12 ~ 2017-5-10", "location": "北京益园", "reach_deadLine": true }
+  ],
+  "contestDetails": {
+    "shrsb": {
+      "title": "<h4>说话人识别</h4>",
+      "background": "<p>background</p><h4>backgroundh4</h4>",
+      "introdution": "<span>introdution</span>",
+      "rule": "<p>rule</p>",
+      "data": "<p>data</p>",
+      "rate": "<p>rate</p>",
+      "standard": "<p>standard</p>"
+    },
+    "ypdb": {
+      "title": "<h4>音频对比</h4>",
+      "background": "<p>background</p><h4>backgroundh4</h4>",
+      "introdution": "<span>introdution</span><button>btn</button>",
+      "rule": "<p>rule</p>",
+      "data": "<p>data</p>",
+      "rate": "<p>rate</p>",
+      "standard": "<p>standard</p>"
+    },
+    "yygjcjc": {
+      "title": "<h4>语音关键词检测</h4>",
+      "background": "<p>background</p><h4>backgroundh4</h4>",
+      "introdution": "<span>introdution</span><button>btn</button>",
+      "rule": "<p>rule</p>",
+      "data": "<p>data</p>",
+      "rate": "<p>rate</p>",
+      "standard": "<p>standard</p>"
+    },
+    "spkbjc": {
+      "title": "<h4>视频拷贝检测</h4>",
+      "background": "<p>background</p><h4>backgroundh4</h4>",
+      "introdution": "<span>introdution</span><button>btn</button>",
+      "rule": "<p>rule</p>",
+      "data": "<p>data</p>",
+      "rate": "<p>rate</p>",
+      "standard": "<p>standard</p>"
+    },
+    "tdspsb": {
+      "title": "<h4>特定视频识别</h4>",
+      "background": "<p>background</p><h4>backgroundh4</h4>",
+      "introdution": "<span>introdution</span><button>btn</button>",
+      "rule": "<p>rule</p>",
+      "data": "<p>data</p>",
+      "rate": "<p>rate</p>",
+      "standard": "<p>standard</p>"
+    },
+    "spwbgjcjc": {
+      "title": "<h4>视频文本关键词检测</h4>",
+      "background": "<p>background</p><h4>backgroundh4</h4>",
+      "introdution": "<span>introdution</span><button>btn</button>",
+      "rule": "<p>rule</p>",
+      "data": "<p>data</p>",
+      "rate": "<p>rate</p>",
+      "standard": "<p>standard</p>"
+    },
+    "rlsb": {
+      "title": "<h4>人脸识别</h4>",
+      "background": "<p>background</p><h4>backgroundh4</h4>",
+      "introdution": "<span>introdution</span><button>btn</button>",
+      "rule": "<p>rule</p>",
+      "data": "<p>data</p>",
+      "rate": "<p>rate</p>",
+      "standard": "<p>standard</p>"
+    }
+  }
+}
