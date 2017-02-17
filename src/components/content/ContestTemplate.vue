@@ -18,7 +18,6 @@
     </div>
     <div class="container_right">
       <div class="" v-html="activeContestInfo.title">
-
       </div>
       <div class="introdution" v-show="activeName=='比赛介绍'" v-html="activeContestInfo.introdution">
         比赛介绍
@@ -36,6 +35,7 @@
         提交要求
       </div>
     </div>
+    <el-button type="info">报名</el-button>
   </div>
 </template>
 
@@ -67,7 +67,7 @@ export default {
     }
   },
   mounted: function () {
-    this.activeContest = location.href.split('/')[5]
+    this.activeContest = location.href.split('/')[4]
     this.activeContestInfo = contestDetailsInfo.contestDetails[this.activeContest]
   }
 }

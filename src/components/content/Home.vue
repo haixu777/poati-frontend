@@ -90,6 +90,9 @@ export default {
     handleContestClick: function (text) {
       store.commit('changeTitle', '竞赛')
     }
+  },
+  mounted: function () {
+    store.commit('changeTitle', '首页')
   }
 }
 </script>

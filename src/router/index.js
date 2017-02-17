@@ -8,10 +8,12 @@ import myHelp from 'components/content/Help'
 import myExpert from 'components/content/expert'
 import myLogin from 'components/login/index'
 import myContestDetails from 'components/content/ContestTemplate'
+import myUserInfo from 'components/content/UserInfo'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/home',
@@ -47,6 +49,18 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: myLogin
+    },
+    {
+      path: '/userinfo',
+      name: 'userinfo',
+      component: myUserInfo,
+      beforeEnter: function (to, from, next) {
+        if (localStorage.getItem('isLogin')) {
+          next()
+        } else {
+          next('/home')
+        }
+      }
     },
     {
       path: '*',
