@@ -12,6 +12,7 @@ var express = require('express')
 var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
+var bodyParser = require('body-parser')
 
 let {contestList} = require('../mock/data.json')
 
@@ -65,6 +66,9 @@ app.use(hotMiddleware)
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
 
+app.use(bodyParser.urlencoded({ extended: false}))
+app.use(bodyParser.json())
+
 var uri = 'http://localhost:' + port
 
 devMiddleware.waitUntilValid(function () {
@@ -74,6 +78,11 @@ devMiddleware.waitUntilValid(function () {
 app.get('/fetchContestListFromServer', function (req, res) {
   var temp = JSON.parse(fs.readFileSync("./mock/data.json"))
   res.json({data: temp})
+})
+
+app.post('/login', function (req, res, next) {
+  res.cookie('token', 'aslkdaksmdknkn2131ejioqe12ije01')
+  res.json({username: req.body.username})
 })
 
 module.exports = app.listen(port, function (err) {

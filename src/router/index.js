@@ -8,9 +8,22 @@ import myHelp from 'components/content/Help'
 import myExpert from 'components/content/expert'
 import myLogin from 'components/login/index'
 import myContestDetails from 'components/content/ContestTemplate'
-import myUserInfo from 'components/content/UserInfo'
+import myUserInfo from 'components/content/user/Index'
+import myVerify from 'components/content/Verify'
+
+import myProfile from 'components/content/user/Profile'
+import myProject from 'components/content/user/Project'
+import myResult from 'components/content/user/Result'
+
+import Cookie from '../../utils/util'
 
 Vue.use(Router)
+
+const userRoutes = [
+  { path: 'profile', component: myProfile },
+  { path: 'project', component: myProject },
+  { path: 'result', component: myResult }
+]
 
 export default new Router({
   mode: 'history',
@@ -51,11 +64,24 @@ export default new Router({
       component: myLogin
     },
     {
-      path: '/userinfo',
-      name: 'userinfo',
+      path: '/user',
+      name: 'user',
       component: myUserInfo,
+      children: userRoutes,
       beforeEnter: function (to, from, next) {
-        if (localStorage.getItem('isLogin')) {
+        if (Cookie.get('username')) {
+          next()
+        } else {
+          next('/home')
+        }
+      }
+    },
+    {
+      path: '/verify',
+      name: 'verify',
+      component: myVerify,
+      beforeEnter: function (to, from, next) {
+        if (Cookie.get('isAdmin')) {
           next()
         } else {
           next('/home')

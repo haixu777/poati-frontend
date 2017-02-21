@@ -20,8 +20,8 @@
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>
-                <router-link :to="'/userinfo'" style="text-decoration: none;" @click.native="goToMyInfo()">
-                  我的竞赛
+                <router-link :to="isAdmin?'/verify':'/user'" style="text-decoration: none;" @click.native="goToMyInfo()">
+                  {{ isAdmin?'资格审核':'我的竞赛' }}
                 </router-link>
               </el-dropdown-item>
               <el-dropdown-item>
@@ -35,7 +35,7 @@
       </ul>
     </div>
 
-    <el-dialog title="" v-model="dialogFormVisible" size="tiny">
+    <el-dialog title="" v-model="dialogFormVisible" size="">
       <el-tabs v-model="activeName" @tab-click="">
         <el-tab-pane label="用户登录" name="login">
           <el-form ref="userLoginInfo" :model="userLoginInfo" :rules="rules" label-width="80px">
@@ -51,15 +51,28 @@
           </el-form>
         </el-tab-pane>
         <el-tab-pane label="用户注册" name="register">
-          <el-form ref="userRegisterInfo" :model="userRegisterInfo" :rules="rules" label-width="85px">
-            <el-form-item label="姓名"  prop="name">
-              <el-input v-model="userRegisterInfo.name"></el-input>
-            </el-form-item>
-            <el-form-item label="手机号码" prop="phone">
+          <el-form :inline="true" ref="userRegisterInfo" :model="userRegisterInfo" :rules="rules" label-width="100px">
+            <el-form-item label="队伍名称"  prop="teamName">
+              <el-input v-model="userRegisterInfo.teamName"></el-input>
+            </el-form-item><el-form-item label="联系人姓名" prop="name">
+              <el-input v-model="userRegisterInfo.name" type=""></el-input>
+            </el-form-item><el-form-item label="电话" prop="phone">
               <el-input v-model="userRegisterInfo.phone" type=""></el-input>
+            </el-form-item><el-form-item label="邮箱"  prop="email">
+              <el-input v-model="userRegisterInfo.email"></el-input>
+            </el-form-item><el-form-item label="单位" prop="unit">
+              <el-input v-model="userRegisterInfo.unit" type=""></el-input>
+            </el-form-item><el-form-item label="用户名" prop="username">
+              <el-input v-model="userRegisterInfo.username" type=""></el-input>
+            </el-form-item><el-form-item label="密码"  prop="password">
+              <el-input v-model="userRegisterInfo.password" type="password"></el-input>
+            </el-form-item><el-form-item label="确认密码" prop="passwordConfirm">
+              <el-input v-model="userRegisterInfo.passwordConfirm" type="password"></el-input>
+            </el-form-item><el-form-item label="IP地址" prop="ipAddress">
+              <el-input v-model="userRegisterInfo.ipAddress" type=""></el-input>
             </el-form-item>
-            <el-form-item label="邮箱" prop="email">
-              <el-input v-model="userRegisterInfo.email" type=""></el-input>
+            <el-form-item label="硬件资源要求" prop="info">
+              <el-input v-model="userRegisterInfo.info" type="textarea" autosize></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="submitForm('userRegisterInfo')">注册申请</el-button>
@@ -74,6 +87,7 @@
 
 <script>
 import store from '../store'
+import Cookie from '../../utils/util'
 
 export default {
   data: function () {
@@ -101,8 +115,21 @@ export default {
         }
       }, 1000)
     }
+    let validateConfirmPassword = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('重复密码不能为空'))
+      }
+      setTimeout(() => {
+        if (value !== this.userRegisterInfo.password) {
+          callback(new Error('密码不一致'))
+        } else {
+          callback()
+        }
+      }, 1000)
+    }
     return {
-      isLogin: localStorage.getItem('isLogin'),
+      isAdmin: Cookie.get('isAdmin'),
+      isLogin: !!(Cookie.get('username')),
       navList: [
         { path: '/home', text: '首页' },
         { path: '/contest', text: '竞赛' },
@@ -110,19 +137,29 @@ export default {
         { path: '/expert', text: '专家' },
         { path: '/help', text: '帮助' }
       ],
-      username: localStorage.getItem('username'),
+      username: Cookie.get('username'),
       dialogFormVisible: false,
       userLoginInfo: {
         username: '',
         password: ''
       },
       userRegisterInfo: {
+        teamName: '',
         name: '',
         phone: '',
-        email: ''
+        email: '',
+        unit: '',
+        ipAddress: '',
+        username: '',
+        password: '',
+        passwordConfirm: '',
+        info: ''
       },
       activeName: 'login',
       rules: {
+        teamName: [
+          { required: true, message: '队伍名称不能为空', trigger: 'blur' }
+        ],
         name: [
           { required: true, message: '姓名不能为空', trigger: 'change' }
         ],
@@ -137,6 +174,9 @@ export default {
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'change' }
+        ],
+        passwordConfirm: [
+          { required: true, validator: validateConfirmPassword, message: '两次密码不一致', trigger: 'blur' }
         ]
       }
     }
@@ -163,16 +203,24 @@ export default {
     resetForm: function (formName) {
       this.$refs[formName].resetFields()
     },
+    handleLoginToServer: function () {
+      this.$http.post('/login', {
+        username: this.userLoginInfo.username,
+        password: this.userLoginInfo.password
+      }).then((res) => {
+        Cookie.set('username', res.data.username)
+        Cookie.set('isAdmin', false)
+        this.isAdmin = false
+        this.isLogin = true
+        this.username = res.data.username
+      })
+    },
     login: function (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log('login~')
           this.dialogFormVisible = false
-          localStorage.setItem('token', 3)
-          localStorage.setItem('username', 'username_test_localstorage')
-          localStorage.setItem('isLogin', true)
-          this.isLogin = localStorage.getItem('isLogin')
-          this.username = localStorage.getItem('username')
+          this.handleLoginToServer()
         } else {
           console.log('login error')
           return false
@@ -180,9 +228,9 @@ export default {
       })
     },
     logout: function () {
-      localStorage.clear()
+      Cookie.clear()
       this.isLogin = false
-      this.username = ''
+      this.isAdmin = false
     },
     confirmRegister: function () {
       this.$confirm('注册信息提交成功后我们将尽快审核您的信息，并通过邮件告知您结果。是否确认提交？', '提示', {
@@ -198,7 +246,7 @@ export default {
       })
     },
     goToMyInfo: function () {
-      if (!localStorage.getItem('isLogin')) {
+      if (Cookie.get('isLogin')) {
         this.$message({
           message: '登录过期，请重新登录',
           type: 'warning'
