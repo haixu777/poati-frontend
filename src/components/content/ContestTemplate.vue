@@ -5,7 +5,7 @@
       <a href="javascipt:;" @click="backToHome()">回到首页</a>
     </el-breadcrumb-item>
     <el-breadcrumb-item :to="{ path: '/contest' }">
-      <a href="javascipt:;">比赛列表</a>
+      <a href="javascipt:;" @click="backToContest()">比赛列表</a>
     </el-breadcrumb-item>
     <el-breadcrumb-item>比赛详情</el-breadcrumb-item>
   </el-breadcrumb>
@@ -64,11 +64,16 @@ export default {
     },
     backToHome: function () {
       store.commit('changeTitle', '首页')
+    },
+    backToContest: function () {
+      let urls = location.href.split('/')
+      localStorage.setItem('yearPick', urls[urls.length - 2])
     }
   },
   mounted: function () {
-    this.activeContest = location.href.split('/')[4]
-    this.activeContestInfo = contestDetailsInfo.contestDetails[this.activeContest]
+    let urls = location.href.split('/')
+    let contestUrl = '/' + urls[urls.length - 2] + '/' + urls[urls.length - 1]
+    this.activeContestInfo = contestDetailsInfo.contestDetails[contestUrl]
   }
 }
 </script>
@@ -110,6 +115,7 @@ export default {
 
     .breadcrumb {
       margin: 10px 0;
+      padding: 15px;
       background: #fff;
     }
   }

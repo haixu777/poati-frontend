@@ -9,19 +9,19 @@
       <div class="title_container container">
         <h3>最新竞赛</h3>
         <router-link :to="'/contest'">
-          <button type="button" name="button" class="btn btn-sm btn-success" @click="toogleActive('竞赛')">更多竞赛</button>
+          <button type="button" name="button" class="btn btn-sm btn-primary" @click="toogleActive('竞赛')">更多竞赛</button>
         </router-link>
       </div>
       <div class="container">
         <el-row type="flex" justify="center">
-          <el-col :span="4" v-for="item,index in newest_contest_list" :offset="index > 0 ? 2 : 0">
+          <el-col :span="5" v-for="item,index in newest_contest_list" :offset="index > 0 ? 2 : 0">
             <el-card :body-style="{ padding: '0px' }">
               <img src="../../assets/test.png" class="image">
               <div style="padding: 14px;">
                 <span>{{ item.title }}</span>
                 <div class="bottom clearfix">
                   <time class="time">{{ item.time }}</time>
-                  <router-link :to="'/contest/'+item.path">
+                  <router-link :to="'/contest/2017/'+item.path">
                     <el-button type="text" class="button" @click="handleContestClick(item.path)">立即参赛</el-button>
                   </router-link>
                 </div>
@@ -31,22 +31,36 @@
         </el-row>
       </div>
     </div>
-    <div class="newest_news ">
+    <div class="newest_news clearfix">
       <div class="title_container container">
         <h3>最新动态</h3>
         <router-link :to="'/news'">
-          <button type="button" name="button" class="btn btn-sm btn-success" @click="toogleActive('新闻')">更多资讯</button>
+          <button type="button" name="button" class="btn btn-sm btn-primary" @click="toogleActive('新闻')">更多资讯</button>
         </router-link>
       </div>
       <div class="newest_news_container">
-        newest_news_container
+        <div class="news_item container clearfix">
+          <template v-for="item in newest_news_list">
+            <div class="news_details clearfix">
+              <div class="news_item_left">
+                <img :src="item.avator" alt="">
+              </div>
+              <div class="news_item_right">
+                <router-link :to="'/news/details/'+item.id" @click.native="handleToNewsDetail(item.id)">
+                  <h5 style="font-weight: 800; margin-top: 0;">{{ item.time + ' ' + item.title }}</h5>
+                </router-link>
+                <p>{{ item.desc }}</p>
+              </div>
+            </div>
+          </template>
+        </div>
       </div>
     </div>
     <div class="expert_recommend ">
       <div class="title_container container">
         <h3>专家推荐</h3>
         <router-link :to="'/expert'">
-          <button type="button" name="button" class="btn btn-sm btn-success" @click="toogleActive('专家')">更多专家</button>
+          <button type="button" name="button" class="btn btn-sm btn-primary" @click="toogleActive('专家')">更多专家</button>
         </router-link>
       </div>
       <div class="expert_recommend_container">
@@ -58,7 +72,6 @@
         <h3 id="partner_title">合作伙伴</h3>
       </div>
       <div class="partner_container">
-        expert_cotainer
       </div>
     </div>
   </div>
@@ -76,6 +89,12 @@ export default {
         { path: 'ypdb', img: '../../assets/test.jpg', title: '音频对比', time: '2017-3-1 ～ 2017-3-15' },
         { path: 'yygjcjc', img: '../../assets/test.jpg', title: '语音关键词检测', time: '2017-3-1 ～ 2017-3-15' },
         { path: 'tdspsb', img: '../../assets/test.jpg', title: '特定视频识别', time: '2017-3-1 ～ 2017-3-15' }
+      ],
+      newest_news_list: [
+        { id: '1', title: '网络舆情分析结果', author: '林俊宇', time: '2017-3-1', desc: '阿卡今年是达安寺大家按达科水济济你的教科书啊是看见的那块水济你的健康三大兰看到你啦开始的大赛', avator: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' },
+        { id: '2', title: '僵尸可拿到家', author: '林俊宇', time: '2017-2-28', desc: '阿卡今年是达科静安寺大家按时递交那胜兰达科那胜兰看到你啦开始的呢', avator: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' },
+        { id: '3', title: '卡民生东路', author: '林俊宇', time: '2017-2-26', desc: '阿卡今年是达科静俺是达科家那是达科技能安寺大家按时递交那胜兰达科那胜兰看到你啦开始的呢', avator: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' },
+        { id: '4', title: '阿卡民生东路卡', author: '林俊宇', time: '2017-2-14', desc: '阿卡今年是达科静安寺大家按时递交那胜兰达科那胜兰看到你啦开始的呢', avator: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' }
       ]
     }
   },
@@ -89,6 +108,10 @@ export default {
     },
     handleContestClick: function (text) {
       store.commit('changeTitle', '竞赛')
+    },
+    handleToNewsDetail: function (id) {
+      store.commit('changeTitle', '新闻')
+      console.log(id)
     }
   },
   mounted: function () {
@@ -100,7 +123,9 @@ export default {
 
   .home_container {
     width: 100%;
-
+    > div {
+      padding: 10px;
+    }
     .my-swipe {
       height: 400px;
       .mint-swipe-item {
@@ -118,7 +143,7 @@ export default {
 
     .title_container {
       margin-top: 20px;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
       h3 {
         font-size: 20px;
         display: inline;
@@ -149,7 +174,37 @@ export default {
     }
 
     .newest_news {
+      color: #fff;
+      background: rgba(55, 178, 77, 0.8);
+      .news_item {
+        margin: 0 auto;
+        .news_details {
+          margin: 10px auto;
+          width: 50%;
+          height: 100px;
+          float: left;
+          .news_item_left {
+            width: 50%;
+            float: left;
+            img {
+              height: 90px;
+            }
+          }
+          .news_item_right {
+            width: 50%;
+            text-align: left;
+            float: right;
+            a {
+              color: #fff;
+              text-decoration: none;
+            }
+          }
+        }
+      }
+    }
 
+    .el-carousel {
+      padding: 0;
     }
 
     .el-carousel__item h3 {

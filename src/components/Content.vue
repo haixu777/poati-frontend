@@ -11,6 +11,6 @@ export default {
 
 <style lang="scss">
   .content {
-
+    background: rgb(247, 248, 249);
   }
 </style>

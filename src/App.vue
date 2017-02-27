@@ -24,6 +24,12 @@ export default {
     myHeader,
     myContent,
     myFooter
+  },
+  methods: {
+    backToTop () {
+      document.body.scrollTop = 0
+      document.documentElement.scrollTop = 0
+    }
   }
 }
 </script>

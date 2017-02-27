@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="container" v-else>
+  <div class="container" style="padding: 20px 0;">
     <div class="info_left_container">
       <el-menu default-active="1" class="el-menu-vertical-demo" theme="dark" @open="handleOpen" @close="handleClose" :router="true">
         <el-menu-item index="1"  :route="{path: '/user/profile'}"><i class="el-icon-document"></i>团队信息</el-menu-item>
@@ -47,6 +47,5 @@ export default {
   .info_right_container {
     width: 86%;
     float: right;
-    height: 600px;
   }
 </style>

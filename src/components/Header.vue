@@ -1,38 +1,40 @@
 <template lang="html">
-  <div class="header container">
+  <div class="header">
     <div class="nav">
-      <img src="" alt="logo" class="img_logo">
-      <ul class="nav_list">
-          <li v-for="item in navList" :class="item.text==activeText?'active':''" @click="toogleActive(item.text)">
-            <router-link :to="item.path">{{ item.text }}</router-link>
+      <div class="container">
+        <img src="" alt="logo" class="img_logo">
+        <ul class="nav_list">
+            <li v-for="item in navList" :class="item.text==activeText?'active':''" @click="toogleActive(item.text)">
+              <router-link :to="item.path">{{ item.text }}</router-link>
+            </li>
+        </ul>
+        <ul class="login_list">
+          <li class="btn_register" v-if="!isLogin">
+            <div class="login">
+              <button type="button" name="button" class="btn btn-sm btn-primary" @click="dialogFormVisible=true">登录</button>
+            </div>
           </li>
-      </ul>
-      <ul class="login_list">
-        <li class="btn_register" v-if="!isLogin">
-          <div class="login">
-            <button type="button" name="button" class="btn btn-sm btn-success" @click="dialogFormVisible=true">登录</button>
-          </div>
-        </li>
-        <li class="btn_register" v-else>
-          <el-dropdown>
-            <span class="el-dropdown-link">
-              {{ username }}<i class="el-icon-caret-bottom el-icon--right"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>
-                <router-link :to="isAdmin?'/verify':'/user'" style="text-decoration: none;" @click.native="goToMyInfo()">
-                  {{ isAdmin?'资格审核':'我的竞赛' }}
-                </router-link>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <router-link :to="'/home'" style="text-decoration: none;"  @click.native="logout()">
-                  注销
-                </router-link>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </li>
-      </ul>
+          <li class="btn_register" v-else>
+            <el-dropdown>
+              <span class="el-dropdown-link">
+                {{ username }}<i class="el-icon-caret-bottom el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item>
+                  <router-link :to="isAdmin?'/verify':'/user/profile'" style="text-decoration: none;" @click.native="goToMyInfo()">
+                    {{ isAdmin?'资格审核':'我的竞赛' }}
+                  </router-link>
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <router-link :to="'/home'" style="text-decoration: none;"  @click.native="logout()">
+                    注销
+                  </router-link>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <el-dialog title="" v-model="dialogFormVisible" size="">
@@ -50,7 +52,7 @@
             </el-form-item>
           </el-form>
         </el-tab-pane>
-        <el-tab-pane label="用户注册" name="register">
+        <el-tab-pane label="队伍注册" name="register">
           <el-form :inline="true" ref="userRegisterInfo" :model="userRegisterInfo" :rules="rules" label-width="100px">
             <el-form-item label="队伍名称"  prop="teamName">
               <el-input v-model="userRegisterInfo.teamName"></el-input>
@@ -68,14 +70,9 @@
               <el-input v-model="userRegisterInfo.password" type="password"></el-input>
             </el-form-item><el-form-item label="确认密码" prop="passwordConfirm">
               <el-input v-model="userRegisterInfo.passwordConfirm" type="password"></el-input>
-            </el-form-item><el-form-item label="IP地址" prop="ipAddress">
-              <el-input v-model="userRegisterInfo.ipAddress" type=""></el-input>
-            </el-form-item>
-            <el-form-item label="硬件资源要求" prop="info">
-              <el-input v-model="userRegisterInfo.info" type="textarea" autosize></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="submitForm('userRegisterInfo')">注册申请</el-button>
+              <el-button type="primary" @click="submitForm('userRegisterInfo')" :loading="loading">注册申请</el-button>
               <el-button @click="resetForm('userRegisterInfo')">重置</el-button>
             </el-form-item>
           </el-form>
@@ -119,8 +116,9 @@ export default {
       if (!value) {
         return callback(new Error('重复密码不能为空'))
       }
+      const that = this
       setTimeout(() => {
-        if (value !== this.userRegisterInfo.password) {
+        if (value !== that.userRegisterInfo.password) {
           callback(new Error('密码不一致'))
         } else {
           callback()
@@ -130,6 +128,7 @@ export default {
     return {
       isAdmin: Cookie.get('isAdmin'),
       isLogin: !!(Cookie.get('username')),
+      loading: false,
       navList: [
         { path: '/home', text: '首页' },
         { path: '/contest', text: '竞赛' },
@@ -149,11 +148,9 @@ export default {
         phone: '',
         email: '',
         unit: '',
-        ipAddress: '',
         username: '',
         password: '',
-        passwordConfirm: '',
-        info: ''
+        passwordConfirm: ''
       },
       activeName: 'login',
       rules: {
@@ -176,7 +173,7 @@ export default {
           { required: true, message: '请输入密码', trigger: 'change' }
         ],
         passwordConfirm: [
-          { required: true, validator: validateConfirmPassword, message: '两次密码不一致', trigger: 'blur' }
+          { required: true, validator: validateConfirmPassword, trigger: 'blur' }
         ]
       }
     }
@@ -204,16 +201,31 @@ export default {
       this.$refs[formName].resetFields()
     },
     handleLoginToServer: function () {
-      this.$http.post('/login', {
+      this.$http.post('http://10.10.28.40:8080/iie-icm/api/login.do', {
         username: this.userLoginInfo.username,
         password: this.userLoginInfo.password
       }).then((res) => {
-        Cookie.set('username', res.data.username)
-        Cookie.set('isAdmin', false)
-        this.isAdmin = false
-        this.isLogin = true
-        this.username = res.data.username
+        console.log(res.body)
+        if (res.body.success) {
+          Cookie.set('username', res.data.userInfo.teamName)
+          Cookie.set('isAdmin', res.data.userInfo.isAdmin)
+          this.isAdmin = res.data.userInfo.isAdmin
+          this.isLogin = true
+          this.username = res.data.userInfo.teamName
+        } else {
+          this.$message({
+            showClose: true,
+            message: res.body.msg,
+            type: 'error'
+          })
+        }
       })
+
+      // this.isLogin = 1
+      // Cookie.set('username', 'test')
+      // Cookie.set('isAdmin', 1)
+      // this.isAdmin = 1
+      // this.username = 'test'
     },
     login: function (formName) {
       this.$refs[formName].validate((valid) => {
@@ -233,17 +245,21 @@ export default {
       this.isAdmin = false
     },
     confirmRegister: function () {
-      this.$confirm('注册信息提交成功后我们将尽快审核您的信息，并通过邮件告知您结果。是否确认提交？', '提示', {
-        confirmButtonText: '提交',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        console.log('提交成功')
-        this.dialogFormVisible = false
-        this.resetForm('userRegisterInfo')
-      }).catch(() => {
-        console.log('取消')
+      this.loading = true
+      this.handleRegisterToServer()
+
+      this.loading = false
+      this.dialogFormVisible = false
+      this.resetForm('userRegisterInfo')
+      this.$alert('请尽快登录账号完善个人信息，我们将在您提交个人资料后进行审核', '注册成功', {
+        confirmButtonText: '确定'
       })
+    },
+    handleRegisterToServer: function () {
+      this.$http.post('http://localhost:8080/iie-icm/api/register.do', this.userRegisterInfo)
+        .then((response) => {
+          console.log(response)
+        })
     },
     goToMyInfo: function () {
       if (Cookie.get('isLogin')) {

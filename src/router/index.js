@@ -8,6 +8,7 @@ import myHelp from 'components/content/Help'
 import myExpert from 'components/content/expert'
 import myLogin from 'components/login/index'
 import myContestDetails from 'components/content/ContestTemplate'
+import myNewsDetails from 'components/content/NewsTemplate'
 import myUserInfo from 'components/content/user/Index'
 import myVerify from 'components/content/Verify'
 
@@ -47,6 +48,11 @@ export default new Router({
       path: '/news',
       name: 'news',
       component: myNews
+    },
+    {
+      path: '/news/details/*',
+      name: 'news_details',
+      component: myNewsDetails
     },
     {
       path: '/expert',
