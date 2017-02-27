@@ -1,23 +1,24 @@
 <template lang="html">
   <div class="container contest_details_container">
-  <el-breadcrumb separator="/" class="breadcrumb">
-    <el-breadcrumb-item :to="{ path: '/' }">
-      <a href="javascipt:;" @click="backToHome()">回到首页</a>
-    </el-breadcrumb-item>
-    <el-breadcrumb-item :to="{ path: '/contest' }">
-      <a href="javascipt:;" @click="backToContest()">比赛列表</a>
-    </el-breadcrumb-item>
-    <el-breadcrumb-item>比赛详情</el-breadcrumb-item>
-  </el-breadcrumb>
+    <el-breadcrumb separator="/" class="breadcrumb">
+      <el-breadcrumb-item :to="{ path: '/' }">
+        <a href="javascipt:;" @click="backToHome()">回到首页</a>
+      </el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/contest' }">
+        <a href="javascipt:;" @click="backToContest()">比赛列表</a>
+      </el-breadcrumb-item>
+      <el-breadcrumb-item>比赛详情</el-breadcrumb-item>
+    </el-breadcrumb>
     <div class="container_left">
       <ul>
         <template v-for="item in detailsList">
-          <li @click="handleTabClick(item.text)" :class="activeName==item.text?'active':''"><a href="javascript:;">{{ item.text }}</a></li>
+          <li @click="handleTabClick(item.text)" :class="activeName==item.text?'active':''"><a href="javascript:;" style="font-size: 16px;">{{ item.text }}</a></li>
         </template>
       </ul>
     </div>
     <div class="container_right">
-      <div class="" v-html="activeContestInfo.title">
+      <div class="">
+        <h4 v-html="activeContestInfo.title"></h4>
       </div>
       <div class="introdution" v-show="activeName=='比赛介绍'" v-html="activeContestInfo.introdution">
         比赛介绍
@@ -35,7 +36,7 @@
         提交要求
       </div>
     </div>
-    <el-button type="info">报名</el-button>
+    <!-- <el-button type="info">报名</el-button> -->
   </div>
 </template>
 
@@ -80,32 +81,49 @@ export default {
 
 <style lang="scss">
   .contest_details_container {
+    padding-bottom: 20px;
     .container_left {
       float: left;
-      width: 10%;
+      width: 12%;
+      background: #f8fafe;
+      min-height: 500px;
       ul {
         padding: 0;
         li {
           list-style: none;
           display: block;
-          border: 1px solid #337ab7;
           padding: 10px;
           a {
+            color: #666;
             text-decoration: none;
           }
         }
         .active {
-          background: #337ab7;
+          background: #fff;
           a {
-            color: #fff;
+            color: #666;
           }
         }
       }
     }
     .container_right {
-      float: right;
+      float: left;
+      background: #fff;
       width: 88%;
+      padding: 0 40px;
+      min-height: 500px;
       > div {
+      }
+    }
+
+    .introdution {
+      text-align: left;
+      p {
+        text-indent: 2rem;
+      }
+      img {
+        display: block;
+        margin: 0 auto;
       }
     }
 

@@ -1,8 +1,8 @@
 <template lang="html">
   <div class="home_container">
-    <el-carousel height="400px">
-      <el-carousel-item v-for="item in 4">
-        <h3>{{ item }}</h3>
+    <el-carousel height="350px">
+      <el-carousel-item v-for="item in banner_list">
+        <img :src="item.img" alt="" style="width: 100%;height: 100%;">
       </el-carousel-item>
     </el-carousel>
     <div class="newest_contest">
@@ -56,15 +56,27 @@
         </div>
       </div>
     </div>
-    <div class="expert_recommend ">
+    <div class="expert_recommend">
       <div class="title_container container">
         <h3>专家推荐</h3>
         <router-link :to="'/expert'">
           <button type="button" name="button" class="btn btn-sm btn-primary" @click="toogleActive('专家')">更多专家</button>
         </router-link>
       </div>
-      <div class="expert_recommend_container">
-        expert_recommend_cotainer
+      <div class="expert_recommend_container container">
+        <el-row :gutter="20" type="flex" justify="space-around">
+          <template v-for="item in expertList">
+            <el-col :span="4" style="padding: 0;">
+              <el-row>
+                <img :src="item.avator" :alt="item.name">
+              </el-row>
+              <el-row style="padding: 0 10px;">
+                <h5 style="color: #1D8CE0;">{{ item.name }}</h5>
+                <p>{{ item.title }}</p>
+              </el-row>
+            </el-col>
+          </template>
+        </el-row>
       </div>
     </div>
     <div class="partner_company container">
@@ -72,6 +84,10 @@
         <h3 id="partner_title">合作伙伴</h3>
       </div>
       <div class="partner_container">
+        <el-row>
+          <el-col>111</el-col>
+          <el-col>222</el-col>
+        </el-row>
       </div>
     </div>
   </div>
@@ -84,6 +100,12 @@ import store from '../../store'
 export default {
   data () {
     return {
+      banner_list: [
+        { img: 'https://img.alicdn.com/tps/TB1Qi6FPFXXXXaJXFXXXXXXXXXX-1440-340.png' },
+        { img: 'https://img.alicdn.com/tps/TB1ds8NPXXXXXaKapXXXXXXXXXX-1440-340.png' },
+        { img: 'https://gtms01.alicdn.com/tps/i1/TB1OWyfHXXXXXXhaFXXwu0bFXXX.png' },
+        { img: 'https://img.alicdn.com/tps/TB1PviVPFXXXXb4XpXXXXXXXXXX-1440-340.png' }
+      ],
       newest_contest_list: [
         { path: 'shrsb', img: '../../assets/test.jpg', title: '说话人识别', time: '2017-3-1 ～ 2017-3-15' },
         { path: 'ypdb', img: '../../assets/test.jpg', title: '音频对比', time: '2017-3-1 ～ 2017-3-15' },
@@ -91,10 +113,17 @@ export default {
         { path: 'tdspsb', img: '../../assets/test.jpg', title: '特定视频识别', time: '2017-3-1 ～ 2017-3-15' }
       ],
       newest_news_list: [
-        { id: '1', title: '网络舆情分析结果', author: '林俊宇', time: '2017-3-1', desc: '阿卡今年是达安寺大家按达科水济济你的教科书啊是看见的那块水济你的健康三大兰看到你啦开始的大赛', avator: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' },
-        { id: '2', title: '僵尸可拿到家', author: '林俊宇', time: '2017-2-28', desc: '阿卡今年是达科静安寺大家按时递交那胜兰达科那胜兰看到你啦开始的呢', avator: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' },
-        { id: '3', title: '卡民生东路', author: '林俊宇', time: '2017-2-26', desc: '阿卡今年是达科静俺是达科家那是达科技能安寺大家按时递交那胜兰达科那胜兰看到你啦开始的呢', avator: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' },
-        { id: '4', title: '阿卡民生东路卡', author: '林俊宇', time: '2017-2-14', desc: '阿卡今年是达科静安寺大家按时递交那胜兰达科那胜兰看到你啦开始的呢', avator: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' }
+        { id: '1', title: '网络舆情分析结果', time: '2017-3-1', desc: '阿卡今年是达安寺大家按达科水济济你的教科书啊是看见的那块水济你的健康三大兰看到你啦开始的大赛', avator: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' },
+        { id: '2', title: '僵尸可拿到家', time: '2017-2-28', desc: '阿卡今年是达科静安寺大家按时递交那胜兰达科那胜兰看到你啦开始的呢', avator: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' },
+        { id: '3', title: '卡民生东路', time: '2017-2-26', desc: '阿卡今年是达科静俺是达科家那是达科技能安寺大家按时递交那胜兰达科那胜兰看到你啦开始的呢', avator: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' },
+        { id: '4', title: '阿卡民生东路卡', time: '2017-2-14', desc: '阿卡今年是达科静安寺大家按时递交那胜兰达科那胜兰看到你啦开始的呢', avator: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' }
+      ],
+      expertList: [
+        { avator: 'http://static.int-yt.com/img/6384cc6d-a19c-45f4-822d-7f3ac451cf48.png', name: '陈恩红', title: '中国科学技术大学计算机学院副院长、教授' },
+        { avator: 'http://static.int-yt.com/img/97b59fb9-d5ea-4d66-928c-07924e9be5be.png', name: '车品觉', title: '阿里巴巴集团副总裁' },
+        { avator: 'http://static.int-yt.com/img/d4580279-f518-42eb-8a35-aac7fa688fc2.png', name: '陈恩红', title: '中国科学技术大学计算机学院副院长、教授' },
+        { avator: 'http://static.int-yt.com/img/57180b3b-30eb-483a-ac07-8261d88f0e71.png', name: '卜佳俊', title: '浙江大学软件学院教授' },
+        { avator: 'http://static.wid.org.cn/img/4ab81219-f243-44cf-99d1-a8e94625c425.jpg', name: '陈恩红', title: '中国科学技术大学计算机学院副院长、教授' }
       ]
     }
   },
@@ -159,6 +188,7 @@ export default {
     }
 
     .newest_contest {
+      margin-bottom: 20px;
       .newest_contest_container {
         display: flex;
         display: -webkit-flex;
@@ -200,6 +230,21 @@ export default {
             }
           }
         }
+      }
+    }
+
+    .expert_recommend_container {
+      text-align: center;
+      background: #F3F6F9;
+      .el-row {
+        > div {
+          border: 1px solid #d1dbe5;
+          box-shadow: 0 2px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04);
+        }
+      }
+      img {
+        width: 100%;
+        height: 100%;
       }
     }
 

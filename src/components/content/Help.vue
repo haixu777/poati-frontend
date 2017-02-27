@@ -9,10 +9,14 @@
 </template>
 
 <script>
+import store from '../../store'
 export default {
   data () {
     return {
     }
+  },
+  mounted () {
+    store.commit('changeTitle', '帮助')
   }
 }
 </script>

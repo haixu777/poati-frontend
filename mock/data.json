@@ -10,16 +10,16 @@
   ],
   "contestDetails": {
     "/2016/shrsb": {
-      "title": "<h4>说话人识别</h4>",
+      "title": "<span>说话人识别</span>",
       "background": "<p>background</p><h4>backgroundh4</h4>",
-      "introdution": "<span>introdution</span>",
-      "rule": "<p>rule</p>",
+      "introdution": "<h4>比赛背景</h4><p>随着平安中国、平安城市的提出，视频监控被广泛应用于各种领域，这给维护社会治安带来了便捷；但同时也带来了一个问题，即海量的视频监控流使得发生突发事故后，需要耗费大量的人力物力去搜索有效信息。行人作为视频监控中的重要目标之一，若能对其进行有效的外观识别，不仅能提高视频监控工作人员的工作效率，对视频的检索、行人行为解析也具有重要意义。本题目以监控场景下目标属性识别中的一个具体问题为例，为参赛者提供真实场景下的视频图片与珍贵标注数据，希望能够吸引对相关算法和技术感兴趣的参赛者，在全国范围内发现和培养大数据技术人才。</p><h4>比赛简介</h4><p>行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要求参赛者在定位（头部、上身、下身、脚、帽子、包）的基础上研究行人精细化识别算法，自动识别出行人图像中行人的属性特征。标注的行人属性包括性别、头发长度和上下身衣着、鞋子及包的种类和颜色，并提供图像中行人头部、上身、下身、脚、帽子、包位置的标注。</p><p>如下事例：</p><img src='http://static.wid.org.cn/img/ad43b95f-0589-4733-8a1d-173835ed65a2.png' alt='shrsb'><p></p><p>属性识别结果：</p><p>性别：男</p><p>头发长度：短</p><p>上身衣着：羽绒服 蓝色</p><p>下身衣着：长裤 黑色</p><p>鞋子：运动鞋 白色</p><p>包：双肩包 黑色</p>",
+      "rule": "<h4>基本规则</h4><p>单只队伍人数上限：5人</p><p>单只队伍提交次数上限：3次</p><h4>附加规则</h4><p>(1)数据使用：本赛题数据仅允许用于本次竞赛相关活动，禁止参赛者用作它用。</p><p>(2)外部数据：本赛题除了允许使用“竞赛数据”中提供的数据，仅允许使用所有参赛者均可获取到的其它公开数据，不允许使用任何私有数据，所使用的外部数据需在竞赛报告书中说明。</p>",
       "data": "<p>data</p>",
       "rate": "<p>rate</p>",
       "standard": "<p>standard</p>"
     },
     "/2016/ypdb": {
-      "title": "<h4>音频对比</h4>",
+      "title": "<span>音频对比</span>",
       "background": "<p>background</p><h4>backgroundh4</h4>",
       "introdution": "<span>introdution</span><button>btn</button>",
       "rule": "<p>rule</p>",
@@ -28,7 +28,7 @@
       "standard": "<p>standard</p>"
     },
     "/2016/yygjcjc": {
-      "title": "<h4>语音关键词检测</h4>",
+      "title": "<span>语音关键词检测</span>",
       "background": "<p>background</p><h4>backgroundh4</h4>",
       "introdution": "<span>introdution</span><button>btn</button>",
       "rule": "<p>rule</p>",
@@ -37,7 +37,7 @@
       "standard": "<p>standard</p>"
     },
     "/2016/spkbjc": {
-      "title": "<h4>视频拷贝检测</h4>",
+      "title": "<span>视频拷贝检测</span>",
       "background": "<p>background</p><h4>backgroundh4</h4>",
       "introdution": "<span>introdution</span><button>btn</button>",
       "rule": "<p>rule</p>",
@@ -46,7 +46,7 @@
       "standard": "<p>standard</p>"
     },
     "/2016/tdspsb": {
-      "title": "<h4>特定视频识别</h4>",
+      "title": "<span>特定视频识别</span>",
       "background": "<p>background</p><h4>backgroundh4</h4>",
       "introdution": "<span>introdution</span><button>btn</button>",
       "rule": "<p>rule</p>",
@@ -55,7 +55,7 @@
       "standard": "<p>standard</p>"
     },
     "/2016/spwbgjcjc": {
-      "title": "<h4>视频文本关键词检测</h4>",
+      "title": "<span>视频文本关键词检测</span>",
       "background": "<p>background</p><h4>backgroundh4</h4>",
       "introdution": "<span>introdution</span><button>btn</button>",
       "rule": "<p>rule</p>",
@@ -64,7 +64,7 @@
       "standard": "<p>standard</p>"
     },
     "/2016/rlsb": {
-      "title": "<h4>人脸识别</h4>",
+      "title": "<span>人脸识别</span>",
       "background": "<p>background</p><h4>backgroundh4</h4>",
       "introdution": "<span>introdution</span><button>btn</button>",
       "rule": "<p>rule</p>",
@@ -73,7 +73,7 @@
       "standard": "<p>standard</p>"
     },
     "/2017/shrsb": {
-      "title": "<h4>说话人识别</h4>",
+      "title": "<span>说话人识别</span>",
       "background": "<p>background</p><h4>backgroundh4</h4>",
       "introdution": "<span>introdution</span>",
       "rule": "<p>rule</p>",
@@ -82,7 +82,7 @@
       "standard": "<p>standard</p>"
     },
     "/2017/ypdb": {
-      "title": "<h4>音频对比</h4>",
+      "title": "<span>音频对比</span>",
       "background": "<p>background</p><h4>backgroundh4</h4>",
       "introdution": "<span>introdution</span><button>btn</button>",
       "rule": "<p>rule</p>",
@@ -91,7 +91,7 @@
       "standard": "<p>standard</p>"
     },
     "/2017/yygjcjc": {
-      "title": "<h4>语音关键词检测</h4>",
+      "title": "<span>语音关键词检测</span>",
       "background": "<p>background</p><h4>backgroundh4</h4>",
       "introdution": "<span>introdution</span><button>btn</button>",
       "rule": "<p>rule</p>",
@@ -100,7 +100,7 @@
       "standard": "<p>standard</p>"
     },
     "/2017/spkbjc": {
-      "title": "<h4>视频拷贝检测</h4>",
+      "title": "<span>视频拷贝检测</span>",
       "background": "<p>background</p><h4>backgroundh4</h4>",
       "introdution": "<span>introdution</span><button>btn</button>",
       "rule": "<p>rule</p>",
@@ -109,7 +109,7 @@
       "standard": "<p>standard</p>"
     },
     "/2017/tdspsb": {
-      "title": "<h4>特定视频识别</h4>",
+      "title": "<span>特定视频识别</span>",
       "background": "<p>background</p><h4>backgroundh4</h4>",
       "introdution": "<span>introdution</span><button>btn</button>",
       "rule": "<p>rule</p>",
@@ -118,7 +118,7 @@
       "standard": "<p>standard</p>"
     },
     "/2017/spwbgjcjc": {
-      "title": "<h4>视频文本关键词检测</h4>",
+      "title": "<span>视频文本关键词检测</span>",
       "background": "<p>background</p><h4>backgroundh4</h4>",
       "introdution": "<span>introdution</span><button>btn</button>",
       "rule": "<p>rule</p>",
@@ -127,7 +127,7 @@
       "standard": "<p>standard</p>"
     },
     "/2017/rlsb": {
-      "title": "<h4>人脸识别</h4>",
+      "title": "<span>人脸识别</span>",
       "background": "<p>background</p><h4>backgroundh4</h4>",
       "introdution": "<span>introdution</span><button>btn</button>",
       "rule": "<p>rule</p>",
