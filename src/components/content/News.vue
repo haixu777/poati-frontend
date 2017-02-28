@@ -6,7 +6,9 @@
           <div class="item_container clearfix">
             <el-row>
               <el-col :span="24">
-                <h4 class="item_titile">{{ item.title }}</h4>
+                <router-link :to="'/news/details/'+item.id" style="text-decoration: none;">
+                  <h4 class="item_titile">{{ item.title }}</h4>
+                </router-link>
               </el-col>
             </el-row>
             <el-row :gutter="20">
@@ -67,7 +69,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .news_container {
     .item_container {
       background: #fff;

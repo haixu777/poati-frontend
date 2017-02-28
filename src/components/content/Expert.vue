@@ -60,7 +60,6 @@ export default {
   methods: {
     handleClick: function (tab, event) {
       this.activeIndex = tab.index
-      console.log(tab, event)
     }
   },
   mounted () {

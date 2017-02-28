@@ -19,7 +19,15 @@
 </template>
 
 <script>
+import store from '../../store'
 export default {
+  data () {
+    return {
+    }
+  },
+  mounted () {
+    store.commit('changeTitle', '新闻')
+  }
 }
 </script>
 

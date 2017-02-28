@@ -54,7 +54,13 @@
         </el-tab-pane>
         <el-tab-pane label="队伍注册" name="register">
           <el-form :inline="true" ref="userRegisterInfo" :model="userRegisterInfo" :rules="rules" label-width="100px">
-            <el-form-item label="队伍名称"  prop="teamName">
+            <el-form-item label="用户名" prop="username">
+              <el-input v-model="userRegisterInfo.username" type=""></el-input>
+            </el-form-item><el-form-item label="密码"  prop="password">
+              <el-input v-model="userRegisterInfo.password" type="password"></el-input>
+            </el-form-item><el-form-item label="确认密码" prop="passwordConfirm">
+              <el-input v-model="userRegisterInfo.passwordConfirm" type="password"></el-input>
+            </el-form-item><el-form-item label="队伍名称"  prop="teamName">
               <el-input v-model="userRegisterInfo.teamName"></el-input>
             </el-form-item><el-form-item label="联系人姓名" prop="name">
               <el-input v-model="userRegisterInfo.name" type=""></el-input>
@@ -64,12 +70,6 @@
               <el-input v-model="userRegisterInfo.email"></el-input>
             </el-form-item><el-form-item label="单位" prop="unit">
               <el-input v-model="userRegisterInfo.unit" type=""></el-input>
-            </el-form-item><el-form-item label="用户名" prop="username">
-              <el-input v-model="userRegisterInfo.username" type=""></el-input>
-            </el-form-item><el-form-item label="密码"  prop="password">
-              <el-input v-model="userRegisterInfo.password" type="password"></el-input>
-            </el-form-item><el-form-item label="确认密码" prop="passwordConfirm">
-              <el-input v-model="userRegisterInfo.passwordConfirm" type="password"></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="submitForm('userRegisterInfo')" :loading="loading">注册申请</el-button>
@@ -89,12 +89,13 @@ import Cookie from '../../utils/util'
 export default {
   data: function () {
     let validatePhone = (rule, value, callback) => {
+      console.log(value)
       if (!value) {
-        return callback(new Error('电话不能为空'))
+        return callback(new Error('手机号码不能为空'))
       }
       setTimeout(() => {
         if (!(/^1(3|4|5|7|8)\d{9}$/.test(value))) {
-          callback(new Error('不是完整的11位手机号或者正确的手机号前七位'))
+          callback(new Error('手机号码输入错误'))
         } else {
           callback()
         }
@@ -126,7 +127,7 @@ export default {
       }, 1000)
     }
     return {
-      isAdmin: Cookie.get('isAdmin'),
+      isAdmin: Number(Cookie.get('isAdmin')),
       isLogin: !!(Cookie.get('username')),
       loading: false,
       navList: [
@@ -158,19 +159,19 @@ export default {
           { required: true, message: '队伍名称不能为空', trigger: 'blur' }
         ],
         name: [
-          { required: true, message: '姓名不能为空', trigger: 'change' }
+          { required: true, message: '姓名不能为空', trigger: 'blur' }
         ],
         phone: [
-          { required: true, validator: validatePhone, trigger: 'change' }
+          { required: true, validator: validatePhone, trigger: 'blur' }
         ],
         email: [
-          { required: true, validator: validateEmail, trigger: 'change' }
+          { required: true, validator: validateEmail, trigger: 'blur' }
         ],
         username: [
-          { required: true, message: '请输入用户名', trigger: 'change' }
+          { required: true, message: '请输入用户名', trigger: 'blur' }
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'change' }
+          { required: true, message: '请输入密码', trigger: 'blur' }
         ],
         passwordConfirm: [
           { required: true, validator: validateConfirmPassword, trigger: 'blur' }
@@ -201,6 +202,7 @@ export default {
       this.$refs[formName].resetFields()
     },
     handleLoginToServer: function () {
+      /*
       this.$http.post('http://10.10.28.40:8080/iie-icm/api/login.do', {
         username: this.userLoginInfo.username,
         password: this.userLoginInfo.password
@@ -220,12 +222,13 @@ export default {
           })
         }
       })
+      */
 
-      // this.isLogin = 1
-      // Cookie.set('username', 'test')
-      // Cookie.set('isAdmin', 1)
-      // this.isAdmin = 1
-      // this.username = 'test'
+      this.isLogin = 1
+      Cookie.set('username', 'test')
+      Cookie.set('isAdmin', 0)
+      this.isAdmin = 0
+      this.username = 'test'
     },
     login: function (formName) {
       this.$refs[formName].validate((valid) => {
@@ -276,7 +279,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .btn_register {
     float: left;
     list-style: none;

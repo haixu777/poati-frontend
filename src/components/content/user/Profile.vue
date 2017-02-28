@@ -18,7 +18,7 @@
             <el-input v-model="profileFrom.username" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="领队姓名">
-            <el-input v-model="profileFrom.captain" :disabled="true"></el-input>
+            <el-input v-model="profileFrom.name" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="联系方式">
             <el-input v-model="profileFrom.phone" :disabled="true"></el-input>
@@ -33,7 +33,7 @@
             <el-tag :key="tag" v-for="tag in profileFrom.teamMate" :closable="true" :close-transition="false" @close="handleClose(tag)">
               {{tag}}
             </el-tag>
-            <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" placeholder="单个成员↩️" ref="saveTagInput" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm" style="width: 150px;"></el-input>
+            <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" placeholder="单个成员" ref="saveTagInput" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm" style="width: 150px;"></el-input>
             <el-button v-else v-show="!(profileFrom.teamMate.length == 5)" class="button-new-tag" size="small" @click="showInput">+ 成员添加</el-button>
           </el-form-item>
           <el-form-item label="参赛项目" prop="contest">
@@ -91,7 +91,7 @@ export default {
       ],
       profileFrom: {
         teamName: '',
-        captain: '',
+        name: '',
         username: '',
         phone: '',
         unit: '',
@@ -106,7 +106,7 @@ export default {
         teamName: [
           { required: true, message: '请输入队伍名称', trigger: 'blur' }
         ],
-        captain: [
+        name: [
           { required: true, message: '请输入领队名字', trigger: 'blur' }
         ],
         contest: [
@@ -148,16 +148,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .profile_container {
-    // .profile_left {
-    //   float: left;
-    //   .my_step {
-    //     padding: 5px;
-    //     background: #fff;
-    //     box-shadow: 1px 1px 2px 0 rgba(0,0,0,.1);
-    //   }
-    // }
     .profile_right {
       padding: 20px;
       float: right;

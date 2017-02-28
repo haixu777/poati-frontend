@@ -9,7 +9,8 @@
                 <el-radio-button :label="1">已通过</el-radio-button>
                 <el-radio-button :label="0">全部</el-radio-button>
                 <el-radio-button :label="-1">待审核</el-radio-button>
-                <el-radio-button :label="2">已拒接</el-radio-button>
+                <el-radio-button :label="2">已拒绝</el-radio-button>
+                <el-radio-button :label="3">已更新</el-radio-button>
               </el-radio-group>
             </div>
             <div class="condition_container_right">
@@ -26,16 +27,26 @@
           </div>
           <div class="">
             <el-table class="myTable" :data="tableData" style="width: 100%;" :stripe="true" height="600" :border="true" v-loading="loading" element-loading-text="拼命加载中">
-              <el-table-column fixed="left" prop="teamName" label="队伍名称" width="110"></el-table-column>
+              <el-table-column type="expand">
+                <template scope="props">
+                  <el-form label-position="left" inline class="my_table_expand">
+                    <el-form-item label="用户名"><span>{{ props.row.username }}</span></el-form-item>
+                    <el-form-item label="IP地址"><span>{{ props.row.ipAddress }}</span></el-form-item>
+                    <el-form-item label="参赛项目"><span>{{ props.row.contest }}</span></el-form-item>
+                    <el-form-item label="操作系统"><span>{{ props.row.system }}</span></el-form-item>
+                    <el-form-item label="队员"><span>{{ props.row.teamMate }}</span></el-form-item>
+                    <el-form-item label="资源要求" class="el_form_full"><span>{{ props.row.info }}</span></el-form-item>
+                    <el-form-item label="研究方向" class="el_form_full"><span>{{ props.row.research }}</span></el-form-item>
+                    <el-form-item label="拒绝理由" class="el_form_full" v-if="props.row.status == 2"><span>{{ props.row.rejectedReason }}</span></el-form-item>
+                  </el-form>
+                </template>
+              </el-table-column>
+              <el-table-column prop="teamName" label="队伍名称"></el-table-column>
               <el-table-column prop="name" label="联系人"></el-table-column>
-              <el-table-column prop="phone" label="电话" width="130"></el-table-column>
-              <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
-              <el-table-column prop="unit" label="单位" width="180"></el-table-column>
-              <el-table-column prop="ipAddress" label="ip" width="130"></el-table-column>
-              <el-table-column prop="username" label="用户名" width="120"></el-table-column>
-              <el-table-column prop="info" label="硬件资源要求" width="200"></el-table-column>
+              <el-table-column prop="phone" label="电话"></el-table-column>
+              <el-table-column prop="email" label="邮箱"></el-table-column>
+              <el-table-column prop="unit" label="单位"></el-table-column>
               <el-table-column
-                fixed="right"
                 label="操作"
                 width="140">
                 <template scope="scope">
@@ -69,6 +80,7 @@
 </template>
 
 <script>
+import store from '../../store'
 export default {
   data () {
     return {
@@ -81,24 +93,24 @@ export default {
         perItem: 20
       },
       totalItem: 300,
-      loading: true,
+      loading: false,
       tableData: [
-        // { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 0, info: '阿卡水济你那是达科呢' },
-        // { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 1, info: '阿卡水济你那是达科呢' },
-        // { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 2, info: '阿卡水济你那是达科呢' },
-        // { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: -1, info: '阿卡水济你那是达科呢' },
-        // { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 1, info: '阿卡水济你那是达科呢' },
-        // { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 2, info: '阿卡水济你那是达科呢' },
-        // { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 1, info: '阿卡水济你那是达科呢' },
-        // { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 1, info: '阿卡水济你那是达科呢' },
-        // { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 1, info: '阿卡水济你那是达科呢' },
-        // { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 2, info: '阿卡水济你那是达科呢' },
-        // { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 2, info: '阿卡水济你那是达科呢' },
-        // { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: -1, info: '阿卡水济你那是达科呢' },
-        // { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: -1, info: '阿卡水济你那是达科呢' },
-        // { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 0, info: '阿卡水济你那是达科呢' },
-        // { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: -1, info: '阿卡水济你那是达科呢' },
-        // { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 0, info: '阿卡水济你那是达科呢' }
+        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 0, info: '阿卡水济你阿萨德门口拉苏门答腊卡门答腊琼敏我离开母亲为了兰看到啊苏门答腊卡苏门答腊那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '请张三, 的李四, 没看到, 麦当劳, 阿萨德', research: '致力于研究阿萨德那是看见的那水济电脑啊啊苏门答腊卡什么达科啦莫斯科老大请我IE我家肉 i 为鸣阿萨德那块水济你的卡僵尸那达科家阿森纳那是看见你的家卡是你的健康那是看见的那卡僵尸那达科就能看见我拿起看见的阿卡苏门答腊卡吗胜兰看到没撒的看见的那句可是那达科家阿森纳的刷卡机的那块家阿森纳的家锣开道麻烦，阿萨德；拉萨水济电脑为伍 u 从农历卡' },
+        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 1, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
+        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 2, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡', rejectedReason: 'blablabla' },
+        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: -1, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
+        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 1, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
+        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 2, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡', rejectedReason: 'blablabla' },
+        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 1, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
+        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 1, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
+        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 1, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
+        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 2, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
+        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 2, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
+        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: -1, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
+        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: -1, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
+        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 0, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
+        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: -1, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
+        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 0, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' }
       ]
     }
   },
@@ -122,13 +134,33 @@ export default {
     },
     handleRejected (index, rows) {
       let item = rows[index]
-      this.$notify({
-        title: '审核拒绝',
-        message: '参赛队伍：' + item.teamName,
-        type: 'error'
+      this.$prompt('请输入拒绝理由', '提示', {
+        confirmButtonText: '确认拒绝',
+        confirmButtonClass: 'error',
+        cancelButtonText: '取消',
+        inputValidator: function (value) {
+          if (!(value.trim())) {
+            return '拒绝理由不能为空'
+          }
+          return true
+        }
+      }).then(({value}) => {
+        this.$notify({
+          title: '审核拒绝',
+          message: `
+              参赛队伍：${item.teamName}
+            `,
+          type: 'error'
+        })
+        item.status = 2
+        item.rejectedReason = value
+        console.log('rejected ' + item.teamName)
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消拒绝'
+        })
       })
-      item.status = 2
-      console.log('rejected ' + item.teamName)
     },
     handleSizeChange (val) {
       console.log('每页' + val + '条')
@@ -168,6 +200,7 @@ export default {
         console.log(response)
         if (response.body.success) {
           this.tableData = response.body.teamList
+          this.totalItem = response.body.totalItem
         } else {
           console.log(response.body.msg)
         }
@@ -180,7 +213,8 @@ export default {
     }
   },
   mounted () {
-    this.fetchTeamListDataFromServer()
+    // this.fetchTeamListDataFromServer()
+    store.commit('changeTitle', '')
   }
 }
 </script>
@@ -201,8 +235,28 @@ export default {
     }
   }
   .myTable {
+    text-align: left;
     tr {
       text-align: left;
+    }
+    .my_table_expand {
+      font-size: 0;
+      label {
+        width: 90px;
+        color: #99a9bf;
+      }
+      .el-form-item {
+        margin-right: 0;
+        margin-bottom: 0;
+        width: 50%;
+      }
+      .el_form_full {
+        width: 100%;
+        span {
+          width: 949px;
+          float: left;
+        }
+      }
     }
   }
   .el-pagination {
