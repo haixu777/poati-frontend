@@ -70,7 +70,31 @@
       </el-tab-pane>
       <el-tab-pane label="新闻管理系统" name="news">
         <div class="news_manage">
+          <div class="news_manage_left">
+            <el-input placeholder="标题过滤" v-model="filterNewsTitle"></el-input>
+            <el-tree :data="test" :props="defaultNewsProps" @node-click="handleNodeClick" :filter-node-method="filterNode" ref="tree" accordion></el-tree>
+          </div>
+          <div class="news_manage_right">
+            <el-form ref="newsForm" :model="newsForm" label-width="80px">
+              <el-form-item label="新闻标题">
+                <el-input v-model="newsForm.title"></el-input>
+              </el-form-item>
+              <el-form-item label="作者">
+                <el-input v-model="newsForm.author"></el-input>
+              </el-form-item>
+              <el-form-item label="概要">
+                <el-input type="textarea" v-model="newsForm.desc" :maxlength="250" placeholder="最多输入250个字"></el-input>
+              </el-form-item>
+              <el-form-item label="时间">
+                <el-date-picker type="datetime" v-model="newsForm.time" placeholder="选择时间日期"></el-date-picker>
+              </el-form-item>
+              <el-form-item label="新闻内容">
+                <div id="editor">
 
+                </div>
+              </el-form-item>
+            </el-form>
+          </div>
         </div>
       </el-tab-pane>
     </el-tabs>
@@ -80,7 +104,15 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import Vuex from 'vuex'
 import store from '../../store'
+import { createEditor } from 'vueditor'
+import 'vueditor/dist/css/vueditor.min.css'
+
+const formatNewsList = require('../../../utils/util')
+Vue.use(Vuex)
+
 export default {
   data () {
     return {
@@ -111,7 +143,82 @@ export default {
         { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 0, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
         { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: -1, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
         { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 0, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' }
-      ]
+      ],
+      newsList: [
+        {
+          id: 1,
+          title: 'title2017-3',
+          desc: 'desc1',
+          time: '1488355269',
+          author: 'author1',
+          text: 'text1'
+        },
+        {
+          id: 10,
+          title: 'title2017-3_test',
+          desc: 'desc1',
+          time: '1488355269',
+          author: 'author1',
+          text: 'text1'
+        },
+        {
+          id: 2,
+          title: 'title2017-2',
+          desc: 'desc2',
+          time: '1487318469',
+          author: 'author1',
+          text: 'text1'
+        },
+        {
+          id: 3,
+          title: 'title2016-12',
+          desc: 'desc1',
+          time: '1482998469',
+          author: 'author1',
+          text: 'text1'
+        },
+        {
+          id: 4,
+          title: 'title2016-8',
+          desc: 'desc1',
+          time: '1470902469',
+          author: 'author1',
+          text: 'text1'
+        },
+        {
+          id: 5,
+          title: 'title2016-3',
+          desc: 'desc1',
+          time: '1457683269',
+          author: 'author1',
+          text: 'text1'
+        },
+        {
+          id: 6,
+          title: 'title2016-1',
+          desc: 'desc1',
+          time: '1452499269',
+          author: 'author1',
+          text: 'text1'
+        }
+      ],
+      defaultNewsProps: {
+        children: 'children',
+        label: 'label'
+      },
+      newsForm: {
+        title: '',
+        desc: '',
+        author: '',
+        time: ''
+      },
+      test: [],
+      filterNewsTitle: ''
+    }
+  },
+  watch: {
+    filterNewsTitle (val) {
+      this.$refs.tree.filter(val)
     }
   },
   methods: {
@@ -210,11 +317,41 @@ export default {
         console.log(err)
         this.loading = false
       })
+    },
+    handleNodeClick (data) {
+      console.log(data)
+    },
+    editorInit () {
+      createEditor('#editor', {
+        toolbar: [
+          'undo', 'elements', 'fontName', 'fontSize', 'foreColor', 'backColor', 'divider',
+          'bold', 'italic', 'underline', 'strikeThrough', 'divider',
+          'divider', 'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'indent', 'outdent',
+          'insertOrderedList', 'insertUnorderedList', 'emoji', 'picture', 'switchView'
+        ],
+        fontName: [
+          {val: '宋体, SimSun', abbr: '宋体'}, {val: '黑体, SimHei', abbr: '黑体'},
+          {val: '楷体, SimKai', abbr: '楷体'}, {val: '微软雅黑, Microsoft YaHei', abbr: '微软雅黑'},
+          {val: 'arial black'}, {val: 'times new roman'}, {val: 'Courier New'}
+        ],
+        fontSize: [
+          '12px', '14px', '16px', '18px', '20px', '24px', '28px', '32px', '36px'
+        ],
+        lang: 'cn',
+        mode: 'default'
+      })
+    },
+    filterNode (value, data) {
+      if (!value) return true
+      return data.label.indexOf(value) !== -1
     }
   },
   mounted () {
     // this.fetchTeamListDataFromServer()
     store.commit('changeTitle', '')
+    this.test = formatNewsList.formatNewsList(this.newsList)
+
+    this.editorInit()
   }
 }
 </script>
@@ -261,6 +398,33 @@ export default {
   }
   .el-pagination {
     text-align: right;
+  }
+
+  .news_manage {
+    text-align: left;
+    .news_manage_left {
+      float: left;
+      width: 15%;
+    }
+    .news_manage_right {
+      float: right;
+      width: 82%;
+      background: #fff;
+      padding: 10px;
+      border: 1px solid #d1dbe5;
+      .vueditor {
+        height: 500px;
+
+        .ve-toolbar {
+          line-height: normal;
+        }
+        .ve-design {
+          line-height: normal;
+          > div {
+          }
+        }
+      }
+    }
   }
 
   .clearfix {

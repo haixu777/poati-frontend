@@ -84,7 +84,7 @@
 
 <script>
 import store from '../store'
-import Cookie from '../../utils/util'
+const Cookie = require('../../utils/util')
 
 export default {
   data: function () {
@@ -127,8 +127,8 @@ export default {
       }, 1000)
     }
     return {
-      isAdmin: Number(Cookie.get('isAdmin')),
-      isLogin: !!(Cookie.get('username')),
+      isAdmin: Number(Cookie.Cookie.get('isAdmin')),
+      isLogin: !!(Cookie.Cookie.get('username')),
       loading: false,
       navList: [
         { path: '/home', text: '首页' },
@@ -137,7 +137,7 @@ export default {
         { path: '/expert', text: '专家' },
         { path: '/help', text: '帮助' }
       ],
-      username: Cookie.get('username'),
+      username: Cookie.Cookie.get('username'),
       dialogFormVisible: false,
       userLoginInfo: {
         username: '',
@@ -225,9 +225,9 @@ export default {
       */
 
       this.isLogin = 1
-      Cookie.set('username', 'test')
-      Cookie.set('isAdmin', 0)
-      this.isAdmin = 0
+      Cookie.Cookie.set('username', 'test')
+      Cookie.Cookie.set('isAdmin', 1)
+      this.isAdmin = 1
       this.username = 'test'
     },
     login: function (formName) {
@@ -243,7 +243,7 @@ export default {
       })
     },
     logout: function () {
-      Cookie.clear()
+      Cookie.Cookie.clear()
       this.isLogin = false
       this.isAdmin = false
     },
@@ -265,7 +265,7 @@ export default {
         })
     },
     goToMyInfo: function () {
-      if (Cookie.get('isLogin')) {
+      if (Cookie.Cookie.get('isLogin')) {
         this.$message({
           message: '登录过期，请重新登录',
           type: 'warning'

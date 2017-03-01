@@ -42,7 +42,7 @@
             </el-checkbox-group>
           </el-form-item>
           <el-form-item label="IP地址" prop="ipAddress">
-            <el-input v-model="profileFrom.ipAddress" placeholder="比赛项目VPN的白名单"></el-input>
+            <el-input v-model="profileFrom.ipAddress" placeholder="将加入比赛项目的VPN白名单"></el-input>
           </el-form-item>
           <br>
           <el-form-item label="操作系统" prop="system">
@@ -68,6 +68,18 @@
 <script>
 export default {
   data () {
+    let validateIPAddress = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('ip地址不能为空'))
+      }
+      setTimeout(() => {
+        if (!(/^((25[0-5]|2[0-4]\d|[01]?\d\d?)($|(?!\.$)\.)){4}$/.test(value))) {
+          callback(new Error('请输入正确的ip地址'))
+        } else {
+          callback()
+        }
+      }, 1000)
+    }
     return {
       active: 0,
       loading: false,
@@ -111,6 +123,9 @@ export default {
         ],
         contest: [
           { type: 'array', required: true, message: '请至少参加一个项目', trigger: 'change' }
+        ],
+        ipAddress: [
+          { type: 'string', required: true, validator: validateIPAddress, trigger: 'blur' }
         ]
       }
     }
