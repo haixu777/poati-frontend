@@ -96,6 +96,7 @@
 <script>
 import { Swipe, SwipeItem } from 'vue-swipe'
 import store from '../../store'
+const utils = require('../../../utils/util')
 
 export default {
   data () {
@@ -141,10 +142,20 @@ export default {
     handleToNewsDetail: function (id) {
       store.commit('changeTitle', '新闻')
       console.log(id)
+    },
+    handleFetchNewestNewsFromServer () {
+      this.$http.get('http://10.10.28.40:8080/iie-icm/api/news/fetchNewest.do')
+        .then((d) => {
+          this.newest_news_list = d.body.newsList
+          this.newest_news_list.forEach(function (item) {
+            item.time = utils.formatTime(item.time, false)
+          })
+        })
     }
   },
   mounted: function () {
     store.commit('changeTitle', '首页')
+    this.handleFetchNewestNewsFromServer()
   }
 }
 </script>

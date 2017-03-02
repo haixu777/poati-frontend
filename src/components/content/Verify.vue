@@ -72,12 +72,19 @@
         <div class="news_manage">
           <div class="news_manage_left">
             <el-input placeholder="标题过滤" v-model="filterNewsTitle"></el-input>
-            <el-tree :data="test" :props="defaultNewsProps" @node-click="handleNodeClick" :filter-node-method="filterNode" ref="tree" accordion></el-tree>
+            <el-tree :data="newsList" :props="defaultNewsProps" @node-click="handleNodeClick" :filter-node-method="filterNode" ref="tree" accordion></el-tree>
+            <el-button style="width: 100%;" @click="handleAddNews">新闻添加</el-button>
           </div>
           <div class="news_manage_right">
             <el-form ref="newsForm" :model="newsForm" label-width="80px">
               <el-form-item label="新闻标题">
                 <el-input v-model="newsForm.title"></el-input>
+              </el-form-item>
+              <el-form-item label="缩略图">
+                <el-upload class="avatar-uploader" action="//jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-success="handleAvatarScucess" :before-upload="beforeAvatarUpload">
+                  <img v-if="newsForm.avatar" :src="newsForm.avatar" class="avatar">
+                  <i v-else class="el-icon-plus" id="avatar-uploader-icon"></i>
+                </el-upload>
               </el-form-item>
               <el-form-item label="作者">
                 <el-input v-model="newsForm.author"></el-input>
@@ -86,12 +93,16 @@
                 <el-input type="textarea" v-model="newsForm.desc" :maxlength="250" placeholder="最多输入250个字"></el-input>
               </el-form-item>
               <el-form-item label="时间">
-                <el-date-picker type="datetime" v-model="newsForm.time" placeholder="选择时间日期"></el-date-picker>
+                <el-date-picker type="datetime" v-model="newsForm.time" placeholder="选择时间日期" :picker-options="limitDate"></el-date-picker>
               </el-form-item>
               <el-form-item label="新闻内容">
                 <div id="editor">
 
                 </div>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="warning" @click="postNewsToServer">确认发布</el-button>
+                <el-button type="danger" @click="deleteNewsFromServer" :disabled="!(newsId)">删除</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -116,6 +127,11 @@ Vue.use(Vuex)
 export default {
   data () {
     return {
+      limitDate: {
+        disabledDate (time) {
+          return time.getTime() < Date.now() - 8.64e7
+        }
+      },
       activeName: 'user',
       fetchDataCondition: {
         conditionStatus: 0,
@@ -207,13 +223,17 @@ export default {
         label: 'label'
       },
       newsForm: {
+        id: '',
         title: '',
         desc: '',
         author: '',
-        time: ''
+        time: '',
+        avatar: ''
       },
+      editor: '',
       test: [],
-      filterNewsTitle: ''
+      filterNewsTitle: '',
+      newsId: ''
     }
   },
   watch: {
@@ -223,10 +243,11 @@ export default {
   },
   methods: {
     handleTabClick (tab, event) {
+      if (tab.index === 1) {
+        this.fetchNewsListFromServer()
+      }
     },
     handleConditionSelect () {
-      console.log(this.fetchDataCondition)
-      console.log(this.fetchDataCondition.conditionStatus)
       this.fetchTeamListDataFromServer()
     },
     handleAccepted (index, rows) {
@@ -319,10 +340,14 @@ export default {
       })
     },
     handleNodeClick (data) {
-      console.log(data)
+      this.newsId = data.id
+      this.newsForm.id = data.id
+      if (!data.id) return
+      this.handleFetchNewsDetail()
+      console.log(this.newsForm)
     },
     editorInit () {
-      createEditor('#editor', {
+      return createEditor('#editor', {
         toolbar: [
           'undo', 'elements', 'fontName', 'fontSize', 'foreColor', 'backColor', 'divider',
           'bold', 'italic', 'underline', 'strikeThrough', 'divider',
@@ -338,20 +363,89 @@ export default {
           '12px', '14px', '16px', '18px', '20px', '24px', '28px', '32px', '36px'
         ],
         lang: 'cn',
-        mode: 'default'
+        mode: 'default',
+        fileuploadUrl: 'http://localhost:8080/uploadImage'
       })
     },
     filterNode (value, data) {
       if (!value) return true
       return data.label.indexOf(value) !== -1
+    },
+    removeNode () {
+      if (!this.newsId) return
+      for (var i=0; i<this.newsList.length; i++) {
+        if (this.newsList[i].id  === this.newsId) {
+          this.newsList.splice(i, 1)
+        }
+      }
+      this.test = formatNewsList.formatNewsList(this.newsList)
+    },
+    handleAddNews () {
+      this.newsForm = {
+        id: '',
+        title: '',
+        author: '',
+        desc: '',
+        time: ''
+      }
+      this.newsId = ''
+      this.editor.setContent('')
+    },
+    postNewsToServer () {
+      this.newsForm['text'] = this.editor.getContent()
+      this.$http.post('http://10.10.28.40:8080/iie-icm/api/news/update.do', this.newsForm)
+        .then((d) => {
+          this.fetchNewsListFromServer()
+          this.handleAddNews()
+        })
+    },
+    deleteNewsFromServer () {
+    },
+    fetchNewsListFromServer () {
+      this.$http.get('http://10.10.28.40:8080/iie-icm/api/news/fetchList.do')
+        .then((d) => {
+          this.newsList = formatNewsList.formatNewsList(d.body.newsList)
+        })
+    },
+    handleFetchNewsDetail () {
+      this.$http.get('http://10.10.28.40:8080/iie-icm/api/news/details.do',
+        {
+          params: {
+            id: this.newsId
+          }
+        }
+      ).then((d) => {
+        // console.log(d)
+        this.newsForm = {
+          id: d.body.newsData.id,
+          title: d.body.newsData.title,
+          author: d.body.newsData.author,
+          time: d.body.newsData.time
+        }
+        this.editor.setContent(d.body.newsData.text)
+      })
+    },
+    handleAvatarScucess (res, file) {
+      this.newsForm.avatar = file.url;
+    },
+    beforeAvatarUpload (file) {
+      console.log(file)
+      const isJPG = file.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
     }
   },
   mounted () {
-    // this.fetchTeamListDataFromServer()
+    //this.fetchTeamListDataFromServer()
     store.commit('changeTitle', '')
-    this.test = formatNewsList.formatNewsList(this.newsList)
-
-    this.editorInit()
+    this.editor = this.editorInit()
   }
 }
 </script>
@@ -413,8 +507,7 @@ export default {
       padding: 10px;
       border: 1px solid #d1dbe5;
       .vueditor {
-        height: 500px;
-
+        height: 400px;
         .ve-toolbar {
           line-height: normal;
         }
@@ -422,6 +515,9 @@ export default {
           line-height: normal;
           > div {
           }
+        }
+        .ve-dialog {
+          height: 100%;
         }
       }
     }
@@ -431,5 +527,34 @@ export default {
     overflow: auto;
     _height: 1%;
   }
+
+  // upload image start//
+  .el-upload {
+    line-height: normal;
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 230px !important;
+    position: relative;
+    overflow: hidden;
+  }
+  .el-upload:hover {
+    border-color: #20a0ff;
+  }
+  #avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 230px;
+    height: 138px;
+    line-height: 138px;
+    text-align: center;
+  }
+  .avatar {
+    width: 230px;
+    height: 138px;
+    display: block;
+  }
+  // upload image end//
+
 
 </style>

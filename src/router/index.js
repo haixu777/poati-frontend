@@ -16,7 +16,7 @@ import myProfile from 'components/content/user/Profile'
 import myProject from 'components/content/user/Project'
 import myResult from 'components/content/user/Result'
 
-const Cookie = require('../../utils/util')
+const utils = require('../../utils/util')
 
 Vue.use(Router)
 
@@ -75,7 +75,7 @@ export default new Router({
       component: myUserInfo,
       children: userRoutes,
       beforeEnter: function (to, from, next) {
-        if (Cookie.Cookie.get('username')) {
+        if (utils.Cookie.get('username')) {
           next()
         } else {
           next('/home')
@@ -87,7 +87,7 @@ export default new Router({
       name: 'verify',
       component: myVerify,
       beforeEnter: function (to, from, next) {
-        if (Cookie.Cookie.get('isAdmin')) {
+        if (utils.Cookie.get('isAdmin')) {
           next()
         } else {
           next('/home')
