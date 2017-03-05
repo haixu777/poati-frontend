@@ -11,8 +11,21 @@ import 'element-ui/lib/theme-default/index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'vue-swipe/dist/vue-swipe.css'
 
+const utils = require('../utils/util')
+
 Vue.use(VueResource)
 Vue.use(ElementUI)
+
+// http请求拦截器 在所有请求头上加入jwt-token以进行与服务端的认证
+Vue.http.interceptors.push((request, next) => {
+  const jwtToken = utils.Cookie.get('token')
+  if (jwtToken) {
+    request.headers.set('token', jwtToken)
+  }
+  next((response) => {
+    return response
+  })
+})
 
 /* eslint-disable no-new */
 new Vue({

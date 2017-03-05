@@ -83,6 +83,7 @@ export default {
 
 <style lang="scss" scoped>
   .news_container {
+    min-height: 600px;
     .item_container {
       background: #fff;
       border-radius: 5px;

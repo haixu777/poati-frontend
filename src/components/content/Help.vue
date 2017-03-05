@@ -1,10 +1,11 @@
 <template lang="html">
   <div class="container help_container">
-    help
-    <div class="help_container_left">
-    </div>
-    <div class="help_container_right">
-    </div>
+    <h4 class="title">关于我们</h4>
+    <p>关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们关于我们</p>
+    <h4 class="title">联系我们</h4>
+    <p>地址: 北京市海淀区闵庄路甲89号</p>
+    <p>电话: 18611111111</p>
+    <p>邮箱: test@iie.ac.cn</p>
   </div>
 </template>
 
@@ -21,13 +22,23 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-  .help_container_left {
-    float: left;
-    width: 10%;
-  }
-  .help_container_right {
-    float: right;
-    width: 88%;
+<style lang="scss">
+  .help_container {
+    min-height: 600px;
+    background: #fff;
+    text-align: left;
+    border-radius: 5px;
+    border: 1px solid #dfe6ec;
+    .title {
+      padding: 0 10px;
+      border-left: 3px solid #20a0ff;
+    }
+    img {
+      width: 500px;
+      height: 300px;
+    }
+    p {
+      text-indent: 2.5rem;
+    }
   }
 </style>

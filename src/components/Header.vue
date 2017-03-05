@@ -202,15 +202,15 @@ export default {
       this.$refs[formName].resetFields()
     },
     handleLoginToServer: function () {
-      /*
       this.$http.post('http://10.10.28.40:8080/iie-icm/api/login.do', {
         username: this.userLoginInfo.username,
         password: this.userLoginInfo.password
       }).then((res) => {
         console.log(res.body)
         if (res.body.success) {
-          Cookie.set('username', res.data.userInfo.teamName)
-          Cookie.set('isAdmin', res.data.userInfo.isAdmin)
+          utils.Cookie.set('username', res.data.userInfo.teamName)
+          utils.Cookie.set('token', res.data.userInfo.token)
+          utils.Cookie.set('isAdmin', res.data.userInfo.isAdmin)
           this.isAdmin = res.data.userInfo.isAdmin
           this.isLogin = true
           this.username = res.data.userInfo.teamName
@@ -222,13 +222,12 @@ export default {
           })
         }
       })
-      */
 
-      this.isLogin = 1
-      utils.Cookie.set('username', 'test')
-      utils.Cookie.set('isAdmin', 1)
-      this.isAdmin = 1
-      this.username = 'test'
+      // this.isLogin = 1
+      // utils.Cookie.set('username', 'test')
+      // utils.Cookie.set('isAdmin', 1)
+      // this.isAdmin = 1
+      // this.username = 'test'
     },
     login: function (formName) {
       this.$refs[formName].validate((valid) => {

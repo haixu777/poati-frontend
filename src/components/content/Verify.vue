@@ -245,20 +245,36 @@ export default {
     handleTabClick (tab, event) {
       if (tab.index === 1) {
         this.fetchNewsListFromServer()
+        this.editor = this.editorInit()
       }
     },
     handleConditionSelect () {
       this.fetchTeamListDataFromServer()
     },
-    handleAccepted (index, rows) {
-      let item = rows[index]
-      this.$notify({
-        title: '审核通过',
-        message: '参赛队伍：' + item.teamName,
-        type: 'success'
+    handleTeamToServer (id, status, rejectedMsg, cb) {
+      this.$http.post('http://10.10.28.40:8080/iie-icm/api/vertify/handleTeam.do', {
+        id: id,
+        status: status,
+        rejectedMsg: rejectedMsg
       })
-      item.status = 1
-      console.log('accepted ' + item.teamName)
+        .then((d) => {
+          cb(d)
+        })
+    },
+    handleAccepted (index, rows) {
+      console.log('access')
+      let item = rows[index]
+      this.handleTeamToServer(item.id, 1, '', (d) => {
+        if (d.success) {
+          this.$notify({
+            title: '审核通过',
+            message: '参赛队伍：' + item.teamName,
+            type: 'success'
+          })
+          item.status = 1
+          console.log('accepted ' + item.teamName)
+        }
+      })
     },
     handleRejected (index, rows) {
       let item = rows[index]
@@ -273,16 +289,20 @@ export default {
           return true
         }
       }).then(({value}) => {
-        this.$notify({
-          title: '审核拒绝',
-          message: `
-              参赛队伍：${item.teamName}
-            `,
-          type: 'error'
+        this.handleTeamToServer(item.id, 2, value, (d) => {
+          if (d.success) {
+            this.$notify({
+              title: '审核拒绝',
+              message: `
+                  参赛队伍：${item.teamName}
+                `,
+              type: 'error'
+            })
+            item.status = 2
+            item.rejectedReason = value
+            console.log('rejected ' + item.teamName)
+          }
         })
-        item.status = 2
-        item.rejectedReason = value
-        console.log('rejected ' + item.teamName)
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -344,7 +364,7 @@ export default {
       this.newsForm.id = data.id
       if (!data.id) return
       this.handleFetchNewsDetail()
-      console.log(this.newsForm)
+      // console.log(this.newsForm)
     },
     editorInit () {
       return createEditor('#editor', {
@@ -443,9 +463,8 @@ export default {
     }
   },
   mounted () {
-    //this.fetchTeamListDataFromServer()
+    this.fetchTeamListDataFromServer()
     store.commit('changeTitle', '')
-    this.editor = this.editorInit()
   }
 }
 </script>

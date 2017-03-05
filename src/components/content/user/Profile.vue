@@ -1,11 +1,6 @@
 <template lang="html">
   <div class="profile_container">
     <div class="profile_left">
-      <!-- <el-steps :space="100" direction="vertical" :active="active" finish-status="success" class="my_step">
-        <el-step title="基本信息"></el-step>
-        <el-step title="研究方向"></el-step>
-        <el-step title="比赛配置"></el-step>
-      </el-steps> -->
     </div>
     <div class="profile_right">
       <div class="basic_container">
@@ -50,15 +45,15 @@
               <el-radio v-for="(item, index) in systemList" :label="item.name"></el-radio>
             </el-radio-group>
           </el-form-item>
+          <el-form-item label="硬件资源要求">
+            <el-input type="textarea" v-model="profileFrom.hardwardRequire" :rows="5" placeholder="硬件资源最低要求（CPU、内存、GPU、存储空间等）"></el-input>
+          </el-form-item>
           <el-form-item label="研究方向">
             <el-input type="textarea" v-model="profileFrom.research" :rows="5" placeholder="研究方向／涉及领域"></el-input>
           </el-form-item>
         </el-form>
       </div>
-      <div class="education_container" v-show="active==3">
-        <div class="title">预览</div>
-        <el-button type="info" size="small" :loading="loading" @click="handleSubmit()" :disabled="isCompleted">{{submitText}}</el-button>
-      </div>
+      <el-button type="info" size="small" :loading="loading" @click="handleSubmit()" :disabled="isCompleted">{{submitText}}</el-button>
     </div>
     <!-- <el-button style="margin-top: 12px;" @click="prev" :disabled="active==0">上一步</el-button>
     <el-button style="margin-top: 12px;" @click="next" :disabled="active==3">下一步</el-button> -->
@@ -88,13 +83,13 @@ export default {
       inputVisible: false,
       inputValue: '',
       contestList: [
-        { name: '说话人识别', isExpire: false },
-        { name: '音频对比', isExpire: false },
-        { name: '语音关键词检测', isExpire: false },
-        { name: '视频拷贝检测', isExpire: false },
-        { name: '特定视频识别', isExpire: false },
-        { name: '视频文本关键词检测', isExpire: false },
-        { name: '人脸识别', isExpire: false }
+        { name: '事件样本发现', isExpire: false },
+        { name: '事件关键元素识别', isExpire: false },
+        { name: '事件抽取', isExpire: false },
+        { name: '关键词抽取', isExpire: false },
+        { name: '文本分类', isExpire: false },
+        { name: '社交关系预测', isExpire: false },
+        { name: '用户画像', isExpire: false }
       ],
       systemList: [
         { name: 'Centos7.2' },
@@ -112,6 +107,7 @@ export default {
         teamMate: [],
         ipAddress: '',
         system: '',
+        hardwardRequire: '',
         research: ''
       },
       profileRules: {
@@ -134,12 +130,20 @@ export default {
     handleSubmit () {
       this.loading = true
       this.submitText = '提交中'
-      let that = this
-      setTimeout(() => {
-        that.loading = false
-        this.submitText = '提交完成'
-        this.isCompleted = true
-      }, 1000)
+      this.handleSubmitProfileToServer()
+    },
+    handleSubmitProfileToServer () {
+      this.$http.post('http://10.10.28.40:8080/iie-icm/api/users/updateProfile.do', this.profileFrom)
+        .then((d) => {
+          if (d.success) {
+            this.loading = false
+            this.submitText = '提交完成'
+          } else {
+            this.$message.error(d.msg)
+          }
+        })
+        .catch((d) => {
+        })
     },
     showInput () {
       this.inputVisible = true
