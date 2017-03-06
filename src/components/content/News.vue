@@ -13,7 +13,7 @@
             </el-row>
             <el-row :gutter="20">
               <el-col :span="7">
-                <div class="item_container_left clearfix">
+                <div class="item_container_left">
                   <img :src="item.avator" alt="avator">
                 </div>
               </el-col>

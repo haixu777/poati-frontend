@@ -35,7 +35,7 @@
                     <el-form-item label="参赛项目"><span>{{ props.row.contest }}</span></el-form-item>
                     <el-form-item label="操作系统"><span>{{ props.row.system }}</span></el-form-item>
                     <el-form-item label="队员"><span>{{ props.row.teamMate }}</span></el-form-item>
-                    <el-form-item label="资源要求" class="el_form_full"><span>{{ props.row.info }}</span></el-form-item>
+                    <el-form-item label="资源要求" class="el_form_full"><span>{{ props.row.hardwardRequire }}</span></el-form-item>
                     <el-form-item label="研究方向" class="el_form_full"><span>{{ props.row.research }}</span></el-form-item>
                     <el-form-item label="拒绝理由" class="el_form_full" v-if="props.row.status == 2"><span>{{ props.row.rejectedReason }}</span></el-form-item>
                   </el-form>
@@ -45,7 +45,7 @@
               <el-table-column prop="name" label="联系人"></el-table-column>
               <el-table-column prop="phone" label="电话"></el-table-column>
               <el-table-column prop="email" label="邮箱"></el-table-column>
-              <el-table-column prop="unit" label="单位"></el-table-column>
+              <el-table-column prop="institute" label="单位"></el-table-column>
               <el-table-column
                 label="操作"
                 width="140">
@@ -76,8 +76,8 @@
             <el-button style="width: 100%;" @click="handleAddNews">新闻添加</el-button>
           </div>
           <div class="news_manage_right">
-            <el-form ref="newsForm" :model="newsForm" label-width="80px">
-              <el-form-item label="新闻标题">
+            <el-form ref="newsForm" :model="newsForm" :rules="newsRule" label-width="90px">
+              <el-form-item label="新闻标题" prop="title">
                 <el-input v-model="newsForm.title"></el-input>
               </el-form-item>
               <el-form-item label="缩略图">
@@ -86,10 +86,10 @@
                   <i v-else class="el-icon-plus" id="avatar-uploader-icon"></i>
                 </el-upload>
               </el-form-item>
-              <el-form-item label="作者">
+              <el-form-item label="作者" prop="author">
                 <el-input v-model="newsForm.author"></el-input>
               </el-form-item>
-              <el-form-item label="概要">
+              <el-form-item label="概要" prop="desc">
                 <el-input type="textarea" v-model="newsForm.desc" :maxlength="250" placeholder="最多输入250个字"></el-input>
               </el-form-item>
               <el-form-item label="时间">
@@ -101,7 +101,7 @@
                 </div>
               </el-form-item>
               <el-form-item>
-                <el-button type="warning" @click="postNewsToServer">确认发布</el-button>
+                <el-button type="warning" @click="postNewsToServer('newsForm')">确认发布</el-button>
                 <el-button type="danger" @click="deleteNewsFromServer" :disabled="!(newsId)">删除</el-button>
               </el-form-item>
             </el-form>
@@ -142,82 +142,8 @@ export default {
       },
       totalItem: 300,
       loading: false,
-      tableData: [
-        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 0, info: '阿卡水济你阿萨德门口拉苏门答腊卡门答腊琼敏我离开母亲为了兰看到啊苏门答腊卡苏门答腊那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '请张三, 的李四, 没看到, 麦当劳, 阿萨德', research: '致力于研究阿萨德那是看见的那水济电脑啊啊苏门答腊卡什么达科啦莫斯科老大请我IE我家肉 i 为鸣阿萨德那块水济你的卡僵尸那达科家阿森纳那是看见你的家卡是你的健康那是看见的那卡僵尸那达科就能看见我拿起看见的阿卡苏门答腊卡吗胜兰看到没撒的看见的那句可是那达科家阿森纳的刷卡机的那块家阿森纳的家锣开道麻烦，阿萨德；拉萨水济电脑为伍 u 从农历卡' },
-        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 1, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
-        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 2, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡', rejectedReason: 'blablabla' },
-        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: -1, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
-        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 1, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
-        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 2, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡', rejectedReason: 'blablabla' },
-        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 1, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
-        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 1, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
-        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 1, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
-        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 2, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
-        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 2, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
-        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: -1, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
-        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: -1, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
-        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 0, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
-        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: -1, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' },
-        { teamName: '阿克索德呢', name: '王海旭', phone: '18394028491', email: 'aksjdn@gmail.com', unit: '中科院信工所', ipAddress: '127.0.0.1', username: 'wanghaixu', status: 0, info: '阿卡水济你那是达科呢', contest: '说话人识别，音视频对比', system: 'Ubuntu14.04', teamMate: '张三, 李四, andy', research: '致力于研究阿萨德那是看见的那水济电脑啊水济电脑为伍 u 从农历卡' }
-      ],
-      newsList: [
-        {
-          id: 1,
-          title: 'title2017-3',
-          desc: 'desc1',
-          time: '1488355269',
-          author: 'author1',
-          text: 'text1'
-        },
-        {
-          id: 10,
-          title: 'title2017-3_test',
-          desc: 'desc1',
-          time: '1488355269',
-          author: 'author1',
-          text: 'text1'
-        },
-        {
-          id: 2,
-          title: 'title2017-2',
-          desc: 'desc2',
-          time: '1487318469',
-          author: 'author1',
-          text: 'text1'
-        },
-        {
-          id: 3,
-          title: 'title2016-12',
-          desc: 'desc1',
-          time: '1482998469',
-          author: 'author1',
-          text: 'text1'
-        },
-        {
-          id: 4,
-          title: 'title2016-8',
-          desc: 'desc1',
-          time: '1470902469',
-          author: 'author1',
-          text: 'text1'
-        },
-        {
-          id: 5,
-          title: 'title2016-3',
-          desc: 'desc1',
-          time: '1457683269',
-          author: 'author1',
-          text: 'text1'
-        },
-        {
-          id: 6,
-          title: 'title2016-1',
-          desc: 'desc1',
-          time: '1452499269',
-          author: 'author1',
-          text: 'text1'
-        }
-      ],
+      tableData: [],
+      newsList: [],
       defaultNewsProps: {
         children: 'children',
         label: 'label'
@@ -229,6 +155,23 @@ export default {
         author: '',
         time: '',
         avatar: ''
+      },
+      newsRule: {
+        title: [
+          { required: true, message: '标题不能为空', trigger: 'blur' }
+        ],
+        author: [
+          { required: true, message: '作者不能为空', trigger: 'blur' }
+        ],
+        desc: [
+          { required: true, message: '概要不能为空', trigger: 'blur' }
+        ],
+        time: [
+          { required: true, message: '请选择时间', trigger: 'blur' }
+        ],
+        text: [
+          { required: true, message: '新闻内容不能为空', trigger: 'blur' }
+        ]
       },
       editor: '',
       test: [],
@@ -265,7 +208,7 @@ export default {
       console.log('access')
       let item = rows[index]
       this.handleTeamToServer(item.id, 1, '', (d) => {
-        if (d.success) {
+        if (d.body.success) {
           this.$notify({
             title: '审核通过',
             message: '参赛队伍：' + item.teamName,
@@ -290,7 +233,7 @@ export default {
         }
       }).then(({value}) => {
         this.handleTeamToServer(item.id, 2, value, (d) => {
-          if (d.success) {
+          if (d.body.success) {
             this.$notify({
               title: '审核拒绝',
               message: `
@@ -348,7 +291,7 @@ export default {
         console.log(response)
         if (response.body.success) {
           this.tableData = response.body.teamList
-          this.totalItem = response.body.totalItem
+          this.totalItem = response.body.totalItems
         } else {
           console.log(response.body.msg)
         }
@@ -411,13 +354,21 @@ export default {
       this.newsId = ''
       this.editor.setContent('')
     },
-    postNewsToServer () {
-      this.newsForm['text'] = this.editor.getContent()
-      this.$http.post('http://10.10.28.40:8080/iie-icm/api/news/update.do', this.newsForm)
-        .then((d) => {
-          this.fetchNewsListFromServer()
-          this.handleAddNews()
-        })
+    postNewsToServer (formName) {
+      var that = this
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          that.newsForm['text'] = that.editor.getContent()
+          this.$http.post('http://10.10.28.40:8080/iie-icm/api/news/update.do', this.newsForm)
+            .then((d) => {
+              this.fetchNewsListFromServer()
+              this.handleAddNews()
+            })
+        } else {
+          console.log('error submit!')
+          return false
+        }
+      })
     },
     deleteNewsFromServer () {
     },
@@ -435,12 +386,13 @@ export default {
           }
         }
       ).then((d) => {
-        // console.log(d)
+        console.log(d)
         this.newsForm = {
           id: d.body.newsData.id,
           title: d.body.newsData.title,
           author: d.body.newsData.author,
-          time: d.body.newsData.time
+          time: d.body.newsData.time,
+          desc: d.body.newsData.desc
         }
         this.editor.setContent(d.body.newsData.text)
       })

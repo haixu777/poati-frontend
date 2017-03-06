@@ -5,7 +5,7 @@
     <div class="profile_right">
       <div class="basic_container">
         <div class="title">基本信息</div>
-        <el-form :model="profileFrom" :inline="true" :rules="profileRules" :ref="profileFrom" label-width="100px" class="my_form">
+        <el-form :model="profileFrom" :inline="true" :rules="profileRules" ref="profileRules" label-width="110px" class="my_form">
           <el-form-item label="队伍名称">
             <el-input v-model="profileFrom.teamName" :disabled="true"></el-input>
           </el-form-item>
@@ -45,15 +45,15 @@
               <el-radio v-for="(item, index) in systemList" :label="item.name"></el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="硬件资源要求">
+          <el-form-item label="硬件资源要求" prop="hardwardRequire">
             <el-input type="textarea" v-model="profileFrom.hardwardRequire" :rows="5" placeholder="硬件资源最低要求（CPU、内存、GPU、存储空间等）"></el-input>
           </el-form-item>
-          <el-form-item label="研究方向">
+          <el-form-item label="研究方向" prop="research">
             <el-input type="textarea" v-model="profileFrom.research" :rows="5" placeholder="研究方向／涉及领域"></el-input>
           </el-form-item>
         </el-form>
       </div>
-      <el-button type="info" size="small" :loading="loading" @click="handleSubmit()" :disabled="isCompleted">{{submitText}}</el-button>
+      <el-button type="info" size="small" :loading="loading" @click="handleSubmit('profileRules')" :disabled="isCompleted">{{submitText}}</el-button>
     </div>
     <!-- <el-button style="margin-top: 12px;" @click="prev" :disabled="active==0">上一步</el-button>
     <el-button style="margin-top: 12px;" @click="next" :disabled="active==3">下一步</el-button> -->
@@ -111,26 +111,38 @@ export default {
         research: ''
       },
       profileRules: {
-        teamName: [
-          { required: true, message: '请输入队伍名称', trigger: 'blur' }
+        teamMate: [
+          { required: true, message: '至少输入一名', trigger: 'blur' }
         ],
-        name: [
-          { required: true, message: '请输入领队名字', trigger: 'blur' }
+        hardwardRequire: [
+          { required: true, message: '请输入资源最低要求', trigger: 'blur' }
+        ],
+        system: [
+          { required: true, message: '请选择一个操作系统', trigger: 'blur' }
         ],
         contest: [
           { type: 'array', required: true, message: '请至少参加一个项目', trigger: 'change' }
         ],
         ipAddress: [
           { type: 'string', required: true, validator: validateIPAddress, trigger: 'blur' }
+        ],
+        research: [
+          { required: true, message: '研究方向不能为空', trigger: 'blur' }
         ]
       }
     }
   },
   methods: {
-    handleSubmit () {
-      this.loading = true
-      this.submitText = '提交中'
-      this.handleSubmitProfileToServer()
+    handleSubmit (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.loading = true
+          this.submitText = '提交中'
+          this.handleSubmitProfileToServer()
+        } else {
+          return false
+        }
+      })
     },
     handleSubmitProfileToServer () {
       this.$http.post('http://10.10.28.40:8080/iie-icm/api/users/updateProfile.do', this.profileFrom)

@@ -10,7 +10,7 @@
     <table class="table" id="contest_table_container">
       <thead>
         <tr>
-          <th></th>
+          <!-- <th></th> -->
           <th>比赛简介</th>
           <th>比赛状态</th>
           <th>比赛时间</th>
@@ -20,9 +20,9 @@
       <tbody class=".table-striped">
         <template v-for="item in contestList['year_'+yearPick]">
           <tr>
-            <td>
+            <!-- <td>
               <img src="../../assets/sina_logo.png" alt="sina">
-            </td>
+            </td> -->
             <td>
               <router-link :to="'/contest'+item.path" style="text-decoration: none;">
                 <h5 style="display: inline;">{{ item.title }}</h5>

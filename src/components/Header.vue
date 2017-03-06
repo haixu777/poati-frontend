@@ -15,7 +15,7 @@
             </div>
           </li>
           <li class="btn_register" v-else>
-            <el-dropdown>
+            <el-dropdown trigger="click">
               <span class="el-dropdown-link">
                 {{ username }}<i class="el-icon-caret-bottom el-icon--right"></i>
               </span>
@@ -68,8 +68,8 @@
               <el-input v-model="userRegisterInfo.phone" type=""></el-input>
             </el-form-item><el-form-item label="邮箱"  prop="email">
               <el-input v-model="userRegisterInfo.email"></el-input>
-            </el-form-item><el-form-item label="单位" prop="unit">
-              <el-input v-model="userRegisterInfo.unit" type=""></el-input>
+            </el-form-item><el-form-item label="单位" prop="institute">
+              <el-input v-model="userRegisterInfo.institute" type=""></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="submitForm('userRegisterInfo')" :loading="loading">注册申请</el-button>
@@ -84,7 +84,6 @@
 
 <script>
 import store from '../store'
-const utils = require('../../utils/util')
 
 export default {
   data: function () {
@@ -127,8 +126,8 @@ export default {
       }, 1000)
     }
     return {
-      isAdmin: Number(utils.Cookie.get('isAdmin')),
-      isLogin: !!(utils.Cookie.get('username')),
+      isAdmin: Number(localStorage.getItem('isAdmin')),
+      isLogin: !!(localStorage.getItem('username')),
       loading: false,
       navList: [
         { path: '/home', text: '首页' },
@@ -137,7 +136,7 @@ export default {
         { path: '/expert', text: '专家' },
         { path: '/help', text: '帮助' }
       ],
-      username: utils.Cookie.get('username'),
+      username: localStorage.getItem('username'),
       dialogFormVisible: false,
       userLoginInfo: {
         username: '',
@@ -148,7 +147,7 @@ export default {
         name: '',
         phone: '',
         email: '',
-        unit: '',
+        institute: '',
         username: '',
         password: '',
         passwordConfirm: ''
@@ -208,9 +207,9 @@ export default {
       }).then((res) => {
         console.log(res.body)
         if (res.body.success) {
-          utils.Cookie.set('username', res.data.userInfo.teamName)
-          utils.Cookie.set('token', res.data.userInfo.token)
-          utils.Cookie.set('isAdmin', res.data.userInfo.isAdmin)
+          localStorage.setItem('username', res.data.userInfo.teamName)
+          localStorage.setItem('token', res.data.userInfo.token)
+          localStorage.setItem('isAdmin', res.data.userInfo.isAdmin)
           this.isAdmin = res.data.userInfo.isAdmin
           this.isLogin = true
           this.username = res.data.userInfo.teamName
@@ -242,7 +241,7 @@ export default {
       })
     },
     logout: function () {
-      utils.Cookie.clear()
+      localStorage.clear()
       this.isLogin = false
       this.isAdmin = false
     },
@@ -264,7 +263,7 @@ export default {
         })
     },
     goToMyInfo: function () {
-      if (utils.Cookie.get('isLogin')) {
+      if (localStorage.getItem('isLogin')) {
         this.$message({
           message: '登录过期，请重新登录',
           type: 'warning'
@@ -279,6 +278,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .el-dropdown-menu__item {
+    a {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
   .btn_register {
     float: left;
     list-style: none;

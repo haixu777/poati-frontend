@@ -16,10 +16,10 @@
         <el-row type="flex" justify="center">
           <el-col :span="5" v-for="item,index in newest_contest_list" :offset="index > 0 ? 2 : 0">
             <el-card :body-style="{ padding: '0px' }">
-              <img src="../../assets/test.png" class="image">
+              <img :src="item.img" class="image">
               <div style="padding: 14px;">
                 <span>{{ item.title }}</span>
-                <div class="bottom clearfix">
+                <div class="bottom">
                   <time class="time">{{ item.time }}</time>
                   <router-link :to="'/contest/2017/'+item.path">
                     <el-button type="text" class="button" @click="handleContestClick(item.path)">立即参赛</el-button>
@@ -49,7 +49,7 @@
                 <router-link :to="'/news/details/'+item.id" @click.native="handleToNewsDetail(item.id)">
                   <h5 style="font-weight: 800; margin-top: 0;">{{ item.time + ' ' + item.title }}</h5>
                 </router-link>
-                <p>{{ item.desc }}</p>
+                <!-- <p>{{ item.desc }}</p> -->
               </div>
             </div>
           </template>
@@ -108,10 +108,10 @@ export default {
         { img: 'https://img.alicdn.com/tps/TB1PviVPFXXXXb4XpXXXXXXXXXX-1440-340.png' }
       ],
       newest_contest_list: [
-        { path: 'shrsb', img: '../../assets/test.jpg', title: '说话人识别', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'ypdb', img: '../../assets/test.jpg', title: '音频对比', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'yygjcjc', img: '../../assets/test.jpg', title: '语音关键词检测', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'tdspsb', img: '../../assets/test.jpg', title: '特定视频识别', time: '2017-3-1 ～ 2017-3-15' }
+        { path: 'shrsb', img: require('../../assets/contest/shrsb.jpg'), title: '说话人识别', time: '2017-3-1 ～ 2017-3-15' },
+        { path: 'ypdb', img: require('../../assets/contest/yhhx.jpg'), title: '音频对比', time: '2017-3-1 ～ 2017-3-15' },
+        { path: 'yygjcjc', img: require('../../assets/contest/sjgxyc.jpg'), title: '语音关键词检测', time: '2017-3-1 ～ 2017-3-15' },
+        { path: 'tdspsb', img: require('../../assets/contest/gjccq.jpg'), title: '特定视频识别', time: '2017-3-1 ～ 2017-3-15' }
       ],
       newest_news_list: [
         { id: '1', title: '网络舆情分析结果', time: '2017-3-1', desc: '阿卡今年是达安寺大家按达科水济济你的教科书啊是看见的那块水济你的健康三大兰看到你啦开始的大赛', avator: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' },
@@ -297,6 +297,7 @@ export default {
     .button {
       padding: 0;
       float: right;
+      height: 25px;
     }
 
     .image {
