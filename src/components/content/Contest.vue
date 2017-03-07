@@ -69,7 +69,7 @@ export default {
           { logo: '', path: '/2017/rlsb', title: '人脸识别', introdution: '行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', reach_deadLine: true }
         ]
       },
-      yearPick: localStorage.getItem('yearPick') || 2016
+      yearPick: localStorage.getItem('yearPick') || 2017
     }
   },
   components: {

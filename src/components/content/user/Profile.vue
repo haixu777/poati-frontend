@@ -5,51 +5,59 @@
     <div class="profile_right">
       <div class="basic_container">
         <div class="title">基本信息</div>
-        <el-form :model="profileFrom" :inline="true" :rules="profileRules" ref="profileRules" label-width="110px" class="my_form">
+        <el-form :model="profileForm" :inline="true" :rules="profileRules" ref="profileRules" label-width="110px" class="my_form">
           <el-form-item label="队伍名称">
-            <el-input v-model="profileFrom.teamName" :disabled="true"></el-input>
+            <el-input v-model="profileForm.teamName" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="用户名">
-            <el-input v-model="profileFrom.username" :disabled="true"></el-input>
+            <el-input v-model="profileForm.username" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="领队姓名">
-            <el-input v-model="profileFrom.name" :disabled="true"></el-input>
+            <el-input v-model="profileForm.name" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="联系方式">
-            <el-input v-model="profileFrom.phone" :disabled="true"></el-input>
+            <el-input v-model="profileForm.phone" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="电子邮件">
-            <el-input v-model="profileFrom.email" :disabled="true"></el-input>
+            <el-input v-model="profileForm.email" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="单位">
-            <el-input v-model="profileFrom.unit" :disabled="true"></el-input>
+            <el-input v-model="profileForm.institute" :disabled="true"></el-input>
           </el-form-item>
-          <el-form-item label="队员名" prop="teamMate">
-            <el-tag :key="tag" v-for="tag in profileFrom.teamMate" :closable="true" :close-transition="false" @close="handleClose(tag)">
+          <el-form-item label="队员名">
+            <el-tag :key="tag" v-for="tag in profileForm.teamMate" :closable="true" :close-transition="false" @close="handleClose(tag)">
               {{tag}}
             </el-tag>
             <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" placeholder="单个成员" ref="saveTagInput" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm" style="width: 150px;"></el-input>
-            <el-button v-else v-show="!(profileFrom.teamMate.length == 5)" class="button-new-tag" size="small" @click="showInput">+ 成员添加</el-button>
+            <el-button v-else v-show="!(profileForm.teamMate.length == 5)" class="button-new-tag" size="small" @click="showInput">+ 成员添加</el-button>
           </el-form-item>
           <el-form-item label="参赛项目" prop="contest">
-            <el-checkbox-group v-model="profileFrom.contest">
+            <el-checkbox-group v-model="profileForm.contest">
               <el-checkbox v-for="(item, index) in contestList" :label="item.name"></el-checkbox>
             </el-checkbox-group>
           </el-form-item>
           <el-form-item label="IP地址" prop="ipAddress">
-            <el-input v-model="profileFrom.ipAddress" placeholder="将加入比赛项目的VPN白名单"></el-input>
+            <el-input v-model="profileForm.ipAddress" placeholder="将加入比赛项目的VPN白名单"></el-input>
           </el-form-item>
-          <br>
+          <!-- <el-form-item label="硬件资源要求" prop="hardwardRequire">
+            <el-input type="textarea" v-model="profileForm.hardwardRequire" :rows="5" placeholder="硬件资源最低要求（CPU、内存、GPU、存储空间等）"></el-input>
+          </el-form-item> -->
+          <el-form-item label="minCPU" prop="minCPU">
+            <el-input v-model="profileForm.minCPU"></el-input>
+          </el-form-item>
+          <el-form-item label="minGPU" prop="minGPU">
+            <el-input v-model="profileForm.minGPU"></el-input>
+          </el-form-item>
+          <el-form-item label="minMemory" prop="minMemory">
+            <el-input v-model="profileForm.minMemory"></el-input>
+          </el-form-item>
           <el-form-item label="操作系统" prop="system">
-            <el-radio-group v-model="profileFrom.system">
+            <el-radio-group v-model="profileForm.os">
               <el-radio v-for="(item, index) in systemList" :label="item.name"></el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="硬件资源要求" prop="hardwardRequire">
-            <el-input type="textarea" v-model="profileFrom.hardwardRequire" :rows="5" placeholder="硬件资源最低要求（CPU、内存、GPU、存储空间等）"></el-input>
-          </el-form-item>
           <el-form-item label="研究方向" prop="research">
-            <el-input type="textarea" v-model="profileFrom.research" :rows="5" placeholder="研究方向／涉及领域"></el-input>
+            <el-input type="textarea" v-model="profileForm.research" :rows="5" placeholder="研究方向／涉及领域"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -96,18 +104,20 @@ export default {
         { name: 'Ubuntu14.04' },
         { name: 'Windows Server2012' }
       ],
-      profileFrom: {
+      profileForm: {
         teamName: '',
         name: '',
         username: '',
         phone: '',
-        unit: '',
+        institute: '',
         email: '',
         contest: [],
         teamMate: [],
         ipAddress: '',
-        system: '',
-        hardwardRequire: '',
+        minCPU: '',
+        minGPU: '',
+        minMemory: '',
+        os: '',
         research: ''
       },
       profileRules: {
@@ -128,12 +138,22 @@ export default {
         ],
         research: [
           { required: true, message: '研究方向不能为空', trigger: 'blur' }
+        ],
+        minGPU: [
+          { required: true, message: 'GPU最低配置不能为空', trigger: 'blur' }
+        ],
+        minCPU: [
+          { required: true, message: 'CPU最低配置不能为空', trigger: 'blur' }
+        ],
+        minMemory: [
+          { required: true, message: '内存最低配置不能为空', trigger: 'blur' }
         ]
       }
     }
   },
   methods: {
     handleSubmit (formName) {
+      console.log(this.profileForm)
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.loading = true
@@ -145,7 +165,7 @@ export default {
       })
     },
     handleSubmitProfileToServer () {
-      this.$http.post('http://10.10.28.40:8080/iie-icm/api/users/updateProfile.do', this.profileFrom)
+      this.$http.post('http://10.10.28.40:8080/iie-icm/api/users/updateProfile.do', this.profileForm)
         .then((d) => {
           if (d.success) {
             this.loading = false
@@ -164,13 +184,13 @@ export default {
       })
     },
     handleClose (tag) {
-      this.profileFrom.teamMate.splice(this.profileFrom.teamMate.indexOf(tag), 1)
+      this.profileForm.teamMate.splice(this.profileForm.teamMate.indexOf(tag), 1)
     },
     handleInputConfirm () {
-      console.log(this.profileFrom)
+      console.log(this.profileForm)
       let inputValue = this.inputValue
       if (inputValue) {
-        this.profileFrom.teamMate.push(inputValue)
+        this.profileForm.teamMate.push(inputValue)
       }
       this.inputVisible = false
       this.inputValue = ''

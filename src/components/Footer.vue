@@ -2,17 +2,24 @@
   <div class="footer">
     <div class="container">
       <div class="footer_link">
-        <h5>帮助</h5>
-        <router-link :to="'/help'">联系我们</router-link> | 
+        <h5 style="margin-bottom: 20px;">帮助</h5>
+        <router-link :to="'/help'">联系我们</router-link> |
         <router-link :to="'/help'">关于我们</router-link>
       </div>
       <div class="footer_copyright">
-        <h5>版权信息</h5>
+        <h5 style="margin-bottom: 20px;">版权信息</h5>
         <p>京ICP备16064680号</p>
       </div>
       <div class="footer_QRCode">
         <h5>关注我们</h5>
-        <p>二维码区</p>
+        <!-- <img src="../assets/QR_code.jpeg" alt="qr_code" style="width: 50px;height: 50px;"> -->
+      <el-tooltip placement="top" effect="light">
+        <div slot="content" class="footer-tooltip">
+          <div class="footer-popover-title" style="border-bottom: 1px solid #d1dbe5; text-align: center;">网络舆情</div>
+          <img src="../assets/QR_code.jpeg" alt="qr_code" style="width: 90px; height: 90px;">
+        </div>
+        <img src="../assets/wechat.png" alt="" style="width: 50px;height: 50px;">
+      </el-tooltip>
       </div>
     </div>
   </div>
@@ -32,6 +39,7 @@ export default {
       display: flex;
       display: -webkit-flex;
       justify-content: space-around;
+      padding-top: 10px;
       p {
         color: #768193;
       }

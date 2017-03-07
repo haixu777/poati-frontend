@@ -14,7 +14,7 @@
             <el-row :gutter="20">
               <el-col :span="7">
                 <div class="item_container_left">
-                  <img :src="item.avator" alt="avator">
+                  <img :src="item.avatar" alt="avator">
                 </div>
               </el-col>
               <el-col :span="17">
@@ -83,7 +83,6 @@ export default {
 
 <style lang="scss" scoped>
   .news_container {
-    min-height: 600px;
     .item_container {
       background: #fff;
       border-radius: 5px;

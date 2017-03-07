@@ -31,11 +31,13 @@
                 <template scope="props">
                   <el-form label-position="left" inline class="my_table_expand">
                     <el-form-item label="用户名"><span>{{ props.row.username }}</span></el-form-item>
-                    <el-form-item label="IP地址"><span>{{ props.row.ipAddress }}</span></el-form-item>
                     <el-form-item label="参赛项目"><span>{{ props.row.contest }}</span></el-form-item>
-                    <el-form-item label="操作系统"><span>{{ props.row.system }}</span></el-form-item>
                     <el-form-item label="队员"><span>{{ props.row.teamMate }}</span></el-form-item>
-                    <el-form-item label="资源要求" class="el_form_full"><span>{{ props.row.hardwardRequire }}</span></el-form-item>
+                    <el-form-item label="IP地址"><span>{{ props.row.ipAddress }}</span></el-form-item>
+                    <el-form-item label="os"><span>{{ props.row.os }}</span></el-form-item>
+                    <el-form-item label="minCPU"><span>{{ props.row.minCPU }}</span></el-form-item>
+                    <el-form-item label="minGPU"><span>{{ props.row.minGPU }}</span></el-form-item>
+                    <el-form-item label="minMemory"><span>{{ props.row.minMemory }}</span></el-form-item>
                     <el-form-item label="研究方向" class="el_form_full"><span>{{ props.row.research }}</span></el-form-item>
                     <el-form-item label="拒绝理由" class="el_form_full" v-if="props.row.status == 2"><span>{{ props.row.rejectedReason }}</span></el-form-item>
                   </el-form>
@@ -80,8 +82,8 @@
               <el-form-item label="新闻标题" prop="title">
                 <el-input v-model="newsForm.title"></el-input>
               </el-form-item>
-              <el-form-item label="缩略图">
-                <el-upload class="avatar-uploader" action="//jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-success="handleAvatarScucess" :before-upload="beforeAvatarUpload">
+              <el-form-item label="缩略图" v-if="newsId">
+                <el-upload class="avatar-uploader" action="http://10.10.28.40:8080/iie-icm/api/vertify/news/uploadImage.do" :headers="{token: token}" :data="{ id: 22 }" :show-file-list="false" :on-success="handleAvatarScucess" :before-upload="beforeAvatarUpload">
                   <img v-if="newsForm.avatar" :src="newsForm.avatar" class="avatar">
                   <i v-else class="el-icon-plus" id="avatar-uploader-icon"></i>
                 </el-upload>
@@ -96,9 +98,7 @@
                 <el-date-picker type="datetime" v-model="newsForm.time" placeholder="选择时间日期" :picker-options="limitDate"></el-date-picker>
               </el-form-item>
               <el-form-item label="新闻内容">
-                <div id="editor">
-
-                </div>
+                <el-input id="editor" v-model="newsForm.text"></el-input>
               </el-form-item>
               <el-form-item>
                 <el-button type="warning" @click="postNewsToServer('newsForm')">确认发布</el-button>
@@ -132,6 +132,7 @@ export default {
           return time.getTime() < Date.now() - 8.64e7
         }
       },
+      token: localStorage.getItem('token'),
       activeName: 'user',
       fetchDataCondition: {
         conditionStatus: 0,
@@ -154,7 +155,8 @@ export default {
         desc: '',
         author: '',
         time: '',
-        avatar: ''
+        avatar: '',
+        text: ''
       },
       newsRule: {
         title: [
@@ -315,7 +317,7 @@ export default {
           'undo', 'elements', 'fontName', 'fontSize', 'foreColor', 'backColor', 'divider',
           'bold', 'italic', 'underline', 'strikeThrough', 'divider',
           'divider', 'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'indent', 'outdent',
-          'insertOrderedList', 'insertUnorderedList', 'emoji', 'picture', 'switchView'
+          'insertOrderedList', 'insertUnorderedList', 'emoji', 'switchView'
         ],
         fontName: [
           {val: '宋体, SimSun', abbr: '宋体'}, {val: '黑体, SimHei', abbr: '黑体'},
@@ -326,8 +328,8 @@ export default {
           '12px', '14px', '16px', '18px', '20px', '24px', '28px', '32px', '36px'
         ],
         lang: 'cn',
-        mode: 'default',
-        fileuploadUrl: 'http://localhost:8080/uploadImage'
+        mode: 'default'
+        // fileUploadUrl: 'http://10.10.28.40:8080/iie-icm/api/vertify/news/uploadImage.do'
       })
     },
     filterNode (value, data) {
@@ -349,17 +351,17 @@ export default {
         title: '',
         author: '',
         desc: '',
-        time: ''
+        time: '',
+        text: ''
       }
       this.newsId = ''
-      this.editor.setContent('')
     },
     postNewsToServer (formName) {
       var that = this
       this.$refs[formName].validate((valid) => {
         if (valid) {
           that.newsForm['text'] = that.editor.getContent()
-          this.$http.post('http://10.10.28.40:8080/iie-icm/api/news/update.do', this.newsForm)
+          this.$http.post('http://10.10.28.40:8080/iie-icm/api/vertify/news/update.do', this.newsForm)
             .then((d) => {
               this.fetchNewsListFromServer()
               this.handleAddNews()
@@ -373,7 +375,7 @@ export default {
     deleteNewsFromServer () {
     },
     fetchNewsListFromServer () {
-      this.$http.get('http://10.10.28.40:8080/iie-icm/api/news/fetchList.do')
+      this.$http.get('http://10.10.28.40:8080/iie-icm/api/vertify/news/fetchList.do')
         .then((d) => {
           this.newsList = formatNewsList.formatNewsList(d.body.newsList)
         })
@@ -392,7 +394,7 @@ export default {
           title: d.body.newsData.title,
           author: d.body.newsData.author,
           time: d.body.newsData.time,
-          desc: d.body.newsData.desc
+          desc: d.body.newsData.desc,
         }
         this.editor.setContent(d.body.newsData.text)
       })

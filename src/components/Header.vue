@@ -2,7 +2,7 @@
   <div class="header">
     <div class="nav">
       <div class="container">
-        <img src="" alt="logo" class="img_logo">
+        <img src="../assets/logo.png" alt="logo" class="img_logo">
         <ul class="nav_list">
             <li v-for="item in navList" :class="item.text==activeText?'active':''" @click="toogleActive(item.text)">
               <router-link :to="item.path">{{ item.text }}</router-link>
@@ -309,8 +309,8 @@ export default {
     font-size: 20px;
     border-bottom: 1px solid #eee;
     .img_logo {
-      width: 50px;
-      height: 50px;
+      width: 100px;
+      height: 60px;
       float: left;
     }
     .nav_list {
@@ -322,12 +322,13 @@ export default {
         height: 50px;
         line-height: 61px;
         a {
+          color: #949494;
           text-decoration: none;
         }
       }
       .active {
         a {
-          color: red;
+          color: #337ab7;
         }
       }
     }

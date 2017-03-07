@@ -24,11 +24,12 @@ export default {
 
 <style lang="scss">
   .help_container {
-    min-height: 600px;
+    height: 790px;
     background: #fff;
     text-align: left;
     border-radius: 5px;
     border: 1px solid #dfe6ec;
+    margin-top: 10px;
     .title {
       padding: 0 10px;
       border-left: 3px solid #20a0ff;

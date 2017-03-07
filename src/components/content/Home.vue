@@ -41,15 +41,15 @@
       <div class="newest_news_container">
         <div class="news_item container clearfix">
           <template v-for="item in newest_news_list">
-            <div class="news_details clearfix">
+            <div class="news_details">
               <div class="news_item_left">
-                <img :src="item.avator" alt="">
+                <img :src="item.avatar" alt="">
               </div>
               <div class="news_item_right">
                 <router-link :to="'/news/details/'+item.id" @click.native="handleToNewsDetail(item.id)">
                   <h5 style="font-weight: 800; margin-top: 0;">{{ item.time + ' ' + item.title }}</h5>
                 </router-link>
-                <!-- <p>{{ item.desc }}</p> -->
+                <p>{{ utils.cutString(item.desc, 90) }}</p>
               </div>
             </div>
           </template>
@@ -68,7 +68,7 @@
           <template v-for="item in expertList">
             <el-col :span="4" style="padding: 0;">
               <el-row>
-                <img :src="item.avator" :alt="item.name">
+                <img :src="item.avatar" :alt="item.name">
               </el-row>
               <el-row style="padding: 0 10px;">
                 <h5 style="color: #1D8CE0;">{{ item.name }}</h5>
@@ -79,7 +79,7 @@
         </el-row>
       </div>
     </div>
-    <div class="partner_company container">
+    <div class="partner_company container" style="margin-bottom: 0;">
       <div class="title_container container">
         <h3 id="partner_title">合作伙伴</h3>
       </div>
@@ -114,18 +114,19 @@ export default {
         { path: 'tdspsb', img: require('../../assets/contest/gjccq.jpg'), title: '特定视频识别', time: '2017-3-1 ～ 2017-3-15' }
       ],
       newest_news_list: [
-        { id: '1', title: '网络舆情分析结果', time: '2017-3-1', desc: '阿卡今年是达安寺大家按达科水济济你的教科书啊是看见的那块水济你的健康三大兰看到你啦开始的大赛', avator: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' },
-        { id: '2', title: '僵尸可拿到家', time: '2017-2-28', desc: '阿卡今年是达科静安寺大家按时递交那胜兰达科那胜兰看到你啦开始的呢', avator: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' },
-        { id: '3', title: '卡民生东路', time: '2017-2-26', desc: '阿卡今年是达科静俺是达科家那是达科技能安寺大家按时递交那胜兰达科那胜兰看到你啦开始的呢', avator: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' },
-        { id: '4', title: '阿卡民生东路卡', time: '2017-2-14', desc: '阿卡今年是达科静安寺大家按时递交那胜兰达科那胜兰看到你啦开始的呢', avator: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' }
+        // { id: '1', title: '网络舆情分析结果', time: '2017-3-1', desc: '阿卡今年是达安寺大家按达科水济济你的教科书啊是看见的那块水济你的健康三大兰看到你啦开始的大赛', avatar: require('../../assets/news.png') },
+        // { id: '2', title: '僵尸可拿到家', time: '2017-2-28', desc: '阿卡今年是达科静安寺大家按时递交那胜兰达科那胜兰看到你啦开始的呢', avatar: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' },
+        // { id: '3', title: '卡民生东路', time: '2017-2-26', desc: '阿卡今年是达科静俺是达科家那是达科技能安寺大家按时递交那胜兰达科那胜兰看到你啦开始的呢', avatar: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' },
+        // { id: '4', title: '阿卡民生东路卡', time: '2017-2-14', desc: '阿卡今年是达科静安寺大家按时递交那胜兰达科那胜兰看到你啦开始的呢', avatar: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' }
       ],
       expertList: [
-        { avator: 'http://static.int-yt.com/img/6384cc6d-a19c-45f4-822d-7f3ac451cf48.png', name: '陈恩红', title: '中国科学技术大学计算机学院副院长、教授' },
-        { avator: 'http://static.int-yt.com/img/97b59fb9-d5ea-4d66-928c-07924e9be5be.png', name: '车品觉', title: '阿里巴巴集团副总裁' },
-        { avator: 'http://static.int-yt.com/img/d4580279-f518-42eb-8a35-aac7fa688fc2.png', name: '陈恩红', title: '中国科学技术大学计算机学院副院长、教授' },
-        { avator: 'http://static.int-yt.com/img/57180b3b-30eb-483a-ac07-8261d88f0e71.png', name: '卜佳俊', title: '浙江大学软件学院教授' },
-        { avator: 'http://static.wid.org.cn/img/4ab81219-f243-44cf-99d1-a8e94625c425.jpg', name: '陈恩红', title: '中国科学技术大学计算机学院副院长、教授' }
-      ]
+        { avatar: 'http://static.int-yt.com/img/6384cc6d-a19c-45f4-822d-7f3ac451cf48.png', name: '陈恩红', title: '中国科学技术大学计算机学院副院长、教授' },
+        { avatar: 'http://static.int-yt.com/img/97b59fb9-d5ea-4d66-928c-07924e9be5be.png', name: '车品觉', title: '阿里巴巴集团副总裁' },
+        { avatar: 'http://static.int-yt.com/img/d4580279-f518-42eb-8a35-aac7fa688fc2.png', name: '陈恩红', title: '中国科学技术大学计算机学院副院长、教授' },
+        { avatar: 'http://static.int-yt.com/img/57180b3b-30eb-483a-ac07-8261d88f0e71.png', name: '卜佳俊', title: '浙江大学软件学院教授' },
+        { avatar: 'http://static.wid.org.cn/img/4ab81219-f243-44cf-99d1-a8e94625c425.jpg', name: '陈恩红', title: '中国科学技术大学计算机学院副院长、教授' }
+      ],
+      utils: utils
     }
   },
   components: {
@@ -164,6 +165,7 @@ export default {
   .home_container {
     width: 100%;
     > div {
+      margin-bottom: 20px;
       padding: 10px;
     }
     .my-swipe {
@@ -183,7 +185,7 @@ export default {
 
     .title_container {
       margin-top: 20px;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
       h3 {
         font-size: 20px;
         display: inline;
@@ -225,14 +227,17 @@ export default {
           height: 100px;
           float: left;
           .news_item_left {
-            width: 50%;
+            width: 40%;
             float: left;
             img {
+              border-radius: 5px;
+              background: #fff;
+              width: 150px;
               height: 90px;
             }
           }
           .news_item_right {
-            width: 50%;
+            width: 60%;
             text-align: left;
             float: right;
             a {
