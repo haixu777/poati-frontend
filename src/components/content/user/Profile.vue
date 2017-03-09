@@ -25,43 +25,43 @@
             <el-input v-model="profileForm.institute" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="队员名">
-            <el-tag :key="tag" v-for="tag in profileForm.teamMate" :closable="true" :close-transition="false" @close="handleClose(tag)">
+            <el-tag :key="tag" v-for="tag in profileForm.teamMate" :closable="!submited" :close-transition="false" @close="handleClose(tag)">
               {{tag}}
             </el-tag>
             <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" placeholder="单个成员" ref="saveTagInput" @keyup.enter.native="handleInputConfirm" @blur="handleInputConfirm" style="width: 150px;"></el-input>
-            <el-button v-else v-show="!(profileForm.teamMate.length == 5)" class="button-new-tag" size="small" @click="showInput">+ 成员添加</el-button>
+            <el-button v-else v-show="(!(profileForm.teamMate.length == 4)) && (!submited)" class="button-new-tag" size="small" @click="showInput">+ 成员添加</el-button>
           </el-form-item>
           <el-form-item label="参赛项目" prop="contest">
             <el-checkbox-group v-model="profileForm.contest">
-              <el-checkbox v-for="(item, index) in contestList" :label="item.name"></el-checkbox>
+              <el-checkbox v-for="(item, index) in contestList" :label="item.name" :disabled="submited"></el-checkbox>
             </el-checkbox-group>
           </el-form-item>
           <el-form-item label="IP地址" prop="ipAddress">
-            <el-input v-model="profileForm.ipAddress" placeholder="将加入比赛项目的VPN白名单"></el-input>
+            <el-input v-model="profileForm.ipAddress" placeholder="将加入比赛项目的VPN白名单" :disabled="submited"></el-input>
           </el-form-item>
           <!-- <el-form-item label="硬件资源要求" prop="hardwardRequire">
             <el-input type="textarea" v-model="profileForm.hardwardRequire" :rows="5" placeholder="硬件资源最低要求（CPU、内存、GPU、存储空间等）"></el-input>
           </el-form-item> -->
           <el-form-item label="minCPU" prop="minCPU">
-            <el-input v-model="profileForm.minCPU"></el-input>
+            <el-input v-model="profileForm.minCPU" :disabled="submited"></el-input>
           </el-form-item>
           <el-form-item label="minGPU" prop="minGPU">
-            <el-input v-model="profileForm.minGPU"></el-input>
+            <el-input v-model="profileForm.minGPU" :disabled="submited"></el-input>
           </el-form-item>
           <el-form-item label="minMemory" prop="minMemory">
-            <el-input v-model="profileForm.minMemory"></el-input>
+            <el-input v-model="profileForm.minMemory" :disabled="submited"></el-input>
           </el-form-item>
-          <el-form-item label="操作系统" prop="system">
+          <el-form-item label="操作系统" prop="os">
             <el-radio-group v-model="profileForm.os">
-              <el-radio v-for="(item, index) in systemList" :label="item.name"></el-radio>
+              <el-radio v-for="(item, index) in systemList" :label="item.name" :disabled="submited"></el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="研究方向" prop="research">
-            <el-input type="textarea" v-model="profileForm.research" :rows="5" placeholder="研究方向／涉及领域"></el-input>
+            <el-input type="textarea" v-model="profileForm.research" :rows="5" placeholder="研究方向／涉及领域" :disabled="submited"></el-input>
           </el-form-item>
         </el-form>
       </div>
-      <el-button type="info" size="small" :loading="loading" @click="handleSubmit('profileRules')" :disabled="isCompleted">{{submitText}}</el-button>
+      <el-button type="info" size="small" :loading="loading" @click="handleSubmit('profileRules')" :disabled="submited">{{submited?'待审核':'提交'}}</el-button>
     </div>
     <!-- <el-button style="margin-top: 12px;" @click="prev" :disabled="active==0">上一步</el-button>
     <el-button style="margin-top: 12px;" @click="next" :disabled="active==3">下一步</el-button> -->
@@ -86,7 +86,7 @@ export default {
     return {
       active: 0,
       loading: false,
-      isCompleted: false,
+      submited: false,
       submitText: '提交',
       inputVisible: false,
       inputValue: '',
@@ -127,7 +127,7 @@ export default {
         hardwardRequire: [
           { required: true, message: '请输入资源最低要求', trigger: 'blur' }
         ],
-        system: [
+        os: [
           { required: true, message: '请选择一个操作系统', trigger: 'blur' }
         ],
         contest: [
@@ -164,14 +164,49 @@ export default {
         }
       })
     },
-    handleSubmitProfileToServer () {
-      this.$http.post('http://10.10.28.40:8080/iie-icm/api/users/updateProfile.do', this.profileForm)
+    fetchUserProfileFromServer () {
+      this.$http.get('http://10.10.28.40:8080/iie-icm/api/user/fetchProfile.do')
         .then((d) => {
-          if (d.success) {
+          console.log(d)
+          if (d.body.success) {
+            this.profileForm = {
+              teamName: d.body.userInfo.teamName,
+              name: d.body.userInfo.name,
+              username: d.body.userInfo.userName,
+              phone: d.body.userInfo.phone,
+              institute: d.body.userInfo.institute,
+              email: d.body.userInfo.email,
+              contest: d.body.userInfo.contest,
+              teamMate: d.body.userInfo.teamMate,
+              ipAddress: d.body.userInfo.ipAddress,
+              minCPU: d.body.userInfo.minCPU,
+              minGPU: d.body.userInfo.minGPU,
+              minMemory: d.body.userInfo.minMemory,
+              os: d.body.userInfo.os,
+              research: d.body.userInfo.research
+            }
+            this.submited = Boolean(d.body.userInfo.submited)
+          }
+        })
+    },
+    handleSubmitProfileToServer () {
+      this.$http.post('http://10.10.28.40:8080/iie-icm/api/user/submitProfile.do', {
+        teamMate: this.profileForm.teamMate,
+        contest: this.profileForm.contest,
+        ipAddress: this.profileForm.ipAddress,
+        os: this.profileForm.os,
+        minCPU: this.profileForm.minCPU,
+        minGPU: this.profileForm.minGPU,
+        minMemory: this.profileForm.minMemory,
+        research: this.profileForm.research
+      })
+        .then((d) => {
+          console.log(d)
+          if (d.body.success) {
             this.loading = false
             this.submitText = '提交完成'
           } else {
-            this.$message.error(d.msg)
+            this.$message.error(d.body.msg)
           }
         })
         .catch((d) => {
@@ -195,11 +230,14 @@ export default {
       this.inputVisible = false
       this.inputValue = ''
     }
+  },
+  mounted () {
+    this.fetchUserProfileFromServer()
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .profile_container {
     .profile_right {
       padding: 20px;
@@ -225,6 +263,10 @@ export default {
     .el-tag {
       margin: 0 2px;
     }
+  }
+
+  .el-form-item__label {
+    vertical-align: inherit !important;
   }
 
   .basic_container {

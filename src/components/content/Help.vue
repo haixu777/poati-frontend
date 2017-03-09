@@ -29,7 +29,7 @@ export default {
     text-align: left;
     border-radius: 5px;
     border: 1px solid #dfe6ec;
-    margin-top: 10px;
+    margin: 10px 0;
     .title {
       padding: 0 10px;
       border-left: 3px solid #20a0ff;

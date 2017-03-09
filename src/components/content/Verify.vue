@@ -14,7 +14,7 @@
               </el-radio-group>
             </div>
             <div class="condition_container_right">
-              <el-input placeholder="请输入内容" v-model="fetchDataCondition.searchText" @keyup.enter.native="handleSearch()">
+              <el-input placeholder="请输入内容" v-model="fetchDataCondition.searchText" @keyup.enter.native="handleSearch()" @change="autoSearch(fetchDataCondition.searchText)">
                 <el-select v-model="fetchDataCondition.searchType" slot="prepend" placeholder="请选择">
                   <el-option label="队伍名称" value="1"></el-option>
                   <el-option label="姓名" value="2"></el-option>
@@ -30,7 +30,7 @@
               <el-table-column type="expand">
                 <template scope="props">
                   <el-form label-position="left" inline class="my_table_expand">
-                    <el-form-item label="用户名"><span>{{ props.row.username }}</span></el-form-item>
+                    <el-form-item label="用户名"><span>{{ props.row.userName }}</span></el-form-item>
                     <el-form-item label="参赛项目"><span>{{ props.row.contest }}</span></el-form-item>
                     <el-form-item label="队员"><span>{{ props.row.teamMate }}</span></el-form-item>
                     <el-form-item label="IP地址"><span>{{ props.row.ipAddress }}</span></el-form-item>
@@ -83,8 +83,8 @@
                 <el-input v-model="newsForm.title"></el-input>
               </el-form-item>
               <el-form-item label="缩略图" v-if="newsId">
-                <el-upload class="avatar-uploader" action="http://10.10.28.40:8080/iie-icm/api/vertify/news/uploadImage.do" :headers="{token: token}" :data="{ id: 22 }" :show-file-list="false" :on-success="handleAvatarScucess" :before-upload="beforeAvatarUpload">
-                  <img v-if="newsForm.avatar" :src="newsForm.avatar" class="avatar">
+                <el-upload class="avatar-uploader" action="http://10.10.28.40:8080/iie-icm/api/vertify/news/uploadImage.do" :headers="{token: token}" :data="{ id: newsId }" :show-file-list="false" :on-success="handleAvatarScucess" :before-upload="beforeAvatarUpload">
+                  <img v-if="imageURL" :src="imageURL" class="avatar">
                   <i v-else class="el-icon-plus" id="avatar-uploader-icon"></i>
                 </el-upload>
               </el-form-item>
@@ -98,7 +98,8 @@
                 <el-date-picker type="datetime" v-model="newsForm.time" placeholder="选择时间日期" :picker-options="limitDate"></el-date-picker>
               </el-form-item>
               <el-form-item label="新闻内容">
-                <el-input id="editor" v-model="newsForm.text"></el-input>
+                <quill-editor v-model="newsForm.text">
+                </quill-editor>
               </el-form-item>
               <el-form-item>
                 <el-button type="warning" @click="postNewsToServer('newsForm')">确认发布</el-button>
@@ -118,11 +119,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import store from '../../store'
-import { createEditor } from 'vueditor'
-import 'vueditor/dist/css/vueditor.min.css'
 
 const formatNewsList = require('../../../utils/util')
-Vue.use(Vuex)
 
 export default {
   data () {
@@ -141,6 +139,7 @@ export default {
         currentPage: 1,
         perItem: 20
       },
+      imageURL: '',
       totalItem: 300,
       loading: false,
       tableData: [],
@@ -175,10 +174,10 @@ export default {
           { required: true, message: '新闻内容不能为空', trigger: 'blur' }
         ]
       },
-      editor: '',
       test: [],
       filterNewsTitle: '',
-      newsId: ''
+      newsId: '',
+      timer: null
     }
   },
   watch: {
@@ -188,10 +187,17 @@ export default {
   },
   methods: {
     handleTabClick (tab, event) {
-      if (tab.index === 1) {
+      if (Number(tab.index) === 1) {
         this.fetchNewsListFromServer()
-        this.editor = this.editorInit()
       }
+    },
+    autoSearch (val) {
+      clearTimeout(this.timer)
+      let _this = this;
+      this.timer = setTimeout(() => {
+        _this.fetchDataCondition.searchText = val
+        _this.handleSearch()
+      }, 600)
     },
     handleConditionSelect () {
       this.fetchTeamListDataFromServer()
@@ -307,30 +313,12 @@ export default {
     handleNodeClick (data) {
       this.newsId = data.id
       this.newsForm.id = data.id
-      if (!data.id) return
+      if (!data.id) {
+        this.handleAddNews()
+        return;
+      }
       this.handleFetchNewsDetail()
       // console.log(this.newsForm)
-    },
-    editorInit () {
-      return createEditor('#editor', {
-        toolbar: [
-          'undo', 'elements', 'fontName', 'fontSize', 'foreColor', 'backColor', 'divider',
-          'bold', 'italic', 'underline', 'strikeThrough', 'divider',
-          'divider', 'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'indent', 'outdent',
-          'insertOrderedList', 'insertUnorderedList', 'emoji', 'switchView'
-        ],
-        fontName: [
-          {val: '宋体, SimSun', abbr: '宋体'}, {val: '黑体, SimHei', abbr: '黑体'},
-          {val: '楷体, SimKai', abbr: '楷体'}, {val: '微软雅黑, Microsoft YaHei', abbr: '微软雅黑'},
-          {val: 'arial black'}, {val: 'times new roman'}, {val: 'Courier New'}
-        ],
-        fontSize: [
-          '12px', '14px', '16px', '18px', '20px', '24px', '28px', '32px', '36px'
-        ],
-        lang: 'cn',
-        mode: 'default'
-        // fileUploadUrl: 'http://10.10.28.40:8080/iie-icm/api/vertify/news/uploadImage.do'
-      })
     },
     filterNode (value, data) {
       if (!value) return true
@@ -360,11 +348,17 @@ export default {
       var that = this
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          that.newsForm['text'] = that.editor.getContent()
           this.$http.post('http://10.10.28.40:8080/iie-icm/api/vertify/news/update.do', this.newsForm)
             .then((d) => {
-              this.fetchNewsListFromServer()
-              this.handleAddNews()
+              console.log(d)
+              if (d.body.success) {
+                this.fetchNewsListFromServer()
+                this.handleAddNews()
+                this.$message({
+                  message: d.body.msg,
+                  type: 'success'
+                })
+              }
             })
         } else {
           console.log('error submit!')
@@ -373,6 +367,19 @@ export default {
       })
     },
     deleteNewsFromServer () {
+      this.$http.post('http://10.10.28.40:8080/iie-icm/api/vertify/news/delete.do', {
+        id: Number(this.newsId)
+      })
+        .then((d) => {
+          if (d.body.success) {
+            this.$message({
+              message: '新闻删除成功',
+              type: 'success'
+            })
+            this.fetchNewsListFromServer()
+            this.handleAddNews()
+          }
+        })
     },
     fetchNewsListFromServer () {
       this.$http.get('http://10.10.28.40:8080/iie-icm/api/vertify/news/fetchList.do')
@@ -395,12 +402,15 @@ export default {
           author: d.body.newsData.author,
           time: d.body.newsData.time,
           desc: d.body.newsData.desc,
+          text: d.body.newsData.text
         }
-        this.editor.setContent(d.body.newsData.text)
+        this.imageURL = d.body.newsData.avatar
+        //this.editor.setContent(d.body.newsData.text)
       })
     },
     handleAvatarScucess (res, file) {
-      this.newsForm.avatar = file.url;
+      this.imageURL = URL.createObjectURL(file.raw);
+      // this.imageURL = URL.createObjectURL(res.avatar)
     },
     beforeAvatarUpload (file) {
       console.log(file)
@@ -438,6 +448,9 @@ export default {
       }
     }
   }
+  .ql-toolbar {
+    line-height: normal;
+  }
   .myTable {
     text-align: left;
     tr {
@@ -445,6 +458,7 @@ export default {
     }
     .my_table_expand {
       font-size: 0;
+      line-height: normal;
       label {
         width: 90px;
         color: #99a9bf;
@@ -479,20 +493,6 @@ export default {
       background: #fff;
       padding: 10px;
       border: 1px solid #d1dbe5;
-      .vueditor {
-        height: 400px;
-        .ve-toolbar {
-          line-height: normal;
-        }
-        .ve-design {
-          line-height: normal;
-          > div {
-          }
-        }
-        .ve-dialog {
-          height: 100%;
-        }
-      }
     }
   }
 

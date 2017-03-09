@@ -129,11 +129,12 @@ export default {
       isAdmin: Number(localStorage.getItem('isAdmin')),
       isLogin: !!(localStorage.getItem('username')),
       loading: false,
+      dialog_loading: false,
       navList: [
         { path: '/home', text: '首页' },
         { path: '/contest', text: '竞赛' },
         { path: '/news', text: '新闻' },
-        { path: '/expert', text: '专家' },
+        { path: '/expert', text: '技术委员会' },
         { path: '/help', text: '帮助' }
       ],
       username: localStorage.getItem('username'),
@@ -201,6 +202,7 @@ export default {
       this.$refs[formName].resetFields()
     },
     handleLoginToServer: function () {
+      this.dialog_loading = true
       this.$http.post('http://10.10.28.40:8080/iie-icm/api/login.do', {
         username: this.userLoginInfo.username,
         password: this.userLoginInfo.password
@@ -213,12 +215,15 @@ export default {
           this.isAdmin = res.data.userInfo.isAdmin
           this.isLogin = true
           this.username = res.data.userInfo.teamName
+          this.dialog_loading = false
+          this.dialogFormVisible = false
         } else {
           this.$message({
             showClose: true,
             message: res.body.msg,
             type: 'error'
           })
+          this.dialog_loading = false
         }
       })
 
@@ -232,7 +237,6 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log('login~')
-          this.dialogFormVisible = false
           this.handleLoginToServer()
         } else {
           console.log('login error')
@@ -248,18 +252,16 @@ export default {
     confirmRegister: function () {
       this.loading = true
       this.handleRegisterToServer()
-
-      this.loading = false
-      this.dialogFormVisible = false
-      this.resetForm('userRegisterInfo')
-      this.$alert('请尽快登录账号完善个人信息，我们将在您提交个人资料后进行审核', '注册成功', {
-        confirmButtonText: '确定'
-      })
     },
     handleRegisterToServer: function () {
-      this.$http.post('http://localhost:8080/iie-icm/api/register.do', this.userRegisterInfo)
+      this.$http.post('http://10.10.28.40:8080/iie-icm/api/register.do', this.userRegisterInfo)
         .then((response) => {
-          console.log(response)
+          this.loading = false
+          this.dialogFormVisible = false
+          this.resetForm('userRegisterInfo')
+          this.$alert('请尽快登录账号完善个人信息，我们将在您提交个人资料后进行审核', '注册成功', {
+            confirmButtonText: '确定'
+          })
         })
     },
     goToMyInfo: function () {
@@ -318,12 +320,12 @@ export default {
       font-weight: 500;
       margin-left: 100px;
       li {
-        width: 80px;
         height: 50px;
         line-height: 61px;
         a {
-          color: #949494;
+          color: #99a9bf;
           text-decoration: none;
+          padding: 0 20px;
         }
       }
       .active {

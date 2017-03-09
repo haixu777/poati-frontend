@@ -6,13 +6,14 @@ import router from './router'
 import VueResource from 'vue-resource'
 import store from './store'
 import ElementUI from 'element-ui'
+import VueQuillEditor from 'vue-quill-editor'
 
 import 'element-ui/lib/theme-default/index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import 'vue-swipe/dist/vue-swipe.css'
 
 Vue.use(VueResource)
 Vue.use(ElementUI)
+Vue.use(VueQuillEditor)
 
 // http请求拦截器 在所有请求头上加入jwt-token以进行与服务端的认证
 Vue.http.interceptors.push((request, next) => {

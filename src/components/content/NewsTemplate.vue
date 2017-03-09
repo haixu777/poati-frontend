@@ -6,7 +6,7 @@
       <el-breadcrumb-item>新闻详情</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <div class="news_details">
+    <div class="news_template_details">
       <div class="news_header">
         <h4 class="news_title">{{ news.title }}</h4>
         <p class="news_date">{{ news.time }}</p>
@@ -36,11 +36,13 @@ export default {
           }
         }
       ).then((d) => {
-        this.news = {
-          title: d.body.newsData.title,
-          author: d.body.newsData.author,
-          time: utils.formatTime(d.body.newsData.time),
-          text: d.body.newsData.text
+        if (d.body.success) {
+          this.news = {
+            title: d.body.newsData.title,
+            author: d.body.newsData.author,
+            time: utils.formatTime(d.body.newsData.time),
+            text: d.body.newsData.text
+          }
         }
       })
     }
@@ -54,13 +56,16 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .myBread {
     background: #fff;
     padding: 15px;
     margin: 10px 0;
   }
-  .news_details {
+  .ql-align-right {
+    text-align: right;
+  }
+  .news_template_details {
     background: #fff;
     border-radius: 5px;
     margin: 10px 0;

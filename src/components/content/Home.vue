@@ -58,7 +58,7 @@
     </div>
     <div class="expert_recommend">
       <div class="title_container container">
-        <h3>专家推荐</h3>
+        <h3>专家报告</h3>
         <router-link :to="'/expert'">
           <button type="button" name="button" class="btn btn-sm btn-primary" @click="toogleActive('专家')">更多专家</button>
         </router-link>
