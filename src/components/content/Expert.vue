@@ -6,7 +6,7 @@
           <template v-for="item in expertList">
             <div class="expert_flex_card" v-if="activeIndex == item.index">
               <el-card :body-style="{ padding: '0px' }">
-                <img src="http://element.eleme.io/static/hamburger.50e4091.png" alt="avatar" class="image">
+                <img :src="item.avatar" alt="avatar" class="image">
                 <div style="padding: 5px;">
                   <h4>{{ item.name }}</h4>
                   <div :class="{ bottom: true, bottom_br: item.name=='林俊宇' }">
@@ -18,7 +18,7 @@
 
             <div class="expert_flex_card" v-if="activeIndex == 0">
               <el-card :body-style="{ padding: '0px' }">
-                <img src="http://element.eleme.io/static/hamburger.50e4091.png" alt="avatar" class="image">
+                <img :src="item.avatar" alt="avatar" class="image">
                 <div style="padding: 5px;">
                   <h4>{{ item.name }}</h4>
                   <div :class="{ bottom: true, bottom_br: item.name=='林俊宇' }">
@@ -79,21 +79,21 @@ export default {
       activeIndex: 0,
       expertCategory: ['全部', '技术委员会主席', '技术委员会委员'],
       expertList: [
-        { avatar: '', name: '张钹', title: '中国科学院院士、清华大学教授', index: 1 },
-        { avatar: '', name: '高文', title: '中国工程院院士、北京大学教授', index: 1 },
-        { avatar: '', name: '吴朝晖', title: '浙江大学校长、教授', index: 1 },
-        { avatar: '', name: '李涓子', title: '清华大学、教授', index: 1 },
-        { avatar: '', name: '周明', title: '微软亚洲研究院、研究员', index: 2 },
-        { avatar: '', name: '赵军', title: '中国科学院自动化所、研究员', index: 2 },
-        { avatar: '', name: '刘挺', title: '哈尔滨工业大学、教授', index: 2 },
-        { avatar: '', name: '王斌', title: '中国科学院信息工程研究所、研究员', index: 2 },
-        { avatar: '', name: '陈华钧', title: '浙江大学、教授', index: 2 },
-        { avatar: '', name: '漆桂林', title: '东南大学、教授', index: 2 },
-        { avatar: '', name: '沈阳', title: '清华大学、教授', index: 2 },
-        { avatar: '', name: '于海涛', title: '腾讯公司信息安全部、总经理', index: 2 },
-        { avatar: '', name: '施水才', title: '北京拓尔思信息技术股份有限公司、CEO', index: 2 },
-        { avatar: '', name: '杜跃进', title: '阿里巴巴安全部、技术副总裁（拟邀请）', index: 2 },
-        { avatar: '', name: '林俊宇', title: '中国科学院信息工程研究所', index: 2 }
+        { avatar: require('../../assets/experts/ZhangBo@.jpg'), name: '张钹', title: '中国科学院院士、清华大学教授', index: 1 },
+        { avatar: require('../../assets/experts/GaoWen@.jpg'), name: '高文', title: '中国工程院院士、北京大学教授', index: 1 },
+        { avatar: require('../../assets/experts/WuChaoHui@.jpg'), name: '吴朝晖', title: '浙江大学校长、教授', index: 1 },
+        { avatar: require('../../assets/experts/LiJuanZi.jpg'), name: '李涓子', title: '清华大学、教授', index: 1 },
+        { avatar: require('../../assets/experts/zhouMing@.jpg'), name: '周明', title: '微软亚洲研究院、研究员', index: 2 },
+        { avatar: require('../../assets/experts/ZhaoJun.jpg'), name: '赵军', title: '中国科学院自动化所、研究员', index: 2 },
+        { avatar: require('../../assets/experts/LiuTing.jpg'), name: '刘挺', title: '哈尔滨工业大学、教授', index: 2 },
+        { avatar: require('../../assets/experts/WangBin.jpg'), name: '王斌', title: '中国科学院信息工程研究所、研究员', index: 2 },
+        { avatar: require('../../assets/experts/ChenHuaJun@.jpg'), name: '陈华钧', title: '浙江大学、教授', index: 2 },
+        { avatar: require('../../assets/experts/QiGuiLin@.jpg'), name: '漆桂林', title: '东南大学、教授', index: 2 },
+        { avatar: require('../../assets/experts/ShenYang@.jpg'), name: '沈阳', title: '清华大学、教授', index: 2 },
+        { avatar: require('../../assets/experts/YuHaiTao.jpg'), name: '于海涛', title: '腾讯公司信息安全部、总经理', index: 2 },
+        { avatar: require('../../assets/experts/ShiShuiCai@.jpg'), name: '施水才', title: '北京拓尔思信息技术股份有限公司、CEO', index: 2 },
+        { avatar: require('../../assets/experts/DuYueJin@.jpg'), name: '杜跃进', title: '阿里巴巴安全部、技术副总裁（拟邀请）', index: 2 },
+        { avatar: require('../../assets/experts/LinJunYu.jpg'), name: '林俊宇', title: '中国科学院信息工程研究所', index: 2 }
       ]
     }
   },
@@ -122,7 +122,8 @@ export default {
         color: rgb(29, 140, 224);
       }
       .image {
-        width: 100%;
+        width: 253px;
+        height: 254px;
         display: block;
       }
       .bottom {

@@ -65,7 +65,7 @@ export default {
       console.log('news')
     },
     fetchNewsListFromServer () {
-      this.$http.get('http://10.10.28.40:8080/iie-icm/api/news/fetchList.do')
+      this.$http.get('news/fetchList.do')
         .then((d) => {
           if (d.body.success) {
             this.newsList = d.body.newsList

@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import config from '../config'
 import router from './router'
 import VueResource from 'vue-resource'
 import store from './store'
@@ -14,6 +15,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 Vue.use(VueResource)
 Vue.use(ElementUI)
 Vue.use(VueQuillEditor)
+
+// console.log(config)
+Vue.http.options.root = process.env.NODE_ENV === 'development' ? config.dev.env.interfaceUrl : config.build.env.interfaceUrl
 
 // http请求拦截器 在所有请求头上加入jwt-token以进行与服务端的认证
 Vue.http.interceptors.push((request, next) => {

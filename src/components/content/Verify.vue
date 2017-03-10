@@ -83,7 +83,7 @@
                 <el-input v-model="newsForm.title"></el-input>
               </el-form-item>
               <el-form-item label="缩略图" v-if="newsId">
-                <el-upload class="avatar-uploader" action="http://10.10.28.40:8080/iie-icm/api/vertify/news/uploadImage.do" :headers="{token: token}" :data="{ id: newsId }" :show-file-list="false" :on-success="handleAvatarScucess" :before-upload="beforeAvatarUpload">
+                <el-upload class="avatar-uploader" :action="interfaceUrl+'/vertify/news/uploadImage.do'" :headers="{token: token}" :data="{ id: newsId }" :show-file-list="false" :on-success="handleAvatarScucess" :before-upload="beforeAvatarUpload">
                   <img v-if="imageURL" :src="imageURL" class="avatar">
                   <i v-else class="el-icon-plus" id="avatar-uploader-icon"></i>
                 </el-upload>
@@ -95,7 +95,7 @@
                 <el-input type="textarea" v-model="newsForm.desc" :maxlength="250" placeholder="最多输入250个字"></el-input>
               </el-form-item>
               <el-form-item label="时间">
-                <el-date-picker type="datetime" v-model="newsForm.time" placeholder="选择时间日期" :picker-options="limitDate"></el-date-picker>
+                <el-date-picker type="datetime" v-model="newsForm.time" placeholder="选择时间日期" ></el-date-picker>
               </el-form-item>
               <el-form-item label="新闻内容">
                 <quill-editor v-model="newsForm.text">
@@ -119,6 +119,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import store from '../../store'
+import config from '../../../config'
 
 const formatNewsList = require('../../../utils/util')
 
@@ -148,6 +149,7 @@ export default {
         children: 'children',
         label: 'label'
       },
+      interfaceUrl: '',
       newsForm: {
         id: '',
         title: '',
@@ -189,6 +191,8 @@ export default {
     handleTabClick (tab, event) {
       if (Number(tab.index) === 1) {
         this.fetchNewsListFromServer()
+      } else if (Number(tab.index) === 0) {
+        this.fetchTeamListDataFromServer()
       }
     },
     autoSearch (val) {
@@ -203,7 +207,7 @@ export default {
       this.fetchTeamListDataFromServer()
     },
     handleTeamToServer (id, status, rejectedMsg, cb) {
-      this.$http.post('http://10.10.28.40:8080/iie-icm/api/vertify/handleTeam.do', {
+      this.$http.post('vertify/handleTeam.do', {
         id: id,
         status: status,
         rejectedMsg: rejectedMsg
@@ -224,6 +228,12 @@ export default {
           })
           item.status = 1
           console.log('accepted ' + item.teamName)
+        } else {
+          this.$message({
+            showClose: true,
+            message: '登录信息过期，请注销并重新登录',
+            type: 'warning'
+          })
         }
       })
     },
@@ -252,6 +262,12 @@ export default {
             item.status = 2
             item.rejectedReason = value
             console.log('rejected ' + item.teamName)
+          } else {
+            this.$message({
+              showClose: true,
+              message: '登录信息失效，请注销并重新登录',
+              type: 'warning'
+            })
           }
         })
       }).catch(() => {
@@ -291,7 +307,7 @@ export default {
     },
     fetchTeamListDataFromServer () {
       this.loading = true
-      this.$http.get('http://10.10.28.40:8080/iie-icm/api/vertify/getTeamList.do',
+      this.$http.get('vertify/getTeamList.do',
         {
           params: this.fetchDataCondition
         }
@@ -301,7 +317,11 @@ export default {
           this.tableData = response.body.teamList
           this.totalItem = response.body.totalItems
         } else {
-          console.log(response.body.msg)
+          this.$message({
+            showClose: true,
+            message: '登录信息失效，请注销并重新登录',
+            type: 'warning'
+          })
         }
         this.loading = false
       })
@@ -348,7 +368,7 @@ export default {
       var that = this
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$http.post('http://10.10.28.40:8080/iie-icm/api/vertify/news/update.do', this.newsForm)
+          this.$http.post('vertify/news/update.do', this.newsForm)
             .then((d) => {
               console.log(d)
               if (d.body.success) {
@@ -357,6 +377,12 @@ export default {
                 this.$message({
                   message: d.body.msg,
                   type: 'success'
+                })
+              } else {
+                this.$message({
+                  showClose: true,
+                  message: '登录信息失效，请注销并重新登录',
+                  type: 'warning'
                 })
               }
             })
@@ -367,7 +393,7 @@ export default {
       })
     },
     deleteNewsFromServer () {
-      this.$http.post('http://10.10.28.40:8080/iie-icm/api/vertify/news/delete.do', {
+      this.$http.post('vertify/news/delete.do', {
         id: Number(this.newsId)
       })
         .then((d) => {
@@ -378,17 +404,31 @@ export default {
             })
             this.fetchNewsListFromServer()
             this.handleAddNews()
+          } else {
+            this.$message({
+              showClose: true,
+              message: '登录信息失效，请注销并重新登录',
+              type: 'warning'
+            })
           }
         })
     },
     fetchNewsListFromServer () {
-      this.$http.get('http://10.10.28.40:8080/iie-icm/api/vertify/news/fetchList.do')
+      this.$http.get('vertify/news/fetchList.do')
         .then((d) => {
-          this.newsList = formatNewsList.formatNewsList(d.body.newsList)
+          if (d.body.success) {
+            this.newsList = formatNewsList.formatNewsList(d.body.newsList)
+          } else {
+            this.$message({
+              showClose: true,
+              message: '登录信息失效，请注销并重新登录',
+              type: 'warning'
+            })
+          }
         })
     },
     handleFetchNewsDetail () {
-      this.$http.get('http://10.10.28.40:8080/iie-icm/api/news/details.do',
+      this.$http.get('news/details.do',
         {
           params: {
             id: this.newsId
@@ -417,18 +457,19 @@ export default {
       const isJPG = file.type === 'image/jpeg';
       const isLt2M = file.size / 1024 / 1024 < 2;
 
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
-      }
+      // if (!isJPG) {
+      //   this.$message.error('上传头像图片只能是 JPG 格式!');
+      // }
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 2MB!');
       }
-      return isJPG && isLt2M;
+      return isLt2M;
     }
   },
   mounted () {
     this.fetchTeamListDataFromServer()
     store.commit('changeTitle', '')
+    this.interfaceUrl = process.env.NODE_ENV === 'development' ? config.dev.env.interfaceUrl : config.build.env.interfaceUrl
   }
 }
 </script>

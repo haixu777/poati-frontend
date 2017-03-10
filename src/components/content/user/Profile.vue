@@ -6,11 +6,11 @@
       <div class="basic_container">
         <div class="title">基本信息</div>
         <el-form :model="profileForm" :inline="true" :rules="profileRules" ref="profileRules" label-width="110px" class="my_form">
-          <el-form-item label="队伍名称">
-            <el-input v-model="profileForm.teamName" :disabled="true"></el-input>
-          </el-form-item>
           <el-form-item label="用户名">
             <el-input v-model="profileForm.username" :disabled="true"></el-input>
+          </el-form-item>
+          <el-form-item label="队伍名称">
+            <el-input v-model="profileForm.teamName" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="领队姓名">
             <el-input v-model="profileForm.name" :disabled="true"></el-input>
@@ -23,6 +23,9 @@
           </el-form-item>
           <el-form-item label="单位">
             <el-input v-model="profileForm.institute" :disabled="true"></el-input>
+          </el-form-item>
+          <el-form-item label="研究方向" prop="research" style="width: 100%;">
+            <el-input type="textarea" v-model="profileForm.research" :rows="5" placeholder="研究方向／涉及领域" :disabled="submited"></el-input>
           </el-form-item>
           <el-form-item label="队员名">
             <el-tag :key="tag" v-for="tag in profileForm.teamMate" :closable="!submited" :close-transition="false" @close="handleClose(tag)">
@@ -55,9 +58,6 @@
             <el-radio-group v-model="profileForm.os">
               <el-radio v-for="(item, index) in systemList" :label="item.name" :disabled="submited"></el-radio>
             </el-radio-group>
-          </el-form-item>
-          <el-form-item label="研究方向" prop="research">
-            <el-input type="textarea" v-model="profileForm.research" :rows="5" placeholder="研究方向／涉及领域" :disabled="submited"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -165,7 +165,7 @@ export default {
       })
     },
     fetchUserProfileFromServer () {
-      this.$http.get('http://10.10.28.40:8080/iie-icm/api/user/fetchProfile.do')
+      this.$http.get('user/fetchProfile.do')
         .then((d) => {
           console.log(d)
           if (d.body.success) {
@@ -186,11 +186,17 @@ export default {
               research: d.body.userInfo.research
             }
             this.submited = Boolean(d.body.userInfo.submited)
+          } else {
+            this.$message({
+              showClose: true,
+              message: '登录信息失效，请注销并重新登录',
+              type: 'warning'
+            })
           }
         })
     },
     handleSubmitProfileToServer () {
-      this.$http.post('http://10.10.28.40:8080/iie-icm/api/user/submitProfile.do', {
+      this.$http.post('user/submitProfile.do', {
         teamMate: this.profileForm.teamMate,
         contest: this.profileForm.contest,
         ipAddress: this.profileForm.ipAddress,
@@ -205,6 +211,10 @@ export default {
           if (d.body.success) {
             this.loading = false
             this.submitText = '提交完成'
+            this.submited = Boolean(d.body.submited)
+            this.$alert('您的个人信息已经提交成功，我们将会尽快审核', '通知', {
+              confirmButtonText: '确定'
+            })
           } else {
             this.$message.error(d.body.msg)
           }
@@ -278,7 +288,7 @@ export default {
       float: left;
     }
     .el-textarea {
-      width: 500px;
+      width: 724px;
     }
   }
 

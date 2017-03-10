@@ -52,7 +52,7 @@
             </el-form-item>
           </el-form>
         </el-tab-pane>
-        <el-tab-pane label="队伍注册" name="register">
+        <el-tab-pane label="队伍注册" name="register" style="text-align: left;">
           <el-form :inline="true" ref="userRegisterInfo" :model="userRegisterInfo" :rules="rules" label-width="100px">
             <el-form-item label="用户名" prop="username">
               <el-input v-model="userRegisterInfo.username" type=""></el-input>
@@ -71,10 +71,36 @@
             </el-form-item><el-form-item label="单位" prop="institute">
               <el-input v-model="userRegisterInfo.institute" type=""></el-input>
             </el-form-item>
-            <el-form-item>
+            <div style="text-align: center;">
               <el-button type="primary" @click="submitForm('userRegisterInfo')" :loading="loading">注册申请</el-button>
               <el-button @click="resetForm('userRegisterInfo')">重置</el-button>
+            </div>
+          </el-form>
+        </el-tab-pane>
+        <el-tab-pane label="忘记密码" name="pwdReset">
+          <el-form :inline="true" ref="pwdResetInfo" :model="pwdResetInfo" :rules="rules" label-width="100px">
+            <el-form-item label="用户名" prop="username">
+              <el-input v-model="pwdResetInfo.username"></el-input>
             </el-form-item>
+            <el-form-item label="联系人姓名" prop="name">
+              <el-input v-model="pwdResetInfo.name"></el-input>
+            </el-form-item>
+            <el-form-item label="电话" prop="phone">
+              <el-input v-model="pwdResetInfo.phone"></el-input>
+            </el-form-item>
+            <el-form-item label="邮箱" prop="email">
+              <el-input v-model="pwdResetInfo.email"></el-input>
+            </el-form-item>
+            <el-form-item label="密码" prop="password">
+              <el-input type="password" v-model="pwdResetInfo.password"></el-input>
+            </el-form-item>
+            <el-form-item label="确认密码" prop="passwordResetConfirm">
+              <el-input type="password" v-model="pwdResetInfo.passwordResetConfirm"></el-input>
+            </el-form-item>
+            <div style="text-align: center;">
+              <el-button type="primary" @click="submitForm('pwdResetInfo')" :loading="loading">重置密码</el-button>
+              <el-button @click="resetForm('pwdResetInfo')">清空</el-button>
+            </div>
           </el-form>
         </el-tab-pane>
       </el-tabs>
@@ -107,6 +133,19 @@ export default {
       setTimeout(() => {
         if (!(/[a-zA-Z0-9]{1,10}@[a-zA-Z0-9]{1,5}\.[a-zA-Z0-9]{1,5}/.test(value))) {
           callback(new Error('邮箱地址不合法'))
+        } else {
+          callback()
+        }
+      }, 1000)
+    }
+    let validateResetPassword = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('确认密码不能为空'))
+      }
+      const that = this
+      setTimeout(() => {
+        if (value !== that.pwdResetInfo.password) {
+          callback(new Error('密码不一致'))
         } else {
           callback()
         }
@@ -153,6 +192,14 @@ export default {
         password: '',
         passwordConfirm: ''
       },
+      pwdResetInfo: {
+        username: '',
+        name: '',
+        phone: '',
+        email: '',
+        password: '',
+        passwordResetConfirm: ''
+      },
       activeName: 'login',
       rules: {
         teamName: [
@@ -175,6 +222,12 @@ export default {
         ],
         passwordConfirm: [
           { required: true, validator: validateConfirmPassword, trigger: 'blur' }
+        ],
+        institute: [
+          { required: true, message: '请输入工作单位', trigger: 'blur' }
+        ],
+        passwordResetConfirm: [
+          { required: true, validator: validateResetPassword, trigger: 'blur' }
         ]
       }
     }
@@ -191,7 +244,11 @@ export default {
     submitForm: function (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.confirmRegister()
+          if (formName === 'userRegisterInfo') {
+            this.confirmRegister()
+          } else if (formName === 'pwdResetInfo') {
+            this.postRestPwdToServer()
+          }
         } else {
           console.log('error submit!')
           return false
@@ -201,9 +258,27 @@ export default {
     resetForm: function (formName) {
       this.$refs[formName].resetFields()
     },
+    postRestPwdToServer () {
+      this.$http.post('user/resetPwd.do', this.pwdResetInfo)
+        .then((response) => {
+          if (response.body.success) {
+            this.loading = false
+            this.resetForm('pwdResetInfo')
+            this.$message({
+              type: 'success',
+              message: response.body.msg
+            })
+          } else {
+            this.$message({
+              type: 'info',
+              message: '信息认证错误，无法重置密码'
+            })
+          }
+        })
+    },
     handleLoginToServer: function () {
       this.dialog_loading = true
-      this.$http.post('http://10.10.28.40:8080/iie-icm/api/login.do', {
+      this.$http.post('login.do', {
         username: this.userLoginInfo.username,
         password: this.userLoginInfo.password
       }).then((res) => {
@@ -254,7 +329,7 @@ export default {
       this.handleRegisterToServer()
     },
     handleRegisterToServer: function () {
-      this.$http.post('http://10.10.28.40:8080/iie-icm/api/register.do', this.userRegisterInfo)
+      this.$http.post('register.do', this.userRegisterInfo)
         .then((response) => {
           this.loading = false
           this.dialogFormVisible = false

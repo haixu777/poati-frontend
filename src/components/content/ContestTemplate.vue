@@ -7,7 +7,7 @@
       <el-breadcrumb-item :to="{ path: '/contest' }">
         <a href="javascipt:;" @click="backToContest()">比赛列表</a>
       </el-breadcrumb-item>
-      <el-breadcrumb-item>比赛详情</el-breadcrumb-item>
+      <el-breadcrumb-item>{{ activeContestInfo.title }}</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="container_left">
       <ul>
@@ -17,9 +17,9 @@
       </ul>
     </div>
     <div class="container_right">
-      <div class="">
+      <!-- <div class="">
         <h4 v-html="activeContestInfo.title"></h4>
-      </div>
+      </div> -->
       <div class="introdution" v-show="activeName=='比赛介绍'" v-html="activeContestInfo.introdution">
         比赛介绍
       </div>
@@ -118,6 +118,7 @@ export default {
 
     .introdution {
       text-align: left;
+      padding-top: 20px;
       p {
         text-indent: 2rem;
       }

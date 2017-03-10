@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     handleFetchNewsDetail () {
-      this.$http.get('http://10.10.28.40:8080/iie-icm/api/news/details.do',
+      this.$http.get('news/details.do',
         {
           params: {
             id: this.newsId
@@ -65,12 +65,18 @@ export default {
   .ql-align-right {
     text-align: right;
   }
+  .ql-align-center {
+    text-align: center;
+  }
   .news_template_details {
     background: #fff;
     border-radius: 5px;
     margin: 10px 0;
     border: 1px solid #dfe6ec;
     padding: 0 50px 10px 50px;
+    img {
+      max-width: 1037px;
+    }
     .news_header {
       border-bottom: 1px solid #eee;
       .news_title {
