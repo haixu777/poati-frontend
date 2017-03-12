@@ -180,7 +180,8 @@ function generateNewsList () {
     }]
 }
 
-function formatTime (data, needTime = true) {
+function formatTime (data, needTime) {
+  needTime = needTime || true
   var time = new Date(data)
   if (needTime) {
     return time.getFullYear()+'年'+(Number(time.getMonth())+1)+'月'+time.getDate()+'日 '+time.getHours()+':'+time.getMinutes()+':'+time.getSeconds()+' '
@@ -190,9 +191,9 @@ function formatTime (data, needTime = true) {
 }
 
 function formatNewsList (newsList) {
-  let initNewsList = generateNewsList()
+  var initNewsList = generateNewsList()
   newsList.forEach(function (item) {
-    let date = new Date(Number(item.time))
+    var date = new Date(Number(item.time))
     initNewsList.forEach(function(resultItem){
       if (resultItem.label == date.getFullYear()) {
         resultItem.children.forEach(function(childrenItem) {

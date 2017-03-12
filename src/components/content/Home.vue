@@ -16,11 +16,10 @@
         <el-row type="flex" justify="center" :gutter="15">
           <el-col :span="0" v-for="item,index in newest_contest_list">
             <el-card :body-style="{ padding: '0px' }">
-              <img :src="item.img" class="image">
-              <div style="padding: 14px;">
-                <span>{{ item.title }}</span>
-                <div class="bottom">
-                  <time class="time">{{ item.time }}</time>
+              <div style="padding-top: 10px;">
+                <span style="text-align: center;width: 100%;display: inline-block;">{{ item.title }}</span>
+                <img :src="item.img" class="image">
+                <div class="bottom clearfix">
                   <router-link :to="'/contest/2017/'+item.path">
                     <el-button type="text" class="button" @click="handleContestClick(item.path)">立即参赛</el-button>
                   </router-link>
@@ -102,8 +101,8 @@ export default {
   data () {
     return {
       banner_list: [
-        { img: require('../../assets/banner1.jpg') },
-        { img: require('../../assets/banner2.jpg') }
+        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner1.jpg' },
+        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner2.jpg' }
       ],
       newest_contest_list: [
         { path: 'shrsb', img: require('../../assets/contest/shrsb.jpg'), title: '说话人识别', time: '2017-3-1 ～ 2017-3-15' },
@@ -296,8 +295,21 @@ export default {
     }
 
     .bottom {
-      margin-top: 13px;
+      text-align: center;
       line-height: 12px;
+      background: #3281e0;
+      a {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        button {
+          width: 100%;
+        }
+        span {
+          color: #fff;
+          font-weight: 700;
+        }
+      }
     }
 
     .button {

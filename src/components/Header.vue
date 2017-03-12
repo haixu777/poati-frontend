@@ -48,7 +48,7 @@
               <el-input v-model="userLoginInfo.password" type="password" @keyup.enter.native="login('userLoginInfo')" ></el-input>
             </el-form-item>
             <el-form-item style="">
-              <el-button type="primary" @click="login('userLoginInfo')">登录</el-button>
+              <el-button type="primary" @click="login('userLoginInfo')" :disabled="Logining">{{ Logining?'登录中请稍等...':'登录' }}</el-button>
             </el-form-item>
           </el-form>
         </el-tab-pane>
@@ -165,6 +165,7 @@ export default {
       }, 1000)
     }
     return {
+      Logining: false,
       isAdmin: Number(localStorage.getItem('isAdmin')),
       isLogin: !!(localStorage.getItem('username')),
       loading: false,
@@ -292,6 +293,7 @@ export default {
           this.username = res.data.userInfo.teamName
           this.dialog_loading = false
           this.dialogFormVisible = false
+          this.Logining = false
         } else {
           this.$message({
             showClose: true,
@@ -299,6 +301,7 @@ export default {
             type: 'error'
           })
           this.dialog_loading = false
+          this.Logining = false
         }
       })
 
@@ -312,7 +315,11 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log('login~')
-          this.handleLoginToServer()
+          this.Logining = true
+          let _this = this
+          setTimeout(() => {
+            _this.handleLoginToServer()
+          }, 800)
         } else {
           console.log('login error')
           return false
@@ -323,6 +330,7 @@ export default {
       localStorage.clear()
       this.isLogin = false
       this.isAdmin = false
+      this.Logining = false
     },
     confirmRegister: function () {
       this.loading = true
@@ -405,7 +413,7 @@ export default {
       }
       .active {
         a {
-          color: #337ab7;
+          color: #317fe1;
         }
       }
     }

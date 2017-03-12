@@ -44,7 +44,7 @@ export default {
     text-align: left;
     border-radius: 5px;
     border: 1px solid #dfe6ec;
-    margin: 10px 0;
+    margin: 0 auto;
     font-size: 14px;
     h5 {
       font-size: 15px;

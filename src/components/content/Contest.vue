@@ -2,7 +2,7 @@
   <div class="container">
     <div class="yearPick_container">
       <span style="padding: 0 10px; border-left: 3px solid #20a0ff;">年份选择</span>
-      <el-select v-model="yearPick" placeholder="请选择" style="width: 90px;">
+      <el-select v-model="yearPick" placeholder="请选择" style="width: 90px;" @change="handleYearPick">
         <el-option :label="2017" :value="2017"></el-option>
         <el-option :label="2016" :value="2016"></el-option>
       </el-select>
@@ -51,13 +51,13 @@ export default {
     return {
       contestList: {
         year_2016: [
-          { logo: '', path: '/2016/shrsb', title: '说话人识别', introdution: '2016行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园2016', status: true },
-          { logo: '', path: '/2016/ypdb', title: '音频对比', introdution: '行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: false },
-          { logo: '', path: '/2016/yygjcjc', title: '语音关键词检测', introdution: '行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: true },
-          { logo: '', path: '/2016/spkbjc', title: '视频拷贝检测', introdution: '行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: true },
-          { logo: '', path: '/2016/tdspsb', title: '特定视频识别', introdution: '行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: false },
-          { logo: '', path: '/2016/spwbgjcjc', title: '视频文本关键词检测', introdution: '行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: true },
-          { logo: '', path: '/2016/rlsb', title: '人脸识别', introdution: '行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: true }
+          { logo: '', path: '/2016/shrsb', title: '说话人识别', introdution: '2016行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园2016', status: -1 },
+          { logo: '', path: '/2016/ypdb', title: '音频对比', introdution: '行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: -1 },
+          { logo: '', path: '/2016/yygjcjc', title: '语音关键词检测', introdution: '行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: -1 },
+          { logo: '', path: '/2016/spkbjc', title: '视频拷贝检测', introdution: '行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: -1 },
+          { logo: '', path: '/2016/tdspsb', title: '特定视频识别', introdution: '行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: -1 },
+          { logo: '', path: '/2016/spwbgjcjc', title: '视频文本关键词检测', introdution: '行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: -1 },
+          { logo: '', path: '/2016/rlsb', title: '人脸识别', introdution: '行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: -1 }
         ],
         year_2017: [
           { logo: '', path: '/2017/wbfl', title: '文本分类', introdution: '文本分类是指计算机按照预先定义的主题类别,为文档集合中的每个文档确定一个类别。它是文本挖掘的一个重要内容。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园2017', status: 0 },
@@ -76,6 +76,9 @@ export default {
   },
   methods: {
     handleClick: function (text) {
+    },
+    handleYearPick (year) {
+      localStorage.setItem('yearPick', year)
     },
     handleContestStatusText (status) {
       if (status === 0) {

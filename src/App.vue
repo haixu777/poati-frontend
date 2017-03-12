@@ -10,9 +10,12 @@
 
 <script>
 
-import myHeader from 'components/Header'
-import myContent from 'components/Content'
-import myFooter from 'components/Footer'
+// import myHeader from 'components/Header'
+// import myContent from 'components/Content'
+// import myFooter from 'components/Footer'
+const myHeader = require('components/Header')
+const myContent = require('components/content')
+const myFooter = require('components/Footer')
 
 export default {
   name: 'app',

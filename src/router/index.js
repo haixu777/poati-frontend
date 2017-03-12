@@ -1,20 +1,36 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import myHome from 'components/content/Home'
-import myContest from 'components/content/Contest'
-import myNews from 'components/content/News'
-import myHelp from 'components/content/Help'
-import myExpert from 'components/content/expert'
-import myLogin from 'components/login/index'
-import myContestDetails from 'components/content/ContestTemplate'
-import myNewsDetails from 'components/content/NewsTemplate'
-import myUserInfo from 'components/content/user/Index'
-import myVerify from 'components/content/Verify'
+const myHome = r => require.ensure([], () => r(require('components/content/Home')), 'home')
+const myContest = r => require.ensure([], () => r(require('components/content/Contest')), 'contest')
+const myNews = r => require.ensure([], () => r(require('components/content/News')), 'news')
+const myHelp = r => require.ensure([], () => r(require('components/content/Help')), 'help')
+const myExpert = r => require.ensure([], () => r(require('components/content/expert')), 'expert')
+const myLogin = r => require.ensure([], () => r(require('components/login/index')), 'login')
+const myContestDetails = r => require.ensure([], () => r(require('components/content/ContestTemplate')), 'contestDetails')
+const myNewsDetails = r => require.ensure([], () => r(require('components/content/NewsTemplate')), 'newsTemplate')
+const myUserInfo = r => require.ensure([], () => r(require('components/content/user/Index')), 'user')
+const myVerify = r => require.ensure([], () => r(require('components/content/Verify')), 'verify')
 
-import myProfile from 'components/content/user/Profile'
-import myProject from 'components/content/user/Project'
-import myResult from 'components/content/user/Result'
+const myContestWbfl = r => require.ensure([], () => r(require('components/content/contest/2017/Wbfl')), 'Wbfl')
+const myContestGjccq = r => require.ensure([], () => r(require('components/content/contest/2017/Gjccq')), 'Gjccq')
+const myContestSjybfx = r => require.ensure([], () => r(require('components/content/contest/2017/Sjybfx')), 'Sjybfx')
+const myContestSjgjyssb = r => require.ensure([], () => r(require('components/content/contest/2017/Sjgjyssb')), 'Sjgjyssb')
+const myContestSjgxcq = r => require.ensure([], () => r(require('components/content/contest/2017/Sjgxcq')), 'Sjgxcq')
+const myContestYhhx = r => require.ensure([], () => r(require('components/content/contest/2017/Yhhx')), 'Yhhx')
+const myContestSjgxyc = r => require.ensure([], () => r(require('components/content/contest/2017/Sjgxyc')), 'Sjgxyc')
+
+const myContestRlsb = r => require.ensure([], () => r(require('components/content/contest/2016/Rlsb')), 'Rlsb')
+const myContestShrsb = r => require.ensure([], () => r(require('components/content/contest/2016/Shrsb')), 'Shrsb')
+const myContestSpkdjc = r => require.ensure([], () => r(require('components/content/contest/2016/Spkbjc')), 'Spkbjc')
+const myContestSpwbgjcjc = r => require.ensure([], () => r(require('components/content/contest/2016/Spwbgjcjc')), 'Spwbgjcjc')
+const myContestTdspsb = r => require.ensure([], () => r(require('components/content/contest/2016/Tdspsb')), 'Tdspsb')
+const myContestYpdb = r => require.ensure([], () => r(require('components/content/contest/2016/Ypdb')), 'Ypdb')
+const myContestYygjcjc = r => require.ensure([], () => r(require('components/content/contest/2016/Yygjcjc')), 'Yygjcjc')
+
+const myProfile = r => require.ensure([], () => r(require('components/content/user/Profile')), 'profile')
+const myProject = r => require.ensure([], () => r(require('components/content/user/Project')), 'project')
+const myResult = r => require.ensure([], () => r(require('components/content/user/Result')), 'result')
 
 Vue.use(Router)
 
@@ -38,9 +54,32 @@ export default new Router({
       component: myContest
     },
     {
-      path: '/contest/*',
-      name: 'details',
-      component: myContestDetails
+      path: '/contest/2017',
+      name: 'details2017',
+      component: myContestDetails,
+      children: [
+        { path: 'wbfl', component: myContestWbfl },
+        { path: 'gjccq', component: myContestGjccq },
+        { path: 'sjybfx', component: myContestSjybfx },
+        { path: 'Sjgjyssb', component: myContestSjgjyssb },
+        { path: 'Sjgxcq', component: myContestSjgxcq },
+        { path: 'yhhx', component: myContestYhhx },
+        { path: 'Sjgxyc', component: myContestSjgxyc }
+      ]
+    },
+    {
+      path: '/contest/2016',
+      name: 'details2016',
+      component: myContestDetails,
+      children: [
+        { path: 'rlsb', component: myContestRlsb },
+        { path: 'shrsb', component: myContestShrsb },
+        { path: 'spkdjc', component: myContestSpkdjc },
+        { path: 'spwbgjcjc', component: myContestSpwbgjcjc },
+        { path: 'tdspsb', component: myContestTdspsb },
+        { path: 'ypdb', component: myContestYpdb },
+        { path: 'yygjcjc', component: myContestYygjcjc }
+      ]
     },
     {
       path: '/news',
