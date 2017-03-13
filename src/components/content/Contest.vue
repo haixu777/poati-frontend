@@ -64,9 +64,9 @@ export default {
           { logo: '', path: '/2017/gjccq', title: '关键词抽取', introdution: '本赛题提供新浪专题新闻文档，参赛者需要设计一个关键词抽取系统，抽取每篇文档的关键词。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: 0 },
           { logo: '', path: '/2017/sjybfx', title: '事件样本发现', introdution: '给定事件名称和该事件下的4-5篇新闻报道，从全部语料中发现描述该事件的相关样本。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: 0 },
           { logo: '', path: '/2017/sjgjyssb', title: '事件关键元素识别', introdution: '给定新闻事件样本，抽取其中的基本实体，包括时间、地点、参与人物和参与组织。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: 0 },
-          { logo: '', path: '/2017/sjgxcq', title: '事件关系抽取', introdution: '本任务的主要目标是从众多的新闻文档中提取相关事件的关键参数。在前两个任务（事件样本发现、事件关键元素识别）中，已经...', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: 1 },
+          { logo: '', path: '/2017/sjgxcq', title: '事件关系抽取', introdution: '本任务的主要目标是从众多的新闻文档中提取相关事件的关键参数。在前两个任务（事件样本发现、事件关键元素识别）中，已经...', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: 0 },
           { logo: '', path: '/2017/yhhx', title: '用户画像', introdution: '参赛队伍利用给定的新浪微博数据（包括用户个人信息、用户行为信息、用户微博文本以及用户粉丝列表，详见数据格式部分），进行微博用户画像。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: 0 },
-          { logo: '', path: '/2017/sjgxyc', title: '社交关系预测', introdution: '本题目给出某局部社交网络的结构，并给出1万个账号节点及部分关注关联关系，判断给出的两个用户之间是否存在关注关系。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: -1 }
+          { logo: '', path: '/2017/sjgxyc', title: '社交关系预测', introdution: '本题目给出某局部社交网络的结构，并给出1万个账号节点及部分关注关联关系，判断给出的两个用户之间是否存在关注关系。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: 0 }
         ]
       },
       yearPick: localStorage.getItem('yearPick') || 2017
@@ -100,7 +100,7 @@ export default {
     }
   },
   mounted: function () {
-    store.commit('changeTitle', '竞赛')
+    store.commit('changeTitle', '邀请赛')
   }
 }
 </script>

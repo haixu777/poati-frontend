@@ -19,7 +19,7 @@
               <div style="padding-top: 10px;">
                 <span style="text-align: center;width: 100%;display: inline-block;">{{ item.title }}</span>
                 <img :src="item.img" class="image">
-                <div class="bottom clearfix">
+                <div class="bottom">
                   <router-link :to="'/contest/2017/'+item.path">
                     <el-button type="text" class="button" @click="handleContestClick(item.path)">立即参赛</el-button>
                   </router-link>
@@ -105,13 +105,13 @@ export default {
         { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner2.jpg' }
       ],
       newest_contest_list: [
-        { path: 'shrsb', img: require('../../assets/contest/shrsb.jpg'), title: '说话人识别', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'yhhx', img: require('../../assets/contest/yhhx.jpg'), title: '音频对比', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'sjgxyc', img: require('../../assets/contest/sjgxyc.jpg'), title: '语音关键词检测', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'gjccq', img: require('../../assets/contest/gjccq.jpg'), title: '特定视频识别', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'gjccq', img: require('../../assets/contest/gjccq.jpg'), title: '特定视频识别', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'gjccq', img: require('../../assets/contest/gjccq.jpg'), title: '特定视频识别', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'gjccq', img: require('../../assets/contest/gjccq.jpg'), title: '特定视频识别', time: '2017-3-1 ～ 2017-3-15' }
+        { path: 'wbfl', img: require('../../assets/contest/wbfl.jpg'), title: '文本分类', time: '2017-3-1 ～ 2017-3-15' },
+        { path: 'gjccq', img: require('../../assets/contest/gjccq.jpg'), title: '关键词抽取', time: '2017-3-1 ～ 2017-3-15' },
+        { path: 'sjybfx', img: require('../../assets/contest/sjybfx.jpg'), title: '事件样本发现', time: '2017-3-1 ～ 2017-3-15' },
+        { path: 'sjgjyssb', img: require('../../assets/contest/sjgjyssb.jpg'), title: '事件关键元素识别', time: '2017-3-1 ～ 2017-3-15' },
+        { path: 'sjgxcq', img: require('../../assets/contest/sjgxcq.jpg'), title: '事件关系抽取', time: '2017-3-1 ～ 2017-3-15' },
+        { path: 'yhhx', img: require('../../assets/contest/yhhx.jpg'), title: '用户画像', time: '2017-3-1 ～ 2017-3-15' },
+        { path: 'sjgxyc', img: require('../../assets/contest/sjgxyc.jpg'), title: '社交关系预测', time: '2017-3-1 ～ 2017-3-15' }
       ],
       newest_news_list: [
         // { id: '1', title: '网络舆情分析结果', time: '2017-3-1', desc: '阿卡今年是达安寺大家按达科水济济你的教科书啊是看见的那块水济你的健康三大兰看到你啦开始的大赛', avatar: require('../../assets/news.png') },

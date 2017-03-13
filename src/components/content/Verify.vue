@@ -98,7 +98,7 @@
                 <el-date-picker type="datetime" v-model="newsForm.time" placeholder="选择时间日期" ></el-date-picker>
               </el-form-item>
               <el-form-item label="新闻内容">
-                <editor :content="newsForm.text" :height="500" :z-index="1000" :auto-height="true" @change="updateDate"></editor>
+                <editor :content="newsForm.text" :height="500" :z-index="1000" :auto-height="true" @change="updateDate" :progressComputable="imageProgressComputable"></editor>
               </el-form-item>
               <el-form-item>
                 <el-button type="warning" @click="postNewsToServer('newsForm')">确认发布</el-button>
@@ -158,7 +158,7 @@ const editor = new VueHtml5Editor({
         // the name for file field in multipart request
         fieldName: "image",
         // 文件最大体积，单位字节  max file size
-        sizeLimit: 512 * 1024,
+        // sizeLimit: 512 * 1024,
         // 是否压缩，默认true，设置为true时会使用localResizeIMG进行压缩
         // default true,if set to true,the image will resize by localResizeIMG (https://github.com/think2011/localResizeIMG)
         compress: true,
@@ -314,7 +314,8 @@ export default {
       test: [],
       filterNewsTitle: '',
       newsId: '',
-      timer: null
+      timer: null,
+      imageProgressComputable: false
     }
   },
   components: {

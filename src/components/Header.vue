@@ -172,7 +172,7 @@ export default {
       dialog_loading: false,
       navList: [
         { path: '/home', text: '首页' },
-        { path: '/contest', text: '竞赛' },
+        { path: '/contest', text: '邀请赛' },
         { path: '/news', text: '新闻' },
         { path: '/expert', text: '技术委员会' },
         { path: '/help', text: '帮助' }
