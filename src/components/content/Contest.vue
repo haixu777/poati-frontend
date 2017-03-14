@@ -101,6 +101,7 @@ export default {
   },
   mounted: function () {
     store.commit('changeTitle', '邀请赛')
+    document.documentElement.scrollTop = document.body.scrollTop = 0
   }
 }
 </script>

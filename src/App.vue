@@ -2,6 +2,12 @@
   <div id="app">
     <!-- <img src="./assets/logo.png"> -->
     <!-- <router-view></router-view> -->
+    <el-alert
+      v-if="firstTime"
+      title="浏览器兼容信息：IE9+，Chrome，Safari"
+      type="success"
+      @close="info">
+    </el-alert>
     <my-header></my-header>
     <my-content></my-content>
     <my-footer></my-footer>
@@ -21,6 +27,7 @@ export default {
   name: 'app',
   data: function () {
     return {
+      firstTime: localStorage.getItem('firstTime') === null
     }
   },
   components: {
@@ -32,7 +39,12 @@ export default {
     backToTop () {
       document.body.scrollTop = 0
       document.documentElement.scrollTop = 0
+    },
+    info () {
+      window.localStorage.setItem('firstTime', 1)
     }
+  },
+  mounted () {
   }
 }
 </script>

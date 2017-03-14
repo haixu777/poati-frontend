@@ -17,7 +17,7 @@
               <el-input placeholder="请输入内容" v-model="fetchDataCondition.searchText" @keyup.enter.native="handleSearch()" @change="autoSearch(fetchDataCondition.searchText)">
                 <el-select v-model="fetchDataCondition.searchType" slot="prepend" placeholder="请选择">
                   <el-option label="队伍名称" value="1"></el-option>
-                  <el-option label="姓名" value="2"></el-option>
+                  <el-option label="联系人" value="2"></el-option>
                   <el-option label="用户名" value="3"></el-option>
                   <el-option label="手机号" value="4"></el-option>
                 </el-select>
@@ -35,9 +35,9 @@
                     <el-form-item label="队员"><span>{{ props.row.teamMate }}</span></el-form-item>
                     <el-form-item label="IP地址"><span>{{ props.row.ipAddress }}</span></el-form-item>
                     <el-form-item label="os"><span>{{ props.row.os }}</span></el-form-item>
-                    <el-form-item label="minCPU"><span>{{ props.row.minCPU }}</span></el-form-item>
-                    <el-form-item label="minGPU"><span>{{ props.row.minGPU }}</span></el-form-item>
-                    <el-form-item label="minMemory"><span>{{ props.row.minMemory }}</span></el-form-item>
+                    <!-- <el-form-item label="minCPU"><span>{{ props.row.minCPU }}</span></el-form-item> -->
+                    <!-- <el-form-item label="minGPU"><span>{{ props.row.minGPU }}</span></el-form-item> -->
+                    <!-- <el-form-item label="minMemory"><span>{{ props.row.minMemory }}</span></el-form-item> -->
                     <el-form-item label="研究方向" class="el_form_full"><span>{{ props.row.research }}</span></el-form-item>
                     <el-form-item label="拒绝理由" class="el_form_full" v-if="props.row.status == 2"><span>{{ props.row.rejectedReason }}</span></el-form-item>
                   </el-form>
@@ -98,7 +98,7 @@
                 <el-date-picker type="datetime" v-model="newsForm.time" placeholder="选择时间日期" ></el-date-picker>
               </el-form-item>
               <el-form-item label="新闻内容">
-                <editor :content="newsForm.text" :height="500" :z-index="1000" :auto-height="true" @change="updateDate" :progressComputable="imageProgressComputable"></editor>
+                <editor :content="newsForm.text" :height="300" :z-index="1000" :auto-height="false" @change="updateDate" :progressComputable="imageProgressComputable"></editor>
               </el-form-item>
               <el-form-item>
                 <el-button type="warning" @click="postNewsToServer('newsForm')">确认发布</el-button>
@@ -451,10 +451,16 @@ export default {
       this.loading = true
       this.$http.get('vertify/getTeamList.do',
         {
-          params: this.fetchDataCondition
+          // params: this.fetchDataCondition
+          params: {
+            searchText: encodeURI(this.fetchDataCondition.searchText),
+            conditionStatus: this.fetchDataCondition.conditionStatus,
+            searchType: this.fetchDataCondition.searchType,
+            currentPage: this.fetchDataCondition.currentPage,
+            perItem: this.fetchDataCondition.perItem
+          }
         }
       ).then((response) => {
-        console.log(response)
         if (response.body.success) {
           this.tableData = response.body.teamList
           this.totalItem = response.body.totalItems
@@ -615,6 +621,7 @@ export default {
     this.fetchTeamListDataFromServer()
     store.commit('changeTitle', '')
     this.handleAvatarUrl()
+    document.documentElement.scrollTop = document.body.scrollTop = 0
   }
 }
 </script>
@@ -659,6 +666,9 @@ export default {
         span {
           width: 949px;
           float: left;
+        }
+        .el-form-item__content {
+          vertical-align: inherit !important;
         }
       }
     }

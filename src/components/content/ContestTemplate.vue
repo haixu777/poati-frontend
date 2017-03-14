@@ -35,6 +35,7 @@ export default {
     }
   },
   mounted: function () {
+    document.documentElement.scrollTop = document.body.scrollTop = 0
   }
 }
 </script>

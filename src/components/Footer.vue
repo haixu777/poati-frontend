@@ -16,7 +16,7 @@
       <el-tooltip placement="top" effect="light">
         <div slot="content" class="footer-tooltip">
           <div class="footer-popover-title" style="border-bottom: 1px solid #d1dbe5; text-align: center;">网络舆情</div>
-          <img src="../assets/QR_code.jpeg" alt="qr_code" style="width: 90px; height: 90px;">
+          <img src="../assets/QR_code.jpg" alt="qr_code" style="width: 90px; height: 90px;">
         </div>
         <img src="../assets/wechat.png" alt="" style="width: 50px;height: 50px;">
       </el-tooltip>

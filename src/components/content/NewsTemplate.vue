@@ -52,6 +52,7 @@ export default {
     let urls = location.href.split('/')
     this.newsId = urls[urls.length - 1]
     this.handleFetchNewsDetail()
+    document.documentElement.scrollTop = document.body.scrollTop = 0
   }
 }
 </script>

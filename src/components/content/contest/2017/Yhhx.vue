@@ -18,6 +18,9 @@
     </div>
     <div class="container_right">
       <div class="introdution" v-show="activeName=='比赛介绍'">
+        <p>社交网络是web 2.0的重要组成部分。在社交网络中根据用户信息构建用户画像，在商业广
+          告、金融信贷、舆情管控等领域都将发挥重大作用。本题目为参赛者提供真实微博数据，对用
+          户画像中的用户标签问题进行分析，希望发现和培养在社交网络大数据挖掘领域的专业技术人才。</p>
         <p>参赛队伍利用给定的新浪微博数据（包括用户个人信息、用户行为信息、用户微博文本以及用户粉丝列表，详见数据格式部分），进行微博用户画像，具体包括以下四个标签:</p>
         <p>标签1： 推断用户的年龄（共3个标签：-1979/1980-1989/1990+）</p>
         <p>标签2：推断用户的性别（共2个标签：男/女）</p>
@@ -28,7 +31,7 @@
         <h4>基本规则</h4>
         <ul>
           <li>单支队伍人数上限: 5人</li>
-          <li>单支队伍每日提交次数上限: 20次</li>
+          <!-- <li>单支队伍每日提交次数上限: 20次</li> -->
         </ul>
         <h4>附加规则</h4>
         <ol>
@@ -38,31 +41,57 @@
       </div>
       <div class="introdution" v-show="activeName=='比赛数据'">
         <h4>比赛数据</h4>
-        <h5>数据来源</h5>
-        <p>来源于微博</p>
-        <h5>数据量要求</h5>
-        <img :src="require('../../../../assets/contest/details/yhhx1.png')" alt='yhhx'>
+        <h5>数据介绍</h5>
+          <p>比赛数据均来源于真实的微博数据，包括近10万用户的行为信息数据和约250万条社交关系数据。比赛数据分为训练集和测试集两部分。</p>
+        <!-- <h5>数据量要求</h5>
+        <img :src="require('../../../../assets/contest/details/yhhx1.png')" alt='yhhx'> -->
+        <h5>数据集</h5>
+          <p>INPUT/TRAIN/weibo_content.csv, weibo_user.csv, weibo_relation.csv 训练集数据</p>
+          <p>INPUT/TRAIN/result.csv	训练集标注</p>
+          <p>INPUT/TEST/weibo_content.csv, weibo_user.csv, weibo_relation.csv	测试集数据</p>
         <h5>数据格式</h5>
         <p>用户基本信息（帐号，UID，性别，年龄，地点，个人主页等），用户发布的内容（如发表的微博和评论），用户的行为记录（浏览、转发、点赞、收藏），用户的链接关系（如用户之间的粉丝关注关系）等。</p>
-        <h5>数据比例</h5>
-        <p>每个标签的比例均等，例如用户的兴趣要分布在这13个类别中；大V用户和普通用户的占比：尽量以普通用户为主，如果普通用户不方便标注的话，可以引入大V用户，但是大V用户的占比不要超过总数的50%。</p>
+        <p>训练数据包括三个文件：</p>
+        <ol>
+          <li>
+              <p>weibo_content.csv,  用户发布微博内容文件，其数据格式为：</p>
+              <img :src="require('../../../../assets/contest/details/yhhx1.png')" alt='yhhx'>
+          </li>
+          <li>
+            <p>weibo_user.csv, 部分用户信息数据文件，其数据格式为：</p>
+            <img :src="require('../../../../assets/contest/details/yhhx2.png')" alt='yhhx'>
+          </li>
+          <li>
+            <p>weibo_relation.csv，用户关系数据文件，其数据格式为：</p>
+            <img :src="require('../../../../assets/contest/details/yhhx3.png')" alt='yhhx'>
+          </li>
+        </ol>
         <h5>数据样例</h5>
-        <p>张三，17612312312，女，18，北京，女性，发表的微博：…；评论的微博：…；转发的微博：…；点赞的微博：…；关注：…；粉丝：…；</p>
+        <p>微博内容数据：</p>
+        <img :src="require('../../../../assets/contest/details/yhhx4.png')" alt='yhhx'>
+        <br>
+        <p>微博用户数据：</p>
+        <img :src="require('../../../../assets/contest/details/yhhx5.jpeg')" alt='yhhx'>
+        <br>
+        <p>微博关系数据：</p>
+        <img :src="require('../../../../assets/contest/details/yhhx6.jpeg')" alt='yhhx'>
       </div>
       <div class="introdution" v-show="activeName=='评分标准'">
         <h4>评分标准</h4>
         <ol>
-          <li>score = 所有匹配到的4类标签 / 应该匹配到的4类标签</li>
-          <li>score范围为 [0,1] </li>
+          <li>根据预测正确标签数量的比例对比赛结果进行评分。</li>
+          <li>最终得分 = 预测正确标签数量/预测标签总数量</li>
         </ol>
-        <p>举例说明：在训练集中，总共带标签的用户数是0.5万，4类标签，参赛团队总共匹配上1.5万个标签，那么得分score = 1.5 / (4*0.5) = 0.75</p>
+        <p>举例说明：如果总共需预测4类标签共2万个，某参赛团队总共正确预测了1.5万个标签，那么得分score=1.5/2=0.75。</p>
+        <p>按照得分从大到小进行排序，得到各参赛队排名。</p>
       </div>
       <div class="introdution" v-show="activeName=='提交要求'">
         <h4>提交要求</h4>
-        <ol>
-          <li>提交结果文件为csv格式，包含4个字段age、gender、location、interest，每个字段对应一个标签结果。</li>
-          <li>文件采用UTF-8编码。</li>
-        </ol>
+        <p>提交结果文件为txt格式，不同字段之间用英文逗号做间隔，文件结构如下：</p>
+        <img :src="require('../../../../assets/contest/details/yhhx7.png')" alt='yhhx'>
+        <p>文件统一采用UTF-8无BOM编码。</p>
+        <h4>实例文件</h4>
+        <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/%E7%94%A8%E6%88%B7%E7%94%BB%E5%83%8F%E7%BB%93%E6%9E%9C%E7%A4%BA%E4%BE%8B.txt.zip">下载</a></p>
       </div>
     </div>
   </div>
@@ -94,9 +123,19 @@ export default {
       let urls = location.href.split('/')
       localStorage.setItem('yearPick', urls[urls.length - 2])
     }
+  },
+  mounted () {
+    document.documentElement.scrollTop = document.body.scrollTop = 0
+    store.commit('changeTitle', '邀请赛')
   }
 }
 </script>
 
-<style lang="css">
+<style lang="scss" scoped>
+  img {
+    max-width: 900px;
+  }
+  p, li {
+    font-size: 15px;
+  }
 </style>

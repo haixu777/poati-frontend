@@ -183,11 +183,12 @@ function generateNewsList () {
 function formatTime (data, needTime) {
   needTime = needTime || true
   var time = new Date(data)
-  if (needTime) {
-    return time.getFullYear()+'年'+(Number(time.getMonth())+1)+'月'+time.getDate()+'日 '+time.getHours()+':'+time.getMinutes()+':'+time.getSeconds()+' '
-  } else {
+  // if (needTime) {
+  //   return time.getFullYear()+'年'+(Number(time.getMonth())+1)+'月'+time.getDate()+'日 '+time.getHours()+':'+time.getMinutes()+':'+time.getSeconds()+' '
+  // } else {
+  //   return time.getFullYear()+'年'+(Number(time.getMonth())+1)+'月'+time.getDate()+'日 '
+  // }
     return time.getFullYear()+'年'+(Number(time.getMonth())+1)+'月'+time.getDate()+'日 '
-  }
 }
 
 function formatNewsList (newsList) {

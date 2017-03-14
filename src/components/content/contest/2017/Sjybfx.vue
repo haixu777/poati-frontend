@@ -20,8 +20,8 @@
       <div class="introdution" v-show="activeName=='比赛介绍'">
         <p>给定事件名称和该事件下的4-5篇新闻报道，从全部语料中发现描述该事件的相关样本。</p>
         <ul>
-          <li>输入：事件名称、相关报道4-5篇以及相关3-4个关键词。</li>
-          <li>输出：与事件对应的语料中样本。</li>
+          <li>输入：事件名称、相关报道4-5篇。</li>
+          <li>输出：与事件对应的所有新闻报道。</li>
         </ul>
         <h5>如下事例:</h5>
         <h6>事件名称 > 十二届全国人大第十六次会议举行</h6>
@@ -49,13 +49,12 @@
           ，贩卖毒品犯罪的除外。</p>
         <h5>样本发现结果:</h5>
         <img :src="require('../../../../assets/contest/details/sjybfx1.png')" alt='sjybfx'>
-        <p>说明：相关样本一栏中均为全部语料中关于“十二届全国人大第十六次会议举行”事件中除给定的报道1-4的其他报道。</p>
+        <p>说明：给定事件名称“我国拟特赦四类服刑罪犯”以及以上相关4篇报道，上表中“相关样本”一列为从给定的样本中发现的相关样本。</p>
       </div>
       <div class="introdution" v-show="activeName=='比赛规则'">
         <h4>基本规则</h4>
         <ul>
           <li>单支队伍人数上限: 5人</li>
-          <li>单支队伍每日提交次数上限: 20次</li>
         </ul>
         <h4>附加规则</h4>
         <ol>
@@ -66,23 +65,16 @@
       <div class="introdution" v-show="activeName=='比赛数据'">
         <h4>比赛数据</h4>
         <h5>数据介绍</h5>
-        <p>数据均来源于互联网，主要为新浪网站的数据以及国外网站作为补充，其中事件类型涵盖国际、国内、军事、财经以及社会五类。通过人工标注得到每类事件所包含的样本，以txt的形式保存作为标准结果。</p>
+        <p>数据均来源于互联网新闻报道，涵盖国际、国内、军事、财经以及社会五类。</p>
         <h5>数据集</h5>
-        <p>TEST/SAMPLES_TEST 测试文档</p>
-        <p>INPUT/FORMAT_INPUT 输入格式文档</p>
-        <p>STANDARD/RESULTS_STANDARD 标准结果文档</p>
+        <p>INPUT/DOCUMENT 新闻报道文档</p>
+        <p>INPUT/EVENT 事件描述文档</p>
         <h5>数据格式</h5>
-        <p>数据字段：</p>
-        <img :src="require('../../../../assets/contest/details/sjybfx2.png')" alt='sjybfx'>
         <p>数据样例</p>
         <img class='zhaolin' :src="require('../../../../assets/contest/details/sjybfx3.png')" alt='sjybfx'>
         <P style='text-align: center;'>图 1 测试文档样例</P>
         <img class='zhaolin' :src="require('../../../../assets/contest/details/sjybfx4.png')" alt='sjybfx'>
         <p style='text-align: center'>图 2 输入格式文档样例</p>
-        <img class='zhaolin' :src="require('../../../../assets/contest/details/sjybfx5.png')" alt='sjybfx'>
-        <p style='text-align: center;'>图 3 标准结果文档样例</p>
-        <h5>数据获取</h5>
-        <p>竞赛数据仅向参赛者开放,请先登录或注册。</p>
       </div>
       <div class="introdution" v-show="activeName=='评分标准'">
         <h4>评分标准</h4>
@@ -96,9 +88,11 @@
       <div class="introdution" v-show="activeName=='提交要求'">
         <h4>提交要求</h4>
         <ol>
-          <li>提交结果文件为txt格式，具体格式参照图3的标准结果文档样例。</li>
-          <li>完整代码、代码说明文档、算法说明文档。</li>
+          <li>提交结果文件为txt格式，存放于OUTPUT/RESULT目录下。</li>
+          <li>提交结果文件使用UTF-8无BOM编码。</li>
         </ol>
+        <h4>实例文件</h4>
+        <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/%E6%A0%B7%E6%9C%AC%E5%8F%91%E7%8E%B0%E7%BB%93%E6%9E%9C%E7%A4%BA%E4%BE%8B.txt.zip">下载</a></p>
       </div>
     </div>
   </div>
@@ -130,9 +124,19 @@ export default {
       let urls = location.href.split('/')
       localStorage.setItem('yearPick', urls[urls.length - 2])
     }
+  },
+  mounted () {
+    document.documentElement.scrollTop = document.body.scrollTop = 0
+    store.commit('changeTitle', '邀请赛')
   }
 }
 </script>
 
-<style lang="css">
+<style lang="scss" scoped>
+  p, li {
+    font-size: 15px;
+  }
+  img {
+    max-width: 900px;
+  }
 </style>

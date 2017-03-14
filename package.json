@@ -17,7 +17,6 @@
     "sass-loader": "^5.0.1",
     "vue": "^2.1.10",
     "vue-router": "^2.2.0",
-    "vue-swipe": "^2.0.2",
     "vuex": "^2.1.2"
   },
   "devDependencies": {
@@ -55,7 +54,6 @@
     "url-loader": "^0.5.7",
     "vue-html5-editor": "^1.0.0",
     "vue-loader": "^10.3.0",
-    "vue-quill-editor": "^1.1.1",
     "vue-resource": "^1.2.0",
     "vue-style-loader": "^2.0.0",
     "vue-template-compiler": "^2.1.10",

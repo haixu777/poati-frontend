@@ -45,9 +45,12 @@
                 <img :src="item.avatar" alt="">
               </div>
               <div class="news_item_right">
-                <router-link :to="'/news/details/'+item.id" @click.native="handleToNewsDetail(item.id)">
+                <!-- <router-link :to="'/news/details/'+item.id" @click.native="handleToNewsDetail(item.id)">
                   <h5 style="font-weight: 800; margin-top: 0;">{{ item.time + ' ' + item.title }}</h5>
-                </router-link>
+                </router-link> -->
+                <a :href="'/news/details/'+item.id" target="_blank">
+                  <h5 style="font-weight: 800; margin-top: 0;">{{ item.time + ' ' + item.title }}</h5>
+                </a>
                 <p>{{ utils.cutString(item.desc, 90) }}</p>
               </div>
             </div>
@@ -55,7 +58,7 @@
         </div>
       </div>
     </div>
-    <div class="expert_recommend">
+    <div class="expert_recommend" style="display: none;">
       <div class="title_container container">
         <h3>专家报告</h3>
         <router-link :to="'/expert'">
@@ -78,22 +81,22 @@
         </el-row>
       </div>
     </div>
-    <div class="partner_company container" style="margin-bottom: 0;">
+    <div class="partner_company container" style="margin-bottom: 0;background: fff;">
       <div class="title_container container">
         <h3 id="partner_title">合作伙伴</h3>
       </div>
       <div class="partner_container">
-        <el-row>
-          <el-col>111</el-col>
-          <el-col>222</el-col>
-        </el-row>
+        <template v-for="item in partner_img_list">
+          <div class="partner_card">
+            <img :src="item.img" :alt="item.alt">
+          </div>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { Swipe, SwipeItem } from 'vue-swipe'
 import store from '../../store'
 const utils = require('../../../utils/util')
 
@@ -101,8 +104,11 @@ export default {
   data () {
     return {
       banner_list: [
-        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner1.jpg' },
-        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner2.jpg' }
+        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner4.jpg' },
+        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner5.jpg' },
+        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner7.jpg' },
+        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner6.jpg' },
+        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner8.jpg' }
       ],
       newest_contest_list: [
         { path: 'wbfl', img: require('../../assets/contest/wbfl.jpg'), title: '文本分类', time: '2017-3-1 ～ 2017-3-15' },
@@ -126,12 +132,12 @@ export default {
         { avatar: 'http://static.int-yt.com/img/57180b3b-30eb-483a-ac07-8261d88f0e71.png', name: '卜佳俊', title: '浙江大学软件学院教授' },
         { avatar: 'http://static.wid.org.cn/img/4ab81219-f243-44cf-99d1-a8e94625c425.jpg', name: '陈恩红', title: '中国科学技术大学计算机学院副院长、教授' }
       ],
+      partner_img_list: [
+        { img: require('../../assets/partner/360.jpg'), alt: '360' },
+        { img: require('../../assets/partner/zhongkeshuguang.jpg'), alt: 'zhongkeshuguang' }
+      ],
       utils: utils
     }
-  },
-  components: {
-    Swipe,
-    SwipeItem
   },
   methods: {
     toogleActive: function (text) {
@@ -157,6 +163,7 @@ export default {
   mounted: function () {
     store.commit('changeTitle', '首页')
     this.handleFetchNewestNewsFromServer()
+    document.documentElement.scrollTop = document.body.scrollTop = 0
   }
 }
 </script>
@@ -218,7 +225,8 @@ export default {
 
     .newest_news {
       color: #fff;
-      background: rgba(55, 178, 77, 0.8);
+      // background: rgba(55, 178, 77, 0.8);
+      background: #b0b0b0;
       .news_item {
         margin: 0 auto;
         .news_details {
@@ -245,6 +253,26 @@ export default {
               text-decoration: none;
             }
           }
+        }
+      }
+    }
+
+    .partner_company {
+      .title_container {
+        // margin-bottom: 0;
+      }
+      .partner_container {
+        .partner_card {
+          height: 108px;
+          width: 268px;
+          border-radius: 3px;
+          border: 1px solid #d1dbe5;
+          box-shadow: 0 2px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04);
+          display: inline-block;
+          margin-left: 28px;
+        }
+        :first-child {
+          margin-left: 0;
         }
       }
     }

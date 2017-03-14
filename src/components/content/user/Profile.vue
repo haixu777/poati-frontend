@@ -45,15 +45,16 @@
           <!-- <el-form-item label="硬件资源要求" prop="hardwardRequire">
             <el-input type="textarea" v-model="profileForm.hardwardRequire" :rows="5" placeholder="硬件资源最低要求（CPU、内存、GPU、存储空间等）"></el-input>
           </el-form-item> -->
-          <el-form-item label="minCPU" prop="minCPU">
+          <!-- <el-form-item label="minCPU" prop="minCPU">
             <el-input v-model="profileForm.minCPU" :disabled="submited"></el-input>
-          </el-form-item>
-          <el-form-item label="minGPU" prop="minGPU">
+          </el-form-item> -->
+          <!-- <el-form-item label="minGPU" prop="minGPU">
             <el-input v-model="profileForm.minGPU" :disabled="submited"></el-input>
-          </el-form-item>
-          <el-form-item label="minMemory" prop="minMemory">
+          </el-form-item> -->
+          <!-- <el-form-item label="minMemory" prop="minMemory">
             <el-input v-model="profileForm.minMemory" :disabled="submited"></el-input>
-          </el-form-item>
+          </el-form-item> -->
+          <br>
           <el-form-item label="操作系统" prop="os">
             <el-radio-group v-model="profileForm.os">
               <el-radio v-for="(item, index) in systemList" :label="item.name" :disabled="submited"></el-radio>
@@ -61,7 +62,7 @@
           </el-form-item>
         </el-form>
       </div>
-      <el-button type="info" size="small" :loading="loading" @click="handleSubmit('profileRules')" :disabled="submited">{{submited?'待审核':'提交'}}</el-button>
+      <el-button type="info" size="small" :loading="loading" @click="handleSubmit('profileRules')" :disabled="submited">{{ buttonText }}</el-button>
     </div>
     <!-- <el-button style="margin-top: 12px;" @click="prev" :disabled="active==0">上一步</el-button>
     <el-button style="margin-top: 12px;" @click="next" :disabled="active==3">下一步</el-button> -->
@@ -87,9 +88,11 @@ export default {
       active: 0,
       loading: false,
       submited: false,
+      status: '',
       submitText: '提交',
       inputVisible: false,
       inputValue: '',
+      buttonText: '',
       contestList: [
         { name: '事件样本发现', isExpire: false },
         { name: '事件关键元素识别', isExpire: false },
@@ -114,9 +117,9 @@ export default {
         contest: [],
         teamMate: [],
         ipAddress: '',
-        minCPU: '',
-        minGPU: '',
-        minMemory: '',
+        // minCPU: '',
+        // minGPU: '',
+        // minMemory: '',
         os: '',
         research: ''
       },
@@ -179,13 +182,15 @@ export default {
               contest: d.body.userInfo.contest,
               teamMate: d.body.userInfo.teamMate,
               ipAddress: d.body.userInfo.ipAddress,
-              minCPU: d.body.userInfo.minCPU,
-              minGPU: d.body.userInfo.minGPU,
-              minMemory: d.body.userInfo.minMemory,
+              // minCPU: d.body.userInfo.minCPU,
+              // minGPU: d.body.userInfo.minGPU,
+              // minMemory: d.body.userInfo.minMemory,
               os: d.body.userInfo.os,
               research: d.body.userInfo.research
             }
             this.submited = Boolean(d.body.userInfo.submited)
+            this.status = d.body.userInfo.conditionStatus
+            this.handleButtonText()
           } else {
             this.$message({
               showClose: true,
@@ -201,9 +206,9 @@ export default {
         contest: this.profileForm.contest,
         ipAddress: this.profileForm.ipAddress,
         os: this.profileForm.os,
-        minCPU: this.profileForm.minCPU,
-        minGPU: this.profileForm.minGPU,
-        minMemory: this.profileForm.minMemory,
+        // minCPU: this.profileForm.minCPU,
+        // minGPU: this.profileForm.minGPU,
+        // minMemory: this.profileForm.minMemory,
         research: this.profileForm.research
       })
         .then((d) => {
@@ -239,6 +244,17 @@ export default {
       }
       this.inputVisible = false
       this.inputValue = ''
+    },
+    handleButtonText () {
+      if (this.submited) {
+        this.buttonText = '待审核'
+      } else {
+        this.buttonText = '提交'
+      }
+
+      if (this.status === 1) {
+        this.buttonText = '审核通过！'
+      }
     }
   },
   mounted () {

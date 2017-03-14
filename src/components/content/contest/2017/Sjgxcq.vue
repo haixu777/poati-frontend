@@ -18,18 +18,21 @@
     </div>
     <div class="container_right">
       <div class="introdution" v-show="activeName=='比赛介绍'">
-        <p>本任务的主要目标是从众多的新闻文档中提取相关事件的关键参数。在前两个任务（事件
-          样本发现、事件关键元素识别）中，已经完成了文档的归类以及专题事件的实体/数值提
-          取，本任务是基于以上的任务完成的。首先我们需要对专题事件进行分类，在特定的类别
-          下（见附录），每个事件都有固定的参数类型（比如袭击类型，那么在表格中规定只能有袭
-          击者、被袭击者、武器三种参数），我们需要做的就是尽量从之前提取的实体或者数值中找
-          到相应的对象填充到参数中去（不一定填充完全），完成事件参数的提取。</p>
+        <p>从新闻文档中提取相应新闻事件的相关参数。本任务提供每一篇新闻文档对应的新闻事件及关
+          键元素集合，需要识别出事件的类别，以及该事件类别下每一个参数对应的基本实体。新闻事
+          件类别及对应的参数见下表：每个事件类别都有固定的参数类型（比如袭击类型，那么在表格
+          中规定只能有袭击者、被袭击者、武器三种参数），我们需要做的就是从已知的事件关键元素
+          （即实体或者数值）中找到相应的对象填充到参数中去（不一定填充完全），完成事件参数
+          的提取。</p>
+          <ol>
+            <li>输入：一组新闻文档，其中每篇文档对应的新闻事件及关键元素集合已给定。</li>
+            <li>输出：每篇新闻文档对应的新闻事件类别，以及该事件类别下每一个角色参数对应的基本实体。</li>
+          </ol>
       </div>
       <div class="introdution" v-show="activeName=='比赛规则'">
         <h4>基本规则</h4>
         <ul>
           <li>单支队伍人数上限: 5人</li>
-          <li>单支队伍每日提交次数上限: 20次</li>
         </ul>
         <h4>附加规则</h4>
         <ol>
@@ -40,13 +43,12 @@
       <div class="introdution" v-show="activeName=='比赛数据'">
         <h4>比赛数据</h4>
         <h5>数据介绍</h5>
-        <p>数据均来源于互联网，主要为新闻网站的数据，其中事件类型涵盖国际、国内、军事、财
-          经以及社会五类。通过人工标注得到每类新闻事件所包含的实体，以txt的形式保存作为标
-          准结果。</p>
+        <p>数据均来源于互联网新闻，涵盖国际、国内、军事、财经以及社会五类。</p>
         <h5>数据集</h5>
-        <p>TEST/SAMPLES_TEST 测试文档</p>
-        <p>SCHEMA/TAXONOMY_STANDARD 标准分类信息文件</p>
-        <p>STANDARD/RESULTS_ STANDARD 标准结果文件</p>
+        <p>INPUT/EVENT_SCHEMA 事件参数文档</p>
+        <p>INPUT/TRAIN/DOCUMENT_TRAIN 训练新闻文档</p>
+        <p>INPUT/TRAIN/ANNOTATION_TRAIN	训练标注文档</p>
+        <p>INPUT/TEST/DOCUMENT_TEST	测试新闻文档</p>
         <h5>数据样例</h5>
         <img :src="require('../../../../assets/contest/details/sjgxcq1.png')" alt='sjgxcq'>
         <img :src="require('../../../../assets/contest/details/sjgxcq2.png')" alt='sjgxcq'>
@@ -67,11 +69,13 @@
         <h4>提交要求</h4>
         <ol>
           <li>代码相关文件：完整代码、代码说明文档、算法说明文档</li>
-          <li>结果文件：一个文本格式的文件，采用UTF-8编码，文件内一行代表一个事件角色，同
+          <li>结果文件：一个文本格式的文件，采用UTF-8无BOM编码，文件内一行代表一个事件角色，同
             一个事件的多个角色占用多行，每一行具体的格式是：</li>
         </ol>
         <img :src="require('../../../../assets/contest/details/sjgxcq5.png')" alt='sjgxcq'>
         <img :src="require('../../../../assets/contest/details/sjgxcq6.png')" alt='sjgxcq'>
+        <h4>实例文件</h4>
+        <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/%E4%BA%8B%E4%BB%B6%E5%85%B3%E7%B3%BB%E6%8A%BD%E5%8F%96%E7%BB%93%E6%9E%9C%E7%A4%BA%E4%BE%8B.txt.zip">下载</a></p>
       </div>
     </div>
   </div>
@@ -103,9 +107,19 @@ export default {
       let urls = location.href.split('/')
       localStorage.setItem('yearPick', urls[urls.length - 2])
     }
+  },
+  mounted () {
+    document.documentElement.scrollTop = document.body.scrollTop = 0
+    store.commit('changeTitle', '邀请赛')
   }
 }
 </script>
 
-<style lang="css">
+<style lang="scss" scoped>
+  p, li {
+    font-size: 15px;
+  }
+  img {
+    max-width: 900px;
+  }
 </style>
