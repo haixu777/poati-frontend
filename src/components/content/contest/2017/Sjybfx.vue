@@ -48,7 +48,33 @@
           期徒刑或者剩余刑期在一年 以下的，但犯故意杀人、强奸等严重暴力性犯罪，恐怖活动犯罪
           ，贩卖毒品犯罪的除外。</p>
         <h5>样本发现结果:</h5>
-        <img :src="require('../../../../assets/contest/details/sjybfx1.png')" alt='sjybfx'>
+        <!-- <img :src="require('../../../../assets/contest/details/sjybfx1.png')" alt='sjybfx'> -->
+        <table :class="tableClass">
+          <thead>
+            <tr>
+              <th>事件名称</th>
+              <th>相关样本</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>我国拟特赦四类服刑罪犯</td>
+              <td>习近平签署主席特赦令 特赦四类服刑罪犯</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>我国逆特赦四类服刑罪犯 建国后曾七次特赦</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>我国拟特赦四类服刑罪犯，时隔40年重启特赦制度</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>我国重启尘封40年特赦制度 逆特赦四类服刑罪犯</td>
+            </tr>
+          </tbody>
+        </table>
         <p>说明：给定事件名称“我国拟特赦四类服刑罪犯”以及以上相关4篇报道，上表中“相关样本”一列为从给定的样本中发现的相关样本。</p>
       </div>
       <div class="introdution" v-show="activeName=='比赛规则'">
@@ -71,10 +97,12 @@
         <p>INPUT/EVENT 事件描述文档</p>
         <h5>数据格式</h5>
         <p>数据样例</p>
-        <img class='zhaolin' :src="require('../../../../assets/contest/details/sjybfx3.png')" alt='sjybfx'>
-        <P style='text-align: center;'>图 1 测试文档样例</P>
-        <img class='zhaolin' :src="require('../../../../assets/contest/details/sjybfx4.png')" alt='sjybfx'>
-        <p style='text-align: center'>图 2 输入格式文档样例</p>
+        <!-- <img class='zhaolin' :src="require('../../../../assets/contest/details/sjybfx3.png')" alt='sjybfx'> -->
+        <!-- <P style='text-align: center;'>图 1 测试文档样例</P> -->
+        <div v-html="compiledYbfx1" style="width: 80%; margin: 0 auto;"></div>
+        <!-- <img class='zhaolin' :src="require('../../../../assets/contest/details/sjybfx4.png')" alt='sjybfx'> -->
+        <!-- <p style='text-align: center'>图 2 输入格式文档样例</p> -->
+        <div v-html="compiledYbfx2" style="width: 80%; margin: 0 auto;"></div>
       </div>
       <div class="introdution" v-show="activeName=='评分标准'">
         <h4>评分标准</h4>
@@ -100,6 +128,7 @@
 
 <script>
 import store from '../../../../store'
+const marked = require('marked')
 export default {
   data () {
     return {
@@ -110,7 +139,57 @@ export default {
         { text: '比赛数据' },
         { text: '评分标准' },
         { text: '提交要求' }
-      ]
+      ],
+      tableClass: {
+        'table': true,
+        'table-bordered': true,
+        'table-hover': true,
+        'table-striped': true,
+        'table-condensed': true
+      },
+      ybfx1: `
+      // 测试文档样例
+      <?xml version="1.0" encoding="UTF-8"?>
+      <Samples>
+        <Sample>
+          <SampleID>1</SampleID><!--样本编号-->
+          <SampleTitle>河北官方：尽快做好特赦工作 不错放不漏赦</SampleTitle><!--样本标题-->
+          <SampleContent><!--样本内容-->
+            8月30日上午，河北省召开全省特赦部分服刑罪犯电视电话会议，省委政法委常务副书记王
+            立山要求全省各级各有关部门充分认识这次特赦的重大意义，认真学习全国人大常委会《关
+            于特赦部分服刑罪犯的决定》和中央政法部门制定的实施办法，准确把握特赦条件和基本要
+            求，依法准确尽快做好特赦工作，不能错放一人，也不能漏赦一人。
+          </SampleContent>
+        </Sample>
+        <Sample>
+          <SampleID>2</SampleID>
+          <SampleTitle>我国33年来首次行使特赦决定权</SampleTitle>
+          <SampleContent>
+            今日提请十二届全国人大常委会审议。正在服刑的参加过抗战和解放战争的老兵等四
+            类服刑人员，或将获得特赦。这是全国人大常委会依据现行宪法规定，33年来首次行
+            使特赦决定权。我国上一次特赦是1975年。
+          </SampleContent>
+        </Sample>
+      </Samples>
+      `,
+      ybfx2: `
+      // 输入格式文档样例
+      <?xml version="1.0" encoding="UTF-8"?>
+      <Samples>
+        <Sample>
+        <EventID>1</EventID><!--事件编号-->
+        <EventTitle>我国拟特赦四类服刑罪犯</EventTitle><!--事件名称-->
+        <RelSampleID><!--与事件相关的报道-->
+          <SampleID>1</SampleID><!--样本编号-->
+          <SampleID>2</SampleID>
+          <SampleID>4</SampleID>
+          <SampleID>6</SampleID>
+        </RelSampleID>
+        </Sample>
+        <Sample>
+        </Sample>
+      </Samples>
+      `
     }
   },
   methods: {
@@ -123,6 +202,14 @@ export default {
     backToContest: function () {
       let urls = location.href.split('/')
       localStorage.setItem('yearPick', urls[urls.length - 2])
+    }
+  },
+  computed: {
+    compiledYbfx1 () {
+      return marked(this.ybfx1, {sanitize: true})
+    },
+    compiledYbfx2 () {
+      return marked(this.ybfx2, {sanitize: true})
     }
   },
   mounted () {

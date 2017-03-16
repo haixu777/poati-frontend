@@ -95,8 +95,8 @@ export default {
           { logo: '', path: '/2016/rlsb', title: '人脸识别', introdution: '行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: -1 }
         ],
         year_2017: [
-          { logo: '', path: '/2017/gjccq', title: '关键词抽取', introdution: '本赛题提供新浪专题新闻文档，参赛者需要设计一个关键词抽取系统，抽取每篇文档的关键词。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: 0 },
-          { logo: '', path: '/2017/wbfl', title: '文本分类', introdution: '文本分类是指计算机按照预先定义的主题类别,为文档集合中的每个文档确定一个类别。它是文本挖掘的一个重要内容。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园2017', status: 0 },
+          { logo: '', path: '/2017/gjccq', title: '关键词抽取', introdution: '给定一组互联网新闻文档，参赛者需要设计一个关键词抽取系统，抽取每篇文档的关键词。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: 0 },
+          { logo: '', path: '/2017/wbfl', title: '文本分类', introdution: '文本分类任务是对一组新闻文档和一组微博文档进行自动分类。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园2017', status: 0 },
           { logo: '', path: '/2017/sjybfx', title: '事件样本发现', introdution: '给定事件名称和该事件下的4-5篇新闻报道，从全部语料中发现描述该事件的相关样本。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: 0 },
           { logo: '', path: '/2017/sjgjyssb', title: '事件关键元素识别', introdution: '给定新闻事件样本，抽取其中的基本实体，包括时间、地点、参与人物和参与组织。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: 0 },
           { logo: '', path: '/2017/sjgxcq', title: '事件关系抽取', introdution: '从新闻文档中提取相应新闻事件的相关参数。本任务提供每一篇新闻文档对应的新闻事件及关 键元素集合，需要识别出事件的类别，以及该事件类别下每一个参数对应的基本实体。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: 0 },

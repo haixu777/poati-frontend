@@ -44,7 +44,9 @@
         </ol>
         <h5>3、数据格式:</h5>
         <p>数据样例：</p>
-        <img :src="require('../../../../assets/contest/details/wbfl1.png')" alt="wbfl">
+        <!-- <img :src="require('../../../../assets/contest/details/wbfl1.png')" alt="wbfl"> -->
+        <div v-html="compiledWbfl1" style="width: 75%; margin: 0 auto;"></div>
+        <div v-html="compiledWbfl2" style="width: 75%; margin: 0 auto;"></div>
       </div>
       <div class="introdution" v-show="activeName=='评分标准'">
         <h4>评分标准</h4>
@@ -74,6 +76,7 @@
 
 <script>
 import store from '../../../../store'
+const marked = require('marked')
 export default {
   data () {
     return {
@@ -84,7 +87,27 @@ export default {
         { text: '比赛数据' },
         { text: '评分标准' },
         { text: '提交要求' }
-      ]
+      ],
+      wbfl1: `
+      // 新闻内容示例
+      <Text>
+        <ID>1</ID>
+        <Title>深度：萨德抵韩已无情面好讲 中国可出10招打痛韩美</Title>
+        <Content>
+          美韩军方3月7日宣布，在韩部署“萨德”的第一批装备于3月6日晚抵韩，“萨德”部署进城正式启动，
+          韩国未就该情况向中国做任何通报。对此，中国外交部发言人耿爽3月7日回应说，我们坚决反对美韩
+          在韩国部署“萨德”反导系统，将坚决采取必要措施维护自身的安全利益。由此产生的一些后果由美韩
+          来承担。再次强烈敦促有关方面停止部署进城，不要在错误的道路上越走越远。
+        </Content>
+      </Text>
+      `,
+      wbfl2: `
+      // 新闻标注事例
+      <Class>
+        <ID>1</ID>
+        <classname>军事</classname>
+      </Class>
+      `
     }
   },
   methods: {
@@ -97,6 +120,14 @@ export default {
     backToContest: function () {
       let urls = location.href.split('/')
       localStorage.setItem('yearPick', urls[urls.length - 2])
+    }
+  },
+  computed: {
+    compiledWbfl1 () {
+      return marked(this.wbfl1, { sanitize: true })
+    },
+    compiledWbfl2 () {
+      return marked(this.wbfl2, { sanitize: true })
     }
   },
   mounted () {

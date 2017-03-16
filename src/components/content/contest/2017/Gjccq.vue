@@ -43,10 +43,43 @@
         <h5>3、数据格式</h5>
         <h5>&nbsp;&nbsp;3.1 数据字段：</h5>
         <!-- <img src='http://10.10.28.40:8082/images/contest/gjccq1.png' alt='gjccq'> -->
-        <img :src="require('../../../../assets/contest/details/gjccq1.png')" alt='gjccq'>
+        <!-- <img :src="require('../../../../assets/contest/details/gjccq1.png')" alt='gjccq'> -->
+        <table :class="tableClass" style="width: 80%;margin: 0 auto;">
+          <thead>
+            <tr>
+              <th>字段</th>
+              <th>说明</th>
+              <th>备注</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ID</td>
+              <td>样本编号</td>
+              <td>自动增长</td>
+            </tr>
+            <tr>
+              <td>Title</td>
+              <td>样本标题</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Context</td>
+              <td>样本内容</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>keywords</td>
+              <td>关键词</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
         <h5>&nbsp;&nbsp;3.2 数据样例</h5>
-        <img :src="require('../../../../assets/contest/details/gjccq5.png')" alt='gjccq'>
-        <img :src="require('../../../../assets/contest/details/gjccq6.png')" alt='gjccq6'>
+        <!-- <img :src="require('../../../../assets/contest/details/gjccq5.png')" alt='gjccq'> -->
+        <div v-html="compiledGjccq1"></div>
+        <!-- <img :src="require('../../../../assets/contest/details/gjccq6.png')" alt='gjccq6'> -->
+        <div v-html="compiledGjccq2"></div>
       </div>
       <div class="introdution" v-show="activeName=='评分标准'">
         <h4>评分标准</h4>
@@ -72,6 +105,7 @@
 
 <script>
 import store from '../../../../store'
+const Marked = require('marked')
 export default {
   data () {
     return {
@@ -82,7 +116,43 @@ export default {
         { text: '比赛数据' },
         { text: '评分标准' },
         { text: '提交要求' }
-      ]
+      ],
+      tableClass: {
+        'table': true,
+        'table-bordered': true,
+        'table-hover': true,
+        'table-striped': true,
+        'table-condensed': true
+      },
+      gjccq1: `
+      // 训练集数据
+      <Text>
+        <ID>1<ID>
+        <Title>习近平：扎实把“十三五”发展蓝图变为现实</Title>
+        <Content>
+          新华社北京1月30日电 中共中央政治局1月29日下午就“十三五”时期我国经济社会发展的战略重点进行第三十次集体学习。
+          中共中央总书记习近平在主持学习时强调，发展战略重点，是“十三五”时期我国发展的“衣领子”，“牛鼻子”。抓准、抓住、
+          抓好战略重点，是保证“十三五”发展开好头、起好步的关键，是保证全面建成小康社会决胜阶段获得全胜的关键。要准确
+          把握“十三五”时期我国发展的战略重点，做到胸有成竹、落实右策、行动有策，以奋发有为的精神状态、攻坚克难的拼
+          搏意志、只争朝夕的紧迫劲头，通过抓好发展战略重点带动发展全局，把“十三五”发展宏伟蓝图一步一步变为现实。
+        </Content>
+      </Text>
+      `,
+      gjccq2: `
+      // 训练集关键词标注文档
+      <Class>
+        <ID>1</ID>
+        <keywords>习近平 十三五 发展蓝图 经济发展</keywords>
+      </Class>
+      `
+    }
+  },
+  computed: {
+    compiledGjccq1 () {
+      return Marked(this.gjccq1, { sanitize: true })
+    },
+    compiledGjccq2 () {
+      return Marked(this.gjccq2, { sanitize: true })
     }
   },
   methods: {

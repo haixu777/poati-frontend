@@ -18,7 +18,6 @@ import store from '../../../store'
 export default {
   data () {
     return {
-      isAdministrator: false
     }
   },
   methods: {

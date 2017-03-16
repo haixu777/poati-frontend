@@ -50,8 +50,10 @@
         <p>INPUT/TRAIN/ANNOTATION_TRAIN	训练标注文档</p>
         <p>INPUT/TEST/DOCUMENT_TEST	测试新闻文档</p>
         <h5>数据样例</h5>
-        <img :src="require('../../../../assets/contest/details/sjgxcq1.png')" alt='sjgxcq'>
-        <img :src="require('../../../../assets/contest/details/sjgxcq2.png')" alt='sjgxcq'>
+        <!-- <img :src="require('../../../../assets/contest/details/sjgxcq1.png')" alt='sjgxcq'> -->
+        <div v-html="compiledSjgxcq1" style="margin: 0 auto; width: 60%;"></div>
+        <!-- <img :src="require('../../../../assets/contest/details/sjgxcq2.png')" alt='sjgxcq'> -->
+        <div v-html="compiledSjgxcq2" style="margin: 0 auto; width: 60%;"></div>
         <h5>数据获取</h5>
         <p>竞赛数据仅向参赛者开放,请先登录或注册</p>
       </div>
@@ -74,7 +76,153 @@
         </ol>
         <img :src="require('../../../../assets/contest/details/sjgxcq5.png')" alt='sjgxcq'>
         <h4>附录 （事件分类信息表）</h4>
-        <img :src="require('../../../../assets/contest/details/sjgxcq6.png')" alt='sjgxcq'>
+        <table :class="tableClass" style="width: 80%; margin: 0 auto;">
+          <thead>
+            <tr>
+              <th>事件分类</th>
+              <th>角色</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="info">
+              <td>事故</td>
+              <td>原因（地震，车祸等）</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>受伤人员（当没有具体人名时可以填类似于“12人”）</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>死亡人员（同上受伤人员）</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>时间（格式统一为 2017-01-01）</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>地点</td>
+            </tr>
+            <tr class="info">
+              <td>冲突（和袭击合并）</td>
+              <td>冲突方 1（袭击者）</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>冲突方 2（被袭击者）</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>武器（炸弹，枪，刀等）</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>时间（格式统一为 2017-01-01）</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>地点</td>
+            </tr>
+            <tr class="info">
+              <td>外交</td>
+              <td>外交方</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>时间（格式统一为 2017-01-01）</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>地点</td>
+            </tr>
+            <tr class="info">
+              <td>会议政策</td>
+              <td>主题（如果是会议用名称即可）</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>参与者</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>结果文件／协议</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>时间（格式统一为 2017-01-01）</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>地点</td>
+            </tr>
+            <tr class="info">
+              <td>典礼</td>
+              <td>典礼名字</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>参与者</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>时间（格式统一为 2017-01-01）</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>地点</td>
+            </tr>
+            <tr class="info">
+              <td>军事</td>
+              <td>涉及国家</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>武器</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>时间（格式统一为 2017-01-01）</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>地点</td>
+            </tr>
+            <tr class="info">
+              <td>政权变化</td>
+              <td>涉及人物</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>涉及政党</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>时间（格式统一为 2017-01-01）</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>地点</td>
+            </tr>
+            <tr class="info">
+              <td>人物</td>
+              <td>涉及人（如李光耀）</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>状态（如死亡）</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>时间（格式统一为 2017-01-01）</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>地点</td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- <img :src="require('../../../../assets/contest/details/sjgxcq6.png')" alt='sjgxcq'> -->
         <h4>实例文件</h4>
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/%E4%BA%8B%E4%BB%B6%E5%85%B3%E7%B3%BB%E6%8A%BD%E5%8F%96%E7%BB%93%E6%9E%9C%E7%A4%BA%E4%BE%8B.txt.zip">下载</a></p>
       </div>
@@ -84,6 +232,7 @@
 
 <script>
 import store from '../../../../store'
+const marked = require('marked')
 export default {
   data () {
     return {
@@ -94,7 +243,63 @@ export default {
         { text: '比赛数据' },
         { text: '评分标准' },
         { text: '提交要求' }
-      ]
+      ],
+      tableClass: {
+        'table': true,
+        'table-bordered': true,
+        'table-hover': true,
+        'table-striped': true,
+        'table-condensed': true
+      },
+      sjgxcq1: `
+      // 分类信息文档
+      <?xml version="1.0" encoding="UTF-8" ?>
+      <TAXONOMY>
+        <TYPE>
+          <TYPE_NAME>事故</TYPE_NAME>
+            <ROLES>
+              <ROLE>原因</ROLE>
+              <ROLE>受伤人员</ROLE>
+              <ROLE>死亡人员</ROLE>
+              <ROLE>时间</ROLE>
+              <ROLE>地点</ROLE>
+            </ROLES>
+        </TYPE>
+        <TYPE>
+        ...
+        </TYPE>
+      </TAXONOMY>
+      `,
+      sjgxcq2: `
+      // 测试数据集
+      <?xml version="1.0" encoding="UTF-8" ?>
+      <EVENTS>
+        <EVENT>
+          <EVENT_ID>1</EVENT_ID>
+          <EVENT_NAME>习近平访问瑞士</EVENT_NAME>
+          <DOCS>
+            <DOC>
+              <DOC_ID>1</DOC_ID>
+                <DOC_TITLE>王毅谈习近平访问瑞士：乱云飞渡仍从容</DOC_TITLE>
+                <DOC_CONTENT>
+                  1月15日至18日，国家主席习近平对瑞士进行国事访问，
+                  出席世界经济论坛年会并访问在瑞士的国际组织。行程结束之际，
+                  外交部长王毅向记者介绍此访情况。王毅说，新年伊始，习近平主
+                  席2017年首次出访，来到欧洲中心瑞士，来到“世界经济风向标”达
+                  沃斯，来到重要多边外交中心日内瓦。面对世界经济低迷不振，逆
+                  全球化暗流涌动，国际形势动荡多变，习近平主席登上达沃斯和日
+                  内瓦讲坛，紧扣时代命题，讲述中国故事，提出中国主张，贡献中
+                  国智慧。乱云飞渡仍从容，世人再次目睹了一个稳健开放自信的中
+                  国。
+                </DOC_CONTENT>
+            </DOC>
+            <DOC>
+              ...
+            </DOC>
+          </DOCS>
+        </EVENT>
+      </EVENTS>
+      `
     }
   },
   methods: {
@@ -107,6 +312,14 @@ export default {
     backToContest: function () {
       let urls = location.href.split('/')
       localStorage.setItem('yearPick', urls[urls.length - 2])
+    }
+  },
+  computed: {
+    compiledSjgxcq1 () {
+      return marked(this.sjgxcq1, { sanitize: true })
+    },
+    compiledSjgxcq2 () {
+      return marked(this.sjgxcq2, { sanitize: true })
     }
   },
   mounted () {

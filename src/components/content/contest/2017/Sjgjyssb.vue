@@ -30,7 +30,43 @@
           赦部分服刑罪犯的决定》和中央政法部门制定的实施办法，准确把握特赦条件和基本要求，依
           法准确尽快做好特赦工作，不能错放一人，也不能漏赦一人。</p>
         <p>识别结果：</p>
-        <img :src="require('../../../../assets/contest/details/sjgjyssb1.png')" alt='sjgjyssb'>
+        <!-- <img :src="require('../../../../assets/contest/details/sjgjyssb1.png')" alt='sjgjyssb'> -->
+        <table :class="tableClass">
+          <thead>
+            <tr>
+              <th>新闻标题</th>
+              <th>事件关键元素</th>
+              <th>类型</th>
+              <th>位置</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>河北官方：尽快做好特赦工作 不错放不漏赦</td>
+              <td>8月30日</td>
+              <td>时间</td>
+              <td>(1,1,4)</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>河北省</td>
+              <td>地点</td>
+              <td>(1,8,10)</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>王立山</td>
+              <td>人物</td>
+              <td>(1,40,42)</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>全国人大常委会</td>
+              <td>组织</td>
+              <td>(1,72,78)</td>
+            </tr>
+          </tbody>
+        </table>
         <p style="text-align: center;">说明：上表中“位置”一列的三元组表示(段落位置，起始位置,结束位置)。</p>
       </div>
       <div class="introdution" v-show="activeName=='比赛规则'">
@@ -58,8 +94,9 @@
         <!-- <p>数据字段</p> -->
         <!-- <img :src="require('../../../../assets/contest/details/sjgjyssb2.png')" alt='sjgjyssb'> -->
         <p>数据样例:</p>
-        <img class='zhaolin' :src="require('../../../../assets/contest/details/sjgjyssb3.png')" alt='sjgjyssb'>
-        <p style='text-align: center;'>图 1 测试文档样例</p>
+        <div v-html="compiledSjgjyssb1" style="margin: 0 auto; width: 80%;"></div>
+        <!-- <img class='zhaolin' :src="require('../../../../assets/contest/details/sjgjyssb3.png')" alt='sjgjyssb'> -->
+        <!-- <p style='text-align: center;'>图 1 测试文档样例</p> -->
         <!-- <img :src="require('../../../../assets/contest/details/sjgjyssb4.png')" alt='sjgjyssb' class='zhaolin'> -->
         <!-- <p style='text-align: center;'>图 2 标准结果文档样例</p> -->
         <h5>数据获取</h5>
@@ -87,7 +124,7 @@
           <li>提交结果文件使用UTF-8无BOM编码。</li>
         </ol>
         <h4>实例文件</h4>
-        <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/result_%E5%85%B3%E9%94%AE%E5%85%83%E7%B4%A0%E8%AF%86%E5%88%AB.txt.zip">下载</a></p>
+        <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/result_%E5%85%B3%E9%94%AE%E5%85%83%E7%B4%A0%E8%AF%86%E5%88%AB.txt.zip">下载</a></p>
       </div>
     </div>
   </div>
@@ -95,6 +132,7 @@
 
 <script>
 import store from '../../../../store'
+const marked = require('marked')
 export default {
   data () {
     return {
@@ -105,7 +143,33 @@ export default {
         { text: '比赛数据' },
         { text: '评分标准' },
         { text: '提交要求' }
-      ]
+      ],
+      tableClass: {
+        'table': true,
+        'table-bordered': true,
+        'table-hover': true,
+        'table-striped': true,
+        'table-condensed': true
+      },
+      sjgjyssb1: `
+      // 测试文档样例
+      <?xml version="1.0" encoding="UTF-8"?>
+      <Samples>
+        <Sample>
+          <SampleID>1</SampleID><!--样本编号--
+          <EventID>1</EventID><!--事件编号-->
+          <SampleTitle>河北官方：尽快做好特赦工作 不错放不漏赦</SampleTitle><!--样本标题-->
+          <SampleContent><!--样本内容-->
+            8月30日上午，河北省召开全省特赦部分服刑罪犯电视电话会议，省委政法委常务副书记王
+            立山要求全省各级各有关部门充分认识这次特赦的重大意义，认真学习全国人大常委会《关
+            于特赦部分服刑罪犯的决定》和中央政法部门制定的实施办法，准确把握特赦条件和基本要
+            求，依法准确尽快做好特赦工作，不能错放一人，也不能漏赦一人。
+          </SampleContent>
+        </Sample>
+        <Sample>
+        </Sample>
+      </Samples>
+      `
     }
   },
   methods: {
@@ -118,6 +182,11 @@ export default {
     backToContest: function () {
       let urls = location.href.split('/')
       localStorage.setItem('yearPick', urls[urls.length - 2])
+    }
+  },
+  computed: {
+    compiledSjgjyssb1 () {
+      return marked(this.sjgjyssb1, { sanitize: true })
     }
   },
   mounted () {
