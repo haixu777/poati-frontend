@@ -8,6 +8,13 @@
       type="success"
       @close="info">
     </el-alert>
+    <el-tooltip class="wechat" effect="dark" placement="bottom">
+      <div slot="content">
+        <div class="footer-popover-title" style="border-bottom: 1px solid #d1dbe5; text-align: center;">网络舆情</div>
+        <img src="./assets/QR_code.jpg" alt="qr_code" style="width: 90px; height: 90px;">
+      </div>
+      <img src="./assets/wechat.png" alt="wechat" class="wechat_fixed_logo">
+    </el-tooltip>
     <my-header></my-header>
     <my-content></my-content>
     <my-footer></my-footer>
@@ -49,7 +56,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: 'Microsoft YaHei', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -57,5 +64,15 @@ export default {
   text-align: center;
   color: #2c3e50;
   min-width: 1170px;
+}
+.wechat {
+  position: fixed;
+  top: 50%;
+  left: 3%;
+  margin-top: -25px;
+}
+.wechat_fixed_logo {
+  width: 50px;
+  height: 50px;
 }
 </style>

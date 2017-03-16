@@ -41,6 +41,7 @@ export default {
 
 <style lang="scss">
   .help_container {
+    min-width: 1172px;
     min-height: 790px;
     background: #fff;
     text-align: left;

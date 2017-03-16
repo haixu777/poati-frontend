@@ -92,8 +92,8 @@ export default {
         { avatar: require('../../assets/experts/ShenYang@.jpg'), name: '沈阳', title: '清华大学 | 教授', index: 2 },
         { avatar: require('../../assets/experts/YuHaiTao.jpg'), name: '于海涛', title: '腾讯公司信息安全部 | 总经理', index: 2 },
         { avatar: require('../../assets/experts/ShiShuiCai@.jpg'), name: '施水才', title: '北京拓尔思信息技术股份有限公司 | CEO', index: 2 },
-        { avatar: require('../../assets/experts/DuYueJin@.jpg'), name: '杜跃进', title: '阿里巴巴安全部 | 技术副总裁（拟邀请）', index: 2 },
-        { avatar: require('../../assets/experts/LinJunYu.jpg'), name: '林俊宇', title: '中国科学院信息工程研究所', index: 2 }
+        { avatar: require('../../assets/experts/DuYueJin@.jpg'), name: '杜跃进', title: '阿里巴巴安全部 | 技术副总裁（拟邀请）', index: 2 }
+        // { avatar: require('../../assets/experts/LinJunYu.jpg'), name: '林俊宇', title: '中国科学院信息工程研究所', index: 2 }
       ]
     }
   },
@@ -110,6 +110,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .container {
+    min-width: 1172px;
+  }
   .expert_flex_container {
     padding-left: 20px;
     text-align: left;

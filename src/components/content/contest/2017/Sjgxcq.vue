@@ -73,6 +73,7 @@
             一个事件的多个角色占用多行，每一行具体的格式是：</li>
         </ol>
         <img :src="require('../../../../assets/contest/details/sjgxcq5.png')" alt='sjgxcq'>
+        <h4>附录 （事件分类信息表）</h4>
         <img :src="require('../../../../assets/contest/details/sjgxcq6.png')" alt='sjgxcq'>
         <h4>实例文件</h4>
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/%E4%BA%8B%E4%BB%B6%E5%85%B3%E7%B3%BB%E6%8A%BD%E5%8F%96%E7%BB%93%E6%9E%9C%E7%A4%BA%E4%BE%8B.txt.zip">下载</a></p>
@@ -120,6 +121,6 @@ export default {
     font-size: 15px;
   }
   img {
-    max-width: 900px;
+    max-width: 800px;
   }
 </style>

@@ -9,12 +9,13 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .clearfix {
     overflow: auto;
     _height: 1%;
   }
   .content {
+    min-width: 1170px;
     min-height: 800px;
     background: #F3F6F9;
   }

@@ -87,7 +87,7 @@
           <li>提交结果文件使用UTF-8无BOM编码。</li>
         </ol>
         <h4>实例文件</h4>
-        <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/%E5%85%B3%E9%94%AE%E5%85%83%E7%B4%A0%E8%AF%86%E5%88%AB%E7%BB%93%E6%9E%9C%E7%A4%BA%E4%BE%8B.txt.zip">下载</a></p>
+        <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/result_%E5%85%B3%E9%94%AE%E5%85%83%E7%B4%A0%E8%AF%86%E5%88%AB.txt.zip">下载</a></p>
       </div>
     </div>
   </div>
