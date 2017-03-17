@@ -359,14 +359,20 @@ export default {
       console.log('access')
       let item = rows[index]
       this.handleTeamToServer(item.id, 1, '', (d) => {
-        if (d.body.success) {
+        if (Number(d.body.success) === 1) {
           this.$notify({
             title: '审核通过',
             message: '参赛队伍：' + item.teamName,
             type: 'success'
           })
           item.status = 1
-          console.log('accepted ' + item.teamName)
+          // console.log('accepted ' + item.teamName)
+        } else if (Number(d.body.success) === -1) {
+          this.$notify.error({
+            title: '操作失败',
+            message: d.body.msg
+          })
+          // console.log('accepted ' + item.teamName)
         } else {
           this.$message({
             showClose: true,
