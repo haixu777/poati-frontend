@@ -4,9 +4,9 @@
       <div class="container">
         <img src="../assets/logo.png" alt="logo" class="img_logo">
         <ul class="nav_list">
-            <li v-for="item in navList" :class="item.text==activeText?'active':''" @click="toogleActive(item.text)">
-              <router-link :to="item.path">{{ item.text }}</router-link>
-            </li>
+          <li v-for="item in navList" :class="item.text==activeText?'active':''" @click="toogleActive(item.text)">
+            <router-link :to="item.path">{{ item.text }}</router-link>
+          </li>
         </ul>
         <ul class="login_list">
           <li class="btn_register" v-if="!isLogin">
@@ -17,6 +17,7 @@
           <li class="btn_register" v-else>
             <el-dropdown trigger="click">
               <span class="el-dropdown-link">
+                <img :src="team_avatar?team_avatar:require('../assets/avatar.png')" style="width: 40px;height: 40px;border-radius: 50%;border: 2px solid #ddd;" alt="">
                 {{ username }}<i class="el-icon-caret-bottom el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
@@ -110,7 +111,6 @@
 
 <script>
 import store from '../store'
-
 export default {
   data: function () {
     let validatePhone = (rule, value, callback) => {
@@ -204,7 +204,8 @@ export default {
       activeName: 'login',
       rules: {
         teamName: [
-          { required: true, message: '队伍名称不能为空', trigger: 'blur' }
+          { required: true, message: '队伍名称不能为空', trigger: 'blur' },
+          { min: 2, max: 8, message: '队伍名称长度在 2 到 8 个字符', trigger: 'blur' }
         ],
         name: [
           { required: true, message: '姓名不能为空', trigger: 'blur' }
@@ -236,6 +237,9 @@ export default {
   computed: {
     activeText () {
       return store.state.activeText
+    },
+    team_avatar () {
+      return store.state.team_avatar
     }
   },
   methods: {
@@ -288,9 +292,11 @@ export default {
           localStorage.setItem('username', res.data.userInfo.teamName)
           localStorage.setItem('token', res.data.userInfo.token)
           localStorage.setItem('isAdmin', res.data.userInfo.isAdmin)
+          localStorage.setItem('team_avatar', res.data.userInfo.teamPictureUrl)
           this.isAdmin = res.data.userInfo.isAdmin
           this.isLogin = true
           this.username = res.data.userInfo.teamName
+          store.commit('changeAvatar', res.data.userInfo.teamPictureUrl)
           this.dialog_loading = false
           this.dialogFormVisible = false
           this.Logining = false
@@ -331,6 +337,7 @@ export default {
       this.isLogin = false
       this.isAdmin = false
       this.Logining = false
+      this.team_avatar = ''
     },
     confirmRegister: function () {
       this.loading = true
@@ -374,7 +381,8 @@ export default {
   .btn_register {
     float: left;
     list-style: none;
-    margin-top: 8px;
+    height: 100%;
+    line-height: 60px;
   }
   .nav_list {
     display: inline;

@@ -126,6 +126,9 @@
         <h4>实例文件</h4>
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/result_%E5%85%B3%E9%94%AE%E5%85%83%E7%B4%A0%E8%AF%86%E5%88%AB.txt.zip">下载</a></p>
       </div>
+      <div class="introdution" v-show="activeName=='队伍排名'">
+        <h4>队伍排名</h4>
+      </div>
     </div>
   </div>
 </template>
@@ -142,7 +145,8 @@ export default {
         { text: '比赛规则' },
         { text: '比赛数据' },
         { text: '评分标准' },
-        { text: '提交要求' }
+        { text: '提交要求' },
+        { text: '队伍排名' }
       ],
       tableClass: {
         'table': true,

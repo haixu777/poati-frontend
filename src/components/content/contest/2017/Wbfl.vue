@@ -70,6 +70,9 @@
         <h4>实例文件</h4>
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB%E7%BB%93%E6%9E%9C%E7%A4%BA%E4%BE%8B.txt.zip">下载</a></p>
       </div>
+      <div class="introdution" v-show="activeName=='队伍排名'">
+        <h4>队伍排名</h4>
+      </div>
     </div>
   </div>
 </template>
@@ -86,7 +89,8 @@ export default {
         { text: '比赛规则' },
         { text: '比赛数据' },
         { text: '评分标准' },
-        { text: '提交要求' }
+        { text: '提交要求' },
+        { text: '队伍排名' }
       ],
       wbfl1: `
       // 新闻内容示例
@@ -133,6 +137,9 @@ export default {
   mounted () {
     document.documentElement.scrollTop = document.body.scrollTop = 0
     store.commit('changeTitle', '邀请赛')
+    if (location.href.split('#')[1] === 'rank') {
+      this.activeName = '队伍排名'
+    }
   }
 }
 </script>

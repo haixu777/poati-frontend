@@ -2,167 +2,52 @@
   <div class="home_container">
     <el-carousel height="450px">
       <el-carousel-item v-for="item in banner_list">
-        <img :src="item.img" alt="" style="width: 100%;height: 100%;">
+        <img :src="item.img" alt="banner" style="width: 100%;height: 100%;">
       </el-carousel-item>
     </el-carousel>
-    <div class="newest_contest">
-      <div class="title_container container">
-        <h3>最新竞赛</h3>
-        <router-link :to="'/contest'">
-          <button type="button" name="button" class="btn btn-sm btn-primary" @click="toogleActive('竞赛')">更多竞赛</button>
-        </router-link>
-      </div>
-      <div class="container">
-        <el-row type="flex" justify="center" :gutter="15">
-          <el-col :span="0" v-for="item,index in newest_contest_list">
-            <el-card :body-style="{ padding: '0px' }">
-              <div style="padding-top: 10px;">
-                <span style="text-align: center;width: 100%;display: inline-block;">{{ item.title }}</span>
-                <img :src="item.img" class="image">
-                <div class="bottom">
-                  <router-link :to="'/contest/2017/'+item.path">
-                    <el-button type="text" class="button" @click="handleContestClick(item.path)">立即参赛</el-button>
-                  </router-link>
-                </div>
-              </div>
-            </el-card>
-          </el-col>
-        </el-row>
-      </div>
-    </div>
-    <div class="newest_news clearfix">
-      <div class="title_container container">
-        <h3>最新动态</h3>
-        <router-link :to="'/news'">
-          <button type="button" name="button" class="btn btn-sm btn-primary" @click="toogleActive('新闻')">更多资讯</button>
-        </router-link>
-      </div>
-      <div class="newest_news_container">
-        <div class="news_item container clearfix">
-          <template v-for="item in newest_news_list">
-            <div class="news_details">
-              <div class="news_item_left">
-                <img :src="item.avatar" alt="">
-              </div>
-              <div class="news_item_right">
-                <!-- <router-link :to="'/news/details/'+item.id" @click.native="handleToNewsDetail(item.id)">
-                  <h5 style="font-weight: 800; margin-top: 0;">{{ item.time + ' ' + item.title }}</h5>
-                </router-link> -->
-                <a :href="'/news/details/'+item.id" target="_blank">
-                  <h5 style="font-weight: 800; margin-top: 0;">{{ item.time + ' ' + item.title }}</h5>
-                </a>
-                <p>{{ utils.cutString(item.desc, 90) }}</p>
-              </div>
-            </div>
-          </template>
-        </div>
-      </div>
-    </div>
-    <div class="expert_recommend" style="display: none;">
-      <div class="title_container container">
-        <h3>专家报告</h3>
-        <router-link :to="'/expert'">
-          <button type="button" name="button" class="btn btn-sm btn-primary" @click="toogleActive('专家')">更多专家</button>
-        </router-link>
-      </div>
-      <div class="expert_recommend_container container">
-        <el-row :gutter="20" type="flex" justify="space-around">
-          <template v-for="item in expertList">
-            <el-col :span="4" style="padding: 0;">
-              <el-row>
-                <img :src="item.avatar" :alt="item.name">
-              </el-row>
-              <el-row style="padding: 0 10px;">
-                <h5 style="color: #1D8CE0;">{{ item.name }}</h5>
-                <p>{{ item.title }}</p>
-              </el-row>
-            </el-col>
-          </template>
-        </el-row>
-      </div>
-    </div>
-    <div class="partner_company container" style="margin-bottom: 0;background: fff;">
-      <div class="title_container container">
-        <h3 id="partner_title">合作伙伴</h3>
-      </div>
-      <div class="partner_container">
-        <template v-for="item in partner_img_list">
-          <div class="partner_card">
-            <img :src="item.img" :alt="item.alt">
-          </div>
-        </template>
-      </div>
-    </div>
+    <!-- 最新竞赛 -->
+    <contest-newest></contest-newest>
+    <!-- 比赛排行 -->
+    <contest-rank></contest-rank>
+    <!-- 最新动态 -->
+    <contest-news></contest-news>
+    <!-- 专家报告 -->
+    <contest-expert v-if="false"></contest-expert>
+    <!-- 合作伙伴 -->
+    <contest-partner></contest-partner>
   </div>
 </template>
 
 <script>
 import store from '../../store'
-const utils = require('../../../utils/util')
+const contestRank = require('./Home/ContestRank')
+const contestNewest = require('./Home/ContestNewest')
+const contestNews = require('./Home/ContestNews')
+const contestExpert = require('./Home/ContestExpert')
+const contestPartner = require('./Home/ContestPartner')
 
 export default {
+  components: {
+    contestRank,
+    contestNewest,
+    contestNews,
+    contestExpert,
+    contestPartner
+  },
   data () {
     return {
       banner_list: [
         { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner/banner11.jpg' },
-        // { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner/banner5.jpg' },
         { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner/banner12.jpg' },
         { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner/banner13.jpg' },
         { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner/banner14.jpg' }
-      ],
-      newest_contest_list: [
-        { path: 'gjccq', img: require('../../assets/contest/gjccq.jpg'), title: '关键词抽取', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'wbfl', img: require('../../assets/contest/wbfl.jpg'), title: '文本分类', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'sjybfx', img: require('../../assets/contest/sjybfx.jpg'), title: '事件样本发现', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'sjgjyssb', img: require('../../assets/contest/sjgjyssb.jpg'), title: '事件关键元素识别', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'sjgxcq', img: require('../../assets/contest/sjgxcq.jpg'), title: '事件关系抽取', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'sjgxyc', img: require('../../assets/contest/sjgxyc.jpg'), title: '社交关系预测', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'yhhx', img: require('../../assets/contest/yhhx.jpg'), title: '用户画像', time: '2017-3-1 ～ 2017-3-15' }
-      ],
-      newest_news_list: [
-        // { id: '1', title: '网络舆情分析结果', time: '2017-3-1', desc: '阿卡今年是达安寺大家按达科水济济你的教科书啊是看见的那块水济你的健康三大兰看到你啦开始的大赛', avatar: require('../../assets/news.png') },
-        // { id: '2', title: '僵尸可拿到家', time: '2017-2-28', desc: '阿卡今年是达科静安寺大家按时递交那胜兰达科那胜兰看到你啦开始的呢', avatar: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' },
-        // { id: '3', title: '卡民生东路', time: '2017-2-26', desc: '阿卡今年是达科静俺是达科家那是达科技能安寺大家按时递交那胜兰达科那胜兰看到你啦开始的呢', avatar: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' },
-        // { id: '4', title: '阿卡民生东路卡', time: '2017-2-14', desc: '阿卡今年是达科静安寺大家按时递交那胜兰达科那胜兰看到你啦开始的呢', avatar: 'http://static.wid.org.cn/img/18a41e0e-54b9-406a-b506-b529c0ae3e84.png' }
-      ],
-      expertList: [
-        { avatar: 'http://static.int-yt.com/img/6384cc6d-a19c-45f4-822d-7f3ac451cf48.png', name: '陈恩红', title: '中国科学技术大学计算机学院副院长、教授' },
-        { avatar: 'http://static.int-yt.com/img/97b59fb9-d5ea-4d66-928c-07924e9be5be.png', name: '车品觉', title: '阿里巴巴集团副总裁' },
-        { avatar: 'http://static.int-yt.com/img/d4580279-f518-42eb-8a35-aac7fa688fc2.png', name: '陈恩红', title: '中国科学技术大学计算机学院副院长、教授' },
-        { avatar: 'http://static.int-yt.com/img/57180b3b-30eb-483a-ac07-8261d88f0e71.png', name: '卜佳俊', title: '浙江大学软件学院教授' },
-        { avatar: 'http://static.wid.org.cn/img/4ab81219-f243-44cf-99d1-a8e94625c425.jpg', name: '陈恩红', title: '中国科学技术大学计算机学院副院长、教授' }
-      ],
-      partner_img_list: [
-        { img: require('../../assets/partner/360.jpg'), alt: '360' },
-        { img: require('../../assets/partner/zhongkeshuguang.jpg'), alt: 'zhongkeshuguang' }
-      ],
-      utils: utils
+      ]
     }
   },
   methods: {
-    toogleActive: function (text) {
-      store.commit('changeTitle', text)
-    },
-    handleContestClick: function (text) {
-      store.commit('changeTitle', '竞赛')
-    },
-    handleToNewsDetail: function (id) {
-      store.commit('changeTitle', '新闻')
-      console.log(id)
-    },
-    handleFetchNewestNewsFromServer () {
-      this.$http.get('news/fetchNewest.do')
-        .then((d) => {
-          this.newest_news_list = d.body.newsList
-          this.newest_news_list.forEach(function (item) {
-            item.time = utils.formatTime(item.time, false)
-          })
-        })
-    }
   },
   mounted: function () {
     store.commit('changeTitle', '首页')
-    this.handleFetchNewestNewsFromServer()
     document.documentElement.scrollTop = document.body.scrollTop = 0
   }
 }

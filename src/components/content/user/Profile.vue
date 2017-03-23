@@ -5,6 +5,16 @@
     <div class="profile_right">
       <div class="basic_container">
         <div class="title">基本信息</div>
+        <el-upload
+          class="avatar-uploader"
+          :action="interfaceUrl+'/user/uploadAvatar.do'"
+          :show-file-list="false"
+          :headers="{token: token}"
+          :on-success="handleAvatarScucess"
+          :before-upload="beforeAvatarUpload">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
         <el-form :model="profileForm" :inline="true" :rules="profileRules" ref="profileRules" label-width="110px" class="my_form">
           <el-form-item label="用户名">
             <el-input v-model="profileForm.username" :disabled="true"></el-input>
@@ -70,6 +80,8 @@
 </template>
 
 <script>
+import config from '../../../../config'
+import store from '../../../store'
 export default {
   data () {
     let validateIPAddress = (rule, value, callback) => {
@@ -93,6 +105,9 @@ export default {
       inputVisible: false,
       inputValue: '',
       buttonText: '',
+      interfaceUrl: '',
+      token: localStorage.getItem('token'),
+      imageUrl: '',
       contestList: [
         { name: '事件样本发现', isExpire: false },
         { name: '事件关键元素识别', isExpire: false },
@@ -155,6 +170,24 @@ export default {
     }
   },
   methods: {
+    handleAvatarScucess (res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw)
+      localStorage.setItem('team_avatar', res.avatar)
+      store.commit('changeAvatar', res.avatar)
+    },
+    beforeAvatarUpload (file) {
+      // const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      // if (!isJPG) {
+      //   this.$message.error('上传头像图片只能是 JPG 格式!')
+      // }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      // return isJPG && isLt2M
+      return isLt2M
+    },
     handleSubmit (formName) {
       console.log(this.profileForm)
       this.$refs[formName].validate((valid) => {
@@ -190,7 +223,10 @@ export default {
             }
             this.submited = Boolean(d.body.userInfo.submited)
             this.status = d.body.userInfo.conditionStatus
+            this.imageUrl = d.body.userInfo.teamPictureUrl
+            localStorage.setItem('team_avatar', d.body.userInfo.teamPictureUrl)
             this.handleButtonText()
+            console.log(this.$parent)
           } else {
             this.$message({
               showClose: true,
@@ -255,15 +291,47 @@ export default {
       if (this.status === 1) {
         this.buttonText = '审核通过！'
       }
+    },
+    handleAvatarUrl () {
+      this.interfaceUrl = process.env.NODE_ENV === 'development' ? config.dev.env.interfaceUrl : (config.build.env.interfaceUrl).replace(/"/g, '')
     }
   },
   mounted () {
     this.fetchUserProfileFromServer()
+    this.handleAvatarUrl()
   }
 }
 </script>
 
 <style lang="scss">
+  // upload avatar start
+  .avatar-uploader .el-upload {
+    margin-bottom: 20px;
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    width: 60px !important;
+    height: 60px;
+    line-height: 68px;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #20a0ff;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    text-align: center;
+  }
+  .avatar {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  // upload avatar end
+
+
   .profile_container {
     .profile_right {
       padding: 20px;
