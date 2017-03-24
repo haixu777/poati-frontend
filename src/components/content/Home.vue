@@ -8,7 +8,7 @@
     <!-- 最新竞赛 -->
     <contest-newest></contest-newest>
     <!-- 比赛排行 -->
-    <contest-rank></contest-rank>
+    <contest-rank v-if="false"></contest-rank>
     <!-- 最新动态 -->
     <contest-news></contest-news>
     <!-- 专家报告 -->
@@ -37,10 +37,10 @@ export default {
   data () {
     return {
       banner_list: [
-        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner/banner11.jpg' },
-        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner/banner12.jpg' },
         { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner/banner13.jpg' },
-        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner/banner14.jpg' }
+        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner/banner12.jpg' },
+        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner/banner14.jpg' },
+        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner/banner11.jpg' }
       ]
     }
   },

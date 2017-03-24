@@ -100,7 +100,7 @@
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/%E7%BB%93%E6%9E%9C%E7%A4%BA%E4%BE%8B.txt.zip">下载</a></p>
       </div>
       <div class="introdution" v-show="activeName=='队伍排名'">
-        <h4>队伍排名</h4>
+        <my-contest-rank :url="'gjccq'"></my-contest-rank>
       </div>
     </div>
   </div>
@@ -109,6 +109,7 @@
 <script>
 import store from '../../../../store'
 const Marked = require('marked')
+const myContestRank = require('../myContestRank')
 export default {
   data () {
     return {
@@ -150,6 +151,9 @@ export default {
       </Class>
       `
     }
+  },
+  components: {
+    myContestRank
   },
   computed: {
     compiledGjccq1 () {
