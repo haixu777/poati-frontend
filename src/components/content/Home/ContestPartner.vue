@@ -18,8 +18,8 @@ export default {
   data () {
     return {
       partner_img_list: [
-        { img: require('../../../assets/partner/360.jpg'), alt: '360' },
-        { img: require('../../../assets/partner/zhongkeshuguang.jpg'), alt: 'zhongkeshuguang' }
+        { img: require('assets/partner/360.jpg'), alt: '360' },
+        { img: require('assets/partner/zhongkeshuguang.jpg'), alt: 'zhongkeshuguang' }
       ]
     }
   }

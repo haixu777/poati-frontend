@@ -120,19 +120,19 @@ export default {
         return {
           text: '即将开始',
           color: 'color: #F7BA2A',
-          img: require('../../assets/start.png')
+          img: require('assets/start.png')
         }
       } else if (status === 1) {
         return {
           text: '进行中',
           color: 'color: #339900',
-          img: require('../../assets/process.png')
+          img: require('assets/process.png')
         }
       } else if (status === -1) {
         return {
           text: '已结束',
           color: 'color: #f50213',
-          img: require('../../assets/end.png')
+          img: require('assets/end.png')
         }
       }
     }

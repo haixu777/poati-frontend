@@ -35,7 +35,7 @@
                     <el-form-item label="队员"><span>{{ props.row.teamMate }}</span></el-form-item>
                     <el-form-item label="IP地址"><span>{{ props.row.ipAddress }}</span></el-form-item>
                     <el-form-item label="os"><span>{{ props.row.os }}</span></el-form-item>
-                    <el-form-item label="队伍头像"><span><img :src="props.row.teamPictureUrl?props.row.teamPictureUrl:require('../../assets/avatar.png')" alt="avatar" style="width: 60px;height: 60px;border-radius: 50%;border: 3px solid #eee;"></span></el-form-item>
+                    <el-form-item label="队伍头像"><span><img :src="props.row.teamPictureUrl?props.row.teamPictureUrl:require('assets/avatar.png')" alt="avatar" style="width: 60px;height: 60px;border-radius: 50%;border: 3px solid #eee;"></span></el-form-item>
                     <el-form-item label="研究方向" class="el_form_full"><span>{{ props.row.research }}</span></el-form-item>
                     <el-form-item label="拒绝理由" class="el_form_full" v-if="props.row.status == 2"><span>{{ props.row.rejectedReason }}</span></el-form-item>
                   </el-form>

@@ -7,14 +7,14 @@
         </div>
         <div class="bg_content">
           <div class="rank_title">
-            <img :src="require('../../../assets/rank1.png')" alt="">
-            <img :src="require('../../../assets/rank2.png')" alt="">
-            <img :src="require('../../../assets/rank3.png')" alt="">
+            <img :src="require('assets/rank1.png')" alt="">
+            <img :src="require('assets/rank2.png')" alt="">
+            <img :src="require('assets/rank3.png')" alt="">
           </div>
           <template v-for="(item, index) in 7">
             <div class="rank_contest_item">
               <span v-for="(item, index) in 3" class="contest_team_item">
-                <img :src="require('../../../assets/logo.png')" alt="">
+                <img :src="require('assets/logo.png')" alt="">
                 <div class="" style="padding: 0 20px;width: 100%;word-break:break-all;">
                   <span style="font-size: 12px;">达科的孟是的的啊</span>
                 </div>

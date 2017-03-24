@@ -31,13 +31,13 @@ export default {
   data () {
     return {
       newest_contest_list: [
-        { path: 'gjccq', img: require('../../../assets/contest/gjccq.jpg'), title: '关键词抽取', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'wbfl', img: require('../../../assets/contest/wbfl.jpg'), title: '文本分类', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'sjybfx', img: require('../../../assets/contest/sjybfx.jpg'), title: '事件样本发现', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'sjgjyssb', img: require('../../../assets/contest/sjgjyssb.jpg'), title: '事件关键元素识别', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'sjgxcq', img: require('../../../assets/contest/sjgxcq.jpg'), title: '事件关系抽取', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'sjgxyc', img: require('../../../assets/contest/sjgxyc.jpg'), title: '社交关系预测', time: '2017-3-1 ～ 2017-3-15' },
-        { path: 'yhhx', img: require('../../../assets/contest/yhhx.jpg'), title: '用户画像', time: '2017-3-1 ～ 2017-3-15' }
+        { path: 'gjccq', img: require('assets/contest/gjccq.jpg'), title: '关键词抽取', time: '2017-3-1 ～ 2017-3-15' },
+        { path: 'wbfl', img: require('assets/contest/wbfl.jpg'), title: '文本分类', time: '2017-3-1 ～ 2017-3-15' },
+        { path: 'sjybfx', img: require('assets/contest/sjybfx.jpg'), title: '事件样本发现', time: '2017-3-1 ～ 2017-3-15' },
+        { path: 'sjgjyssb', img: require('assets/contest/sjgjyssb.jpg'), title: '事件关键元素识别', time: '2017-3-1 ～ 2017-3-15' },
+        { path: 'sjgxcq', img: require('assets/contest/sjgxcq.jpg'), title: '事件关系抽取', time: '2017-3-1 ～ 2017-3-15' },
+        { path: 'sjgxyc', img: require('assets/contest/sjgxyc.jpg'), title: '社交关系预测', time: '2017-3-1 ～ 2017-3-15' },
+        { path: 'yhhx', img: require('assets/contest/yhhx.jpg'), title: '用户画像', time: '2017-3-1 ～ 2017-3-15' }
       ]
     }
   },
