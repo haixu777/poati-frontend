@@ -8,6 +8,8 @@ import VueResource from 'vue-resource'
 import store from './store'
 import ElementUI from 'element-ui'
 
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 import 'element-ui/lib/theme-default/index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -25,11 +27,13 @@ if (process.env.NODE_ENV === 'development') {
 
 // http请求拦截器 在所有请求头上加入jwt-token以进行与服务端的认证
 Vue.http.interceptors.push((request, next) => {
+  NProgress.start()
   const jwtToken = localStorage.getItem('token')
   if (jwtToken) {
     request.headers.set('token', jwtToken)
   }
   next((response) => {
+    NProgress.done()
     return response
   })
 })

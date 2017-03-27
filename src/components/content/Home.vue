@@ -8,7 +8,7 @@
     <!-- 最新竞赛 -->
     <contest-newest></contest-newest>
     <!-- 比赛排行 -->
-    <contest-rank v-if="true"></contest-rank>
+    <contest-rank v-if="false"></contest-rank>
     <!-- 最新动态 -->
     <contest-news></contest-news>
     <!-- 专家报告 -->

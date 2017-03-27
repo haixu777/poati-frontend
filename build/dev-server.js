@@ -14,7 +14,7 @@ var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
 var bodyParser = require('body-parser')
 
-let {contestList} = require('../mock/data.json')
+//let {contestList} = require('../mock/data.json')
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -75,6 +75,7 @@ devMiddleware.waitUntilValid(function () {
   console.log('> Listening at ' + uri + '\n')
 })
 
+/*
 app.get('/fetchContestListFromServer', function (req, res) {
   var temp = JSON.parse(fs.readFileSync("./mock/data.json"))
   res.json({data: temp})
@@ -84,6 +85,7 @@ app.post('/login', function (req, res, next) {
   res.cookie('token', 'aslkdaksmdknkn2131ejioqe12ije01')
   res.json({username: req.body.username})
 })
+*/
 
 module.exports = app.listen(port, function (err) {
   if (err) {
