@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="">
     测试次数&nbsp;&nbsp;&nbsp;
-    <el-radio-group v-model="fetchDataCondition.times" @change="handleTimesChange()">
+    <el-radio-group v-model="fetchDataCondition.dataVersion" @change="handleTimesChange()">
       <el-radio :label="1">第一次</el-radio>
       <el-radio :label="2">第二次</el-radio>
       <el-radio :label="3">第三次</el-radio>
@@ -33,16 +33,6 @@ export default {
   data () {
     return {
       tableData: [
-        { date: '2016-05-02', name: '王小虎', address: '上海市普陀区金沙江路 1518 弄' },
-        { date: '2016-05-02', name: '王小虎', address: '上海市普陀区金沙江路 1518 弄' },
-        { date: '2016-05-02', name: '王小虎', address: '上海市普陀区金沙江路 1518 弄' },
-        { date: '2016-05-02', name: '王小虎', address: '上海市普陀区金沙江路 1518 弄' },
-        { date: '2016-05-02', name: '王小虎', address: '上海市普陀区金沙江路 1518 弄' },
-        { date: '2016-05-02', name: '王小虎', address: '上海市普陀区金沙江路 1518 弄' },
-        { date: '2016-05-02', name: '王小虎', address: '上海市普陀区金沙江路 1518 弄' },
-        { date: '2016-05-02', name: '王小虎', address: '上海市普陀区金沙江路 1518 弄' },
-        { date: '2016-05-02', name: '王小虎', address: '上海市普陀区金沙江路 1518 弄' },
-        { date: '2016-05-02', name: '王小虎', address: '上海市普陀区金沙江路 1518 弄' }
       ],
       labelList: [
         { prop: 'date', label: '日期' },
@@ -52,7 +42,7 @@ export default {
       totalItem: 50,
       fetchDataCondition: {
         project: '',
-        times: 1,
+        dataVersion: 1,
         currentPage: 1,
         perItem: 10
       }
