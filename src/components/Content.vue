@@ -16,7 +16,7 @@ export default {
   }
   .content {
     min-width: 1170px;
-    min-height: 800px;
+    min-height: 862px;
     background: #F3F6F9;
   }
 </style>

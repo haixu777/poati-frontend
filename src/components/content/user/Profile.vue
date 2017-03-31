@@ -203,7 +203,6 @@ export default {
     fetchUserProfileFromServer () {
       this.$http.get('user/fetchProfile.do')
         .then((d) => {
-          console.log(d)
           if (d.body.success) {
             this.profileForm = {
               teamName: d.body.userInfo.teamName,
@@ -226,7 +225,6 @@ export default {
             this.imageUrl = d.body.userInfo.teamPictureUrl
             localStorage.setItem('team_avatar', d.body.userInfo.teamPictureUrl)
             this.handleButtonText()
-            console.log(this.$parent)
           } else {
             this.$message({
               showClose: true,

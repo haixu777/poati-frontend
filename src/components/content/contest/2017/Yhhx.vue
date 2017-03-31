@@ -425,7 +425,7 @@
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/%E7%94%A8%E6%88%B7%E7%94%BB%E5%83%8F%E7%BB%93%E6%9E%9C%E7%A4%BA%E4%BE%8B.txt.zip">下载</a></p>
       </div>
       <div class="introdution" v-show="activeName=='队伍排名'">
-        <h4>队伍排名</h4>
+        <my-contest-rank :url="'yhhx'" :zhibiao="'precision'"></my-contest-rank>
       </div>
     </div>
   </div>
@@ -433,6 +433,7 @@
 
 <script>
 import store from '../../../../store'
+const myContestRank = require('../myContestRank')
 export default {
   data () {
     return {
@@ -453,6 +454,9 @@ export default {
         'table-condensed': true
       }
     }
+  },
+  components: {
+    myContestRank
   },
   methods: {
     handleTabClick: function (activeText) {

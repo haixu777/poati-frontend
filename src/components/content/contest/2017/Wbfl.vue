@@ -71,7 +71,7 @@
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB%E7%BB%93%E6%9E%9C%E7%A4%BA%E4%BE%8B.txt.zip">下载</a></p>
       </div>
       <div class="introdution" v-show="activeName=='队伍排名'">
-        <h4>队伍排名</h4>
+        <my-contest-rank :url="'wbfl'"></my-contest-rank>
       </div>
     </div>
   </div>
@@ -79,6 +79,7 @@
 
 <script>
 import store from '../../../../store'
+const myContestRank = require('../myContestRank')
 const marked = require('marked')
 export default {
   data () {
@@ -113,6 +114,9 @@ export default {
       </Class>
       `
     }
+  },
+  components: {
+    myContestRank
   },
   methods: {
     handleTabClick: function (activeText) {

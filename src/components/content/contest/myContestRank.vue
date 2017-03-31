@@ -1,18 +1,21 @@
 <template lang="html">
   <div class="">
-    测试次数&nbsp;&nbsp;&nbsp;
-    <el-radio-group v-model="fetchDataCondition.dataVersion" @change="handleTimesChange()">
-      <el-radio :label="1">第一次</el-radio>
-      <el-radio :label="2">第二次</el-radio>
-      <el-radio :label="3">第三次</el-radio>
+    数据集版本&nbsp;&nbsp;&nbsp;
+    <el-radio-group v-model="fetchDataCondition.dataVersion" @change="handleDataVersionChange">
+      <el-radio :label="1">1.0</el-radio>
+      <el-radio :label="2">2.0</el-radio>
+      <el-radio :label="3">3.0</el-radio>
     </el-radio-group>
     <el-table
       :data="tableData"
-      stripe
       height="444"
       style="width: 100%">
-      <template v-for="item in labelList">
-        <el-table-column :prop="item.prop" :label="item.label"></el-table-column>
+      <el-table-column prop="no" label="排行" width="70"></el-table-column>
+      <el-table-column prop="teamName" label="队伍名称" width="120"></el-table-column>
+      <el-table-column prop="createTime" label="开始时间" width="180"></el-table-column>
+      <el-table-column prop="finishTime" label="结束时间" width="180"></el-table-column>
+      <template v-for="item in value">
+        <el-table-column :prop="item" :label="item" :className="item===zhibiao?'zhibiao':''"></el-table-column>
       </template>
     </el-table>
     <el-pagination
@@ -35,9 +38,6 @@ export default {
       tableData: [
       ],
       labelList: [
-        { prop: 'date', label: '日期' },
-        { prop: 'name', label: '名字' },
-        { prop: 'address', label: '地址' }
       ],
       totalItem: 50,
       fetchDataCondition: {
@@ -53,6 +53,16 @@ export default {
       type: String,
       default: '',
       required: true
+    },
+    value: {
+      type: Array,
+      default: function () {
+        return ['precision', 'recall', 'f1']
+      }
+    },
+    zhibiao: {
+      type: String,
+      default: 'f1'
     }
   },
   methods: {
@@ -64,7 +74,7 @@ export default {
       this.fetchDataCondition.currentPage = val
       this.fetchTableDataFromServer()
     },
-    handleTimesChange () {
+    handleDataVersionChange () {
       this.fetchTableDataFromServer()
     },
     fetchTableDataFromServer () {
@@ -73,8 +83,11 @@ export default {
           params: this.fetchDataCondition
         }
       ).then((res) => {
-        if (res.success) {
-          console.log(res)
+        console.log(res)
+        if (res.data.success) {
+          this.labelList = res.data.labelList
+          this.tableData = res.data.teamRankList
+          this.totalItem = res.data.totalItem
         }
       }).catch((err) => {
         console.log(err)
@@ -88,5 +101,8 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
+  .zhibiao {
+    background: rgba(245,174,4,.5);
+  }
 </style>
