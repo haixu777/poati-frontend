@@ -347,11 +347,17 @@ export default {
       this.$http.post('register.do', this.userRegisterInfo)
         .then((response) => {
           this.loading = false
-          this.dialogFormVisible = false
-          this.resetForm('userRegisterInfo')
-          this.$alert('请尽快登录账号完善个人信息，我们将在您提交个人资料后进行审核', '注册成功', {
-            confirmButtonText: '确定'
-          })
+          if (response.body.success) {
+            this.dialogFormVisible = false
+            this.resetForm('userRegisterInfo')
+            this.$alert('请尽快登录账号完善个人信息，我们将在您提交个人资料后进行审核', '注册成功', {
+              confirmButtonText: '确定'
+            })
+          } else {
+            this.$alert(response.body.msg, '注册失败', {
+              confirmButtonText: '确定'
+            })
+          }
         })
     },
     goToMyInfo: function () {
