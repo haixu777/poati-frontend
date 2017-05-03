@@ -177,16 +177,17 @@ export default {
     },
     beforeAvatarUpload (file) {
       // const isJPG = file.type === 'image/jpeg'
+      const isImage = ((file.type).indexOf('image')) !== -1
       const isLt2M = file.size / 1024 / 1024 < 2
 
-      // if (!isJPG) {
-      //   this.$message.error('上传头像图片只能是 JPG 格式!')
-      // }
+      if (!isImage) {
+        this.$message.error('上传头像格式错误!')
+      }
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 2MB!')
       }
-      // return isJPG && isLt2M
-      return isLt2M
+      return isImage && isLt2M
+      // return isLt2M
     },
     handleSubmit (formName) {
       console.log(this.profileForm)

@@ -11,7 +11,7 @@
         <ul class="login_list">
           <li class="btn_register" v-if="!isLogin">
             <div class="login">
-              <button type="button" name="button" class="btn btn-sm btn-primary" @click="dialogFormVisible=true">登录</button>
+              <button type="button" name="button" class="btn btn-sm btn-primary" @click="dialogFormVisible=true; fetchVerificateCode()">登录</button>
             </div>
           </li>
           <li class="btn_register" v-else>
@@ -38,15 +38,23 @@
       </div>
     </div>
 
-    <el-dialog title="" v-model="dialogFormVisible" size="">
+    <el-dialog title="" v-model="dialogFormVisible" size="" class="header_dialog">
       <el-tabs v-model="activeName" @tab-click="">
         <el-tab-pane label="用户登录" name="login">
-          <el-form ref="userLoginInfo" :model="userLoginInfo" :rules="rules" label-width="80px">
+          <el-form :inline="false" ref="userLoginInfo" :model="userLoginInfo" :rules="rules" label-width="80px">
             <el-form-item label="用户名" prop="username">
               <el-input v-model="userLoginInfo.username"></el-input>
             </el-form-item>
-            <el-form-item label="密码" prop="password">
-              <el-input v-model="userLoginInfo.password" type="password" @keyup.enter.native="login('userLoginInfo')" ></el-input>
+            <el-form-item label="密码" prop="loginPassword">
+              <el-input v-model="userLoginInfo.loginPassword" type="password"></el-input>
+            </el-form-item>
+            <el-form-item label="验证码" prop="verificateCode">
+              <div class="" style="display: inline-block; float: left;">
+                <el-input v-model="userLoginInfo.verificateCode" @keyup.enter.native="login('userLoginInfo')"></el-input>
+              </div>
+              <div class="" @click="fetchVerificateCode" style="display: inline-block; float: left;">
+                <img :src="verificateCode" alt="verification" style="float: left;width: 90px;">
+              </div>
             </el-form-item>
             <el-form-item style="">
               <el-button type="primary" @click="login('userLoginInfo')" :disabled="Logining">{{ Logining?'登录中请稍等...':'登录' }}</el-button>
@@ -72,31 +80,41 @@
             </el-form-item><el-form-item label="单位" prop="institute">
               <el-input v-model="userRegisterInfo.institute" type=""></el-input>
             </el-form-item>
+            <el-form-item label="验证码" prop="verificateCode">
+              <div class="" style="">
+                <el-input v-model="userRegisterInfo.verificateCode" type=""></el-input>
+              </div>
+              <div class="" style="">
+                <img :src="verificateCode" alt="verification" style="float: left;width: 90px;">
+              </div>
+            </el-form-item>
             <div style="text-align: center;">
               <el-button type="primary" @click="submitForm('userRegisterInfo')" :loading="loading">注册申请</el-button>
               <el-button @click="resetForm('userRegisterInfo')">重置</el-button>
             </div>
           </el-form>
         </el-tab-pane>
-        <el-tab-pane label="忘记密码" name="pwdReset">
+        <el-tab-pane label="忘记密码" name="pwdReset" style="text-align: left;">
           <el-form :inline="true" ref="pwdResetInfo" :model="pwdResetInfo" :rules="rules" label-width="100px">
             <el-form-item label="用户名" prop="username">
               <el-input v-model="pwdResetInfo.username"></el-input>
-            </el-form-item>
-            <el-form-item label="联系人姓名" prop="name">
+            </el-form-item><el-form-item label="联系人姓名" prop="name">
               <el-input v-model="pwdResetInfo.name"></el-input>
-            </el-form-item>
-            <el-form-item label="电话" prop="phone">
+            </el-form-item><el-form-item label="电话" prop="phone">
               <el-input v-model="pwdResetInfo.phone"></el-input>
-            </el-form-item>
-            <el-form-item label="邮箱" prop="email">
+            </el-form-item><el-form-item label="邮箱" prop="email">
               <el-input v-model="pwdResetInfo.email"></el-input>
-            </el-form-item>
-            <el-form-item label="密码" prop="password">
+            </el-form-item><el-form-item label="密码" prop="password">
               <el-input type="password" v-model="pwdResetInfo.password"></el-input>
-            </el-form-item>
-            <el-form-item label="确认密码" prop="passwordResetConfirm">
+            </el-form-item><el-form-item label="确认密码" prop="passwordResetConfirm">
               <el-input type="password" v-model="pwdResetInfo.passwordResetConfirm"></el-input>
+            </el-form-item><el-form-item label="验证码" prop="verificateCode">
+              <div class="" style="">
+                <el-input v-model="pwdResetInfo.verificateCode" type=""></el-input>
+              </div>
+              <div class="" style="">
+                <img :src="verificateCode" alt="verification" style="float: left;width: 90px;">
+              </div>
             </el-form-item>
             <div style="text-align: center;">
               <el-button type="primary" @click="submitForm('pwdResetInfo')" :loading="loading">重置密码</el-button>
@@ -138,6 +156,19 @@ export default {
         }
       }, 1000)
     }
+    let validateResetFirstPassword = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('密码不能为空'))
+      }
+      // const that = this
+      setTimeout(() => {
+        if (!(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&_])[A-Za-z\d$@$!%*#?&_]{8,16}$/.test(value))) {
+          callback(new Error('密码长度应在8-16位且包含至少包含字母,数字和特殊字符'))
+        } else {
+          callback()
+        }
+      }, 1000)
+    }
     let validateResetPassword = (rule, value, callback) => {
       if (!value) {
         return callback(new Error('确认密码不能为空'))
@@ -170,6 +201,7 @@ export default {
       isLogin: !!(localStorage.getItem('username')),
       loading: false,
       dialog_loading: false,
+      verificateCode: require('assets/loading.gif'),
       navList: [
         { path: '/home', text: '首页' },
         { path: '/contest', text: '邀请赛' },
@@ -181,7 +213,8 @@ export default {
       dialogFormVisible: false,
       userLoginInfo: {
         username: '',
-        password: ''
+        loginPassword: '',
+        verificateCode: ''
       },
       userRegisterInfo: {
         teamName: '',
@@ -191,7 +224,8 @@ export default {
         institute: '',
         username: '',
         password: '',
-        passwordConfirm: ''
+        passwordConfirm: '',
+        verificateCode: ''
       },
       pwdResetInfo: {
         username: '',
@@ -199,7 +233,8 @@ export default {
         phone: '',
         email: '',
         password: '',
-        passwordResetConfirm: ''
+        passwordResetConfirm: '',
+        verificateCode: ''
       },
       activeName: 'login',
       rules: {
@@ -220,6 +255,9 @@ export default {
           { required: true, message: '请输入用户名', trigger: 'blur' }
         ],
         password: [
+          { required: true, validator: validateResetFirstPassword, trigger: 'blur' }
+        ],
+        loginPassword: [
           { required: true, message: '请输入密码', trigger: 'blur' }
         ],
         passwordConfirm: [
@@ -230,8 +268,16 @@ export default {
         ],
         passwordResetConfirm: [
           { required: true, validator: validateResetPassword, trigger: 'blur' }
+        ],
+        verificateCode: [
+          { required: true, message: '请输入验证码', trigger: 'blur' }
         ]
       }
+    }
+  },
+  watch: {
+    activeName (name) {
+      this.fetchVerificateCode()
     }
   },
   computed: {
@@ -285,7 +331,8 @@ export default {
       this.dialog_loading = true
       this.$http.post('login.do', {
         username: this.userLoginInfo.username,
-        password: this.userLoginInfo.password
+        password: this.userLoginInfo.loginPassword,
+        verificateCode: this.userLoginInfo.verificateCode
       }).then((res) => {
         console.log(res.body)
         if (res.body.success) {
@@ -300,6 +347,7 @@ export default {
           this.dialog_loading = false
           this.dialogFormVisible = false
           this.Logining = false
+          this.resetForm('userLoginInfo')
         } else {
           this.$message({
             showClose: true,
@@ -368,6 +416,14 @@ export default {
         })
         this.logout()
       }
+    },
+    fetchVerificateCode () {
+      this.$http.get('GetVertifyCodeImage.do')
+        .then((res) => {
+          this.verificateCode = URL.createObjectURL(res.body)
+        }).catch((err) => {
+          console.log(err)
+        })
     }
   },
   mounted: function () {
@@ -375,7 +431,12 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+  .header_dialog {
+    div.el-dialog.el-dialog-- {
+      max-width: 600px;
+    }
+  }
   .el-dropdown-menu__item {
     a {
       display: inline-block;

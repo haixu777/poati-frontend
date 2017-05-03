@@ -31,8 +31,9 @@
                 <template scope="props">
                   <el-form label-position="left" inline class="my_table_expand">
                     <el-form-item label="用户名"><span>{{ props.row.userName }}</span></el-form-item>
-                    <el-form-item label="参赛项目"><span>{{ props.row.contest }}</span></el-form-item>
-                    <el-form-item label="队员"><span>{{ props.row.teamMate }}</span></el-form-item>
+                    <el-form-item label="参赛项目"><span>{{ (props.row.contest).toString() }}</span></el-form-item>
+                    <el-form-item label="队员"><span>{{ (props.row.teamMate).toString() }}</span></el-form-item>
+                    <el-form-item label="分组情况" v-if="props.row.group"><span>{{ props.row.group }}</span></el-form-item>
                     <el-form-item label="IP地址"><span>{{ props.row.ipAddress }}</span></el-form-item>
                     <el-form-item label="os"><span>{{ props.row.os }}</span></el-form-item>
                     <el-form-item label="队伍头像"><span><img :src="props.row.teamPictureUrl?props.row.teamPictureUrl:require('assets/avatar.png')" alt="avatar" style="width: 60px;height: 60px;border-radius: 50%;border: 3px solid #eee;"></span></el-form-item>
@@ -466,6 +467,7 @@ export default {
         }
       ).then((response) => {
         if (response.body.success) {
+          console.log(response.body.teamList)
           this.tableData = response.body.teamList
           this.totalItem = response.body.totalItems
         } else {
@@ -605,17 +607,16 @@ export default {
       // this.imageURL = URL.createObjectURL(res.avatar)
     },
     beforeAvatarUpload (file) {
-      console.log(file)
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isImage = ((file.type).indexOf('image')) !== -1
+      const isLt2M = file.size / 1024 / 1024 < 2
 
-      // if (!isJPG) {
-      //   this.$message.error('上传头像图片只能是 JPG 格式!');
-      // }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
+      if (!isImage) {
+        this.$message.error('上传格式错误!')
       }
-      return isLt2M;
+      if (!isLt2M) {
+        this.$message.error('上传图片大小不能超过 2MB!')
+      }
+      return isImage && isLt2M
     },
     handleAvatarUrl () {
       this.interfaceUrl = process.env.NODE_ENV === 'development' ? config.dev.env.interfaceUrl : (config.build.env.interfaceUrl).replace(/"/g, '')
