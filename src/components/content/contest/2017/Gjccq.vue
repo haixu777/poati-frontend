@@ -18,33 +18,36 @@
     </div>
     <div class="container_right">
       <div class="introdution" v-show="activeName=='比赛介绍'">
-        <p>关键词抽取任务是从一篇新闻文档中抽取与该文档主题最相关的一些词或者短语。对于给定
-          的一组文档，参赛者需要设计一个关键词抽取系统，用于抽取每篇文档的关键词，提供的关
-          键词数量不允许超过10个。参赛者不允许使用外部数据资源，且关键词必须从文本中提取。
-          如果一个关键词有多种同义形式，抽取出一个就算对。</p>
+        <p>关键词抽取任务是从一篇新闻文档中抽取与该文档主题最相关的一些词或者短语。对于给定的一组文档，参赛者需要设计一个关键词抽取系统，用于抽取每篇文档的关键词，提供的关键词数量不允许超过10个。参赛者不允许使用外部数据资源，且关键词必须从文本中提取。
+        </p>
       </div>
       <div class="introdution" v-show="activeName=='比赛规则'">
         <h4>基本规则</h4>
         <p>单只队伍人数上限：5人</p>
+        <p>单支队伍每份数据提交次数上限: 10次</p>
         <h4>附加规则</h4>
         <p>数据使用：本赛题数据仅允许用于本次竞赛相关活动，禁止参赛者用作它用。</p>
-        <p>外部数据：本赛题除了允许使用“竞赛数据”中提供的数据，仅允许使用其他参赛者均可获取到的公开数据，不允许使用任何私有数据，所使用的外部数据需在竞赛报告书中说明。</p>
+        <p>外部数据：本赛题禁止使用外部数据。</p>
       </div>
       <div class="introdution" v-show="activeName=='比赛数据'">
         <h4>比赛数据</h4>
+        <p>本次比赛使用的数据包含：新闻调试集、新闻调试标注集、新闻训练集、新闻训练标注集、新闻测试集。</p>
         <h5>1、数据集:</h5>
-        <p>INPUT/TRAIN/KEYWORD_TRAIN  训练集文档</p>
-        <p>INPUT/TRAIN/ANNOTATION_TRAIN 训练集标注</p>
-        <p>INPUT/TEST/KEYWORD_TEST  测试集文档</p>
-        <h5>2、数据说明</h5>
-        <p>1. 样例数据：910篇</p>
-        <p>2. 训练数据： 10000</p>
-        <p>3. 测试数据：3000</p>
-        <h5>3、数据格式</h5>
-        <h5>&nbsp;&nbsp;3.1 数据字段：</h5>
+        <p>&#9312; 新闻调试集</p>
+        <p>新闻调试集包含99篇新闻报道，每篇新闻报道有不同的关键词，用于调试参赛系统（调试集数据可以在网站下载）。</p>
+        <p>&#9313; 新闻调试集标注集</p>
+        <p>新闻调试标注集包含新闻调试集中每篇新闻的对应关键词（调试标注集数据可以在网站下载）。</p>
+        <p>&#9314; 新闻训练集</p>
+        <p>新闻训练集包含20,000篇新闻报道，文本未经过分词处理。</p>
+        <p>&#9315; 新闻训练标注集</p>
+        <p>新闻训练标注集包含新闻训练集中每篇新闻的对应关键词。</p>
+        <p>&#9316; 新闻测试集</p>
+        <p>新闻测试集共包含30,000篇新闻报道，文本未经过分词处理。新闻测试集分为3份，分别包含3000条、9,000条、18,000篇新闻。每一份测试数据的评测分值占最终评测分值的10%、30%、60%。</p>
+        <h5>2、数据格式</h5>
+        <!-- <h5>&nbsp;&nbsp;3.1 数据字段：</h5> -->
         <!-- <img src='http://10.10.28.40:8082/images/contest/gjccq1.png' alt='gjccq'> -->
         <!-- <img :src="require('../../../../assets/contest/details/gjccq1.png')" alt='gjccq'> -->
-        <table :class="tableClass" style="width: 80%;margin: 0 auto;">
+        <table :class="tableClass" style="width: 80%;margin: 0 auto;display: none;">
           <thead>
             <tr>
               <th>字段</th>
@@ -75,11 +78,17 @@
             </tr>
           </tbody>
         </table>
-        <h5>&nbsp;&nbsp;3.2 数据样例</h5>
+        <h5>&nbsp;&nbsp;数据样例</h5>
         <!-- <img :src="require('../../../../assets/contest/details/gjccq5.png')" alt='gjccq'> -->
         <div v-html="compiledGjccq1"></div>
         <!-- <img :src="require('../../../../assets/contest/details/gjccq6.png')" alt='gjccq6'> -->
         <div v-html="compiledGjccq2"></div>
+        <h5>3、相关下载</h5>
+        <p>
+          <el-button type="primary" size="small">
+            <a href="http://omnwjdv5k.bkt.clouddn.com/gjccq.zip" style="color: #fff;text-decoration: none;">测试集下载</a>
+          </el-button>
+        </p>
       </div>
       <div class="introdution" v-show="activeName=='评分标准'">
         <h4>评分标准</h4>

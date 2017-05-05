@@ -37,7 +37,7 @@
           <el-form-item label="研究方向" prop="research" style="width: 100%;">
             <el-input type="textarea" v-model="profileForm.research" :rows="5" placeholder="研究方向／涉及领域" :disabled="submited"></el-input>
           </el-form-item>
-          <el-form-item label="队员名">
+          <el-form-item label="队员名" prop="teamMate">
             <el-tag :key="tag" v-for="tag in profileForm.teamMate" :closable="!submited" :close-transition="false" @close="handleClose(tag)">
               {{tag}}
             </el-tag>
@@ -140,7 +140,7 @@ export default {
       },
       profileRules: {
         teamMate: [
-          { required: true, message: '至少输入一名', trigger: 'blur' }
+          { type: 'array', required: true, message: '至少输入一名', trigger: 'blur' }
         ],
         hardwardRequire: [
           { required: true, message: '请输入资源最低要求', trigger: 'blur' }

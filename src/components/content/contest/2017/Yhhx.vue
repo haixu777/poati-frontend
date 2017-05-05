@@ -31,28 +31,75 @@
         <h4>基本规则</h4>
         <ul>
           <li>单支队伍人数上限: 5人</li>
-          <!-- <li>单支队伍每日提交次数上限: 20次</li> -->
+          <li>单支队伍每日提交次数上限: 10次</li>
         </ul>
         <h4>附加规则</h4>
         <ol>
           <li>数据使用：本赛题数据仅允许用于本次竞赛相关活动，禁止参赛者用作它用。</li>
-          <li>外部数据：本赛题除了允许使用“竞赛数据”中提供的数据，仅允许使用所有参赛者均可获取到的其它公开数据，不允许使用任何私有数据，所使用的外部数据需在竞赛报告书中说明。</li>
+          <li>外部数据：不允许使用外部数据资源。</li>
         </ol>
       </div>
       <div class="introdution" v-show="activeName=='比赛数据'">
         <h4>比赛数据</h4>
-        <h5>数据介绍</h5>
-          <p>比赛数据均来源于真实的微博数据，包括近10万用户的行为信息数据和约250万条社交关系数据。比赛数据分为训练集和测试集两部分。</p>
+        <p>比赛数据包含、微博调试集，微博调试标注集，微博训练集，微博训练标注集，微博测试集。</p>
+        <h5>1、数据集:</h5>
+        <p>&#9312; 微博调试集</p>
+        <p>微博调试集包含XX条分类的用户信息，以及相关（关注与粉丝）用户数据（调试集数据可以在网站下载）。</p>
+        <p>&#9313; 微博调试标注集</p>
+        <p>微博调试标注集包含对应微博调试集的用户标签（调试集数据可以在网站下载）。</p>
+        <p>&#9314; 微博训练集</p>
+        <p>微博训练集分别包含6k,7k,9k条的分类用户信息，以及相关（关注与粉丝）用户数据。</p>
+        <p>&#9315; 微博训练标注集</p>
+        <p>微博训练标注集为对应微博训练集的用户标签。</p>
+        <p>&#9316; 微博测试集</p>
+        <p>微博训练集分别包含1k,2k,3k条的待分类用户信息，以及相关（关注与粉丝）用户数据。</p>
+
         <!-- <h5>数据量要求</h5>
         <img :src="require('../../../../assets/contest/details/yhhx1.png')" alt='yhhx'> -->
-        <h5>数据集</h5>
-          <p>INPUT/TRAIN/weibo_content.csv, weibo_user.csv, weibo_relation.csv 训练集数据</p>
-          <p>INPUT/TRAIN/result.csv	训练集标注</p>
-          <p>INPUT/TEST/weibo_content.csv, weibo_user.csv, weibo_relation.csv	测试集数据</p>
-        <h5>数据格式</h5>
-        <p>用户基本信息（帐号，UID，性别，年龄，地点，个人主页等），用户发布的内容（如发表的微博和评论），用户的行为记录（浏览、转发、点赞、收藏），用户的链接关系（如用户之间的粉丝关注关系）等。</p>
-        <p>训练数据包括三个文件：</p>
-        <ol>
+        <h5>2、数据格式</h5>
+        <p>训练集与测试集包含两类数据：微博用户信息数据users以及部分的相关（关注与粉丝）用户数据relations。其中微博用户信息数据users为所分类的主用户。</p>
+        <p>其中单条用户数据user格式如下：</p>
+        <table :class="tableClass">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>用户id</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Name</td>
+              <td>微博用户名</td>
+            </tr>
+            <tr>
+              <td>verified</td>
+              <td>表示是否为认证用户，0为未认证，1为认证用户</td>
+            </tr>
+            <tr>
+              <td>fan_list</td>
+              <td>微博用户的粉丝列表</td>
+            </tr>
+            <tr>
+              <td>follow_list</td>
+              <td>微博用户的关注列表</td>
+            </tr>
+            <tr>
+              <td>contens</td>
+              <td>微博用户所发的微博内容</td>
+            </tr>
+            <tr>
+              <td>retweets</td>
+              <td>微博用户的转发内容</td>
+            </tr>
+            <tr>
+              <td>supports</td>
+              <td>微博用户的点赞内容</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>其中fan_list，follow_list，contens，retweets，supports为列表，包含多个子节点。具体文件格式范例如下：</p>
+        <div v-html="compiledYhhx1"></div>
+        <ol v-if="false">
           <li>
               <p>weibo_content.csv,  用户发布微博内容文件，其数据格式为：</p>
               <!-- <img :src="require('../../../../assets/contest/details/yhhx1.png')" alt='yhhx'> -->
@@ -164,10 +211,10 @@
             </table>
           </li>
         </ol>
-        <h5>数据样例</h5>
-        <p>微博内容数据：</p>
+        <!-- <h5>数据样例</h5> -->
+        <!-- <p>微博内容数据：</p> -->
         <!-- <img :src="require('../../../../assets/contest/details/yhhx4.png')" alt='yhhx'> -->
-        <table :class="tableClass">
+        <table :class="tableClass" v-if="false">
           <thead>
             <tr>
               <th>id</th>
@@ -236,10 +283,10 @@
             </tr>
           </tbody>
         </table>
-        <br>
-        <p>微博用户数据：</p>
+        <!-- <br> -->
+        <!-- <p>微博用户数据：</p> -->
         <!-- <img :src="require('../../../../assets/contest/details/yhhx5.jpeg')" alt='yhhx'> -->
-        <table :class="tableClass">
+        <table :class="tableClass" v-if="false">
           <thead>
             <tr>
               <th>uid</th>
@@ -326,10 +373,10 @@
             </tr>
           </tbody>
         </table>
-        <br>
-        <p>微博关系数据：</p>
+        <!-- <br> -->
+        <!-- <p>微博关系数据：</p> -->
         <!-- <img :src="require('../../../../assets/contest/details/yhhx6.jpeg')" alt='yhhx'> -->
-        <table :class="tableClass">
+        <table :class="tableClass" v-if="false">
           <thead>
             <tr>
               <th>id</th>
@@ -383,18 +430,16 @@
       </div>
       <div class="introdution" v-show="activeName=='评分标准'">
         <h4>评分标准</h4>
-        <ol>
-          <li>根据预测正确标签数量的比例对比赛结果进行评分。</li>
-          <li>最终得分 = 预测正确标签数量/预测标签总数量</li>
-        </ol>
-        <p>举例说明：如果总共需预测4类标签共2万个，某参赛团队总共正确预测了1.5万个标签，那么得分score=1.5/2=0.75。</p>
+        <p>用户画像评价根据标签预测正确率及相应的标签权重对比赛结果进行评分。其中，四类标签的权重分别为0.1，0.2，0.3，0.4。</p>
+        <p>最终得分 = 性别画像正确率*0.1 + 年龄画像正确率*0.2 + 地域画像正确率*0.3 + 兴趣画像正确率*0.4</p>
+        <p>举例说明：如果总共需预测4类标签共4万个，某参赛团队对四类标签预测正确的个数分别为0.8万、0.5万、0.6万和0.1万，那么score = 0.8*0.1 + 0.5*0.2 + 0.6*0.3 + 0.1*0.4 = 0.4（满分为1分）。</p>
         <p>按照得分从大到小进行排序，得到各参赛队排名。</p>
       </div>
       <div class="introdution" v-show="activeName=='提交要求'">
         <h4>提交要求</h4>
         <p>提交结果文件为txt格式，不同字段之间用英文逗号做间隔，文件结构如下：</p>
         <!-- <img :src="require('../../../../assets/contest/details/yhhx7.png')" alt='yhhx'> -->
-        <table :class="tableClass">
+        <table :class="tableClass" v-if="false">
           <thead>
             <tr>
               <th>字段名</th>
@@ -434,6 +479,7 @@
 <script>
 import store from '../../../../store'
 const myContestRank = require('../myContestRank')
+const marked = require('marked')
 export default {
   data () {
     return {
@@ -452,7 +498,34 @@ export default {
         'table-hover': true,
         'table-striped': true,
         'table-condensed': true
-      }
+      },
+      yhhx1: `
+        <relation_info>
+          <id>163003</id>
+          <info>微博个人认证</info>
+          <name>流浪的猫猫9</name>
+          <location>浙江 杭州</location>
+          <fan_list>
+            <childnode>7942</childnode>
+            <childnode>9175</childnode>
+            <childnode>24275</childnode>
+            <childnode>42204</childnode>
+            <childnode>47321</childnode>
+            <childnode>57307</childnode>
+            <childnode>77481</childnode>
+            <childnode>87074</childnode>
+            <childnode>91905</childnode>
+            <childnode>102327</childnode>
+            <childnode>115403</childnode>
+          </fan_list>
+          <sex></sex>
+        </relation_info>
+      `
+    }
+  },
+  computed: {
+    compiledYhhx1 () {
+      return marked(this.yhhx1, { sanitize: true })
     }
   },
   components: {

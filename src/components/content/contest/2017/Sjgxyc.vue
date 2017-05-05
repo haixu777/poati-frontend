@@ -25,29 +25,45 @@
         <h4>基本规则</h4>
         <ul>
           <li>单支队伍人数上限: 5人</li>
-          <!-- <li>单支队伍每日提交次数上限: 20次</li> -->
+          <li>单支队伍每日提交次数上限: 10次</li>
         </ul>
         <h4>附加规则</h4>
         <ol>
           <li>数据使用：本赛题数据仅允许用于本次竞赛相关活动，禁止参赛者用作它用。</li>
-          <li>外部数据：本赛题除了允许使用“竞赛数据”中提供的数据，仅允许使用所有参赛者均可获取到的其它公开数据，不允许使用任何私有数据，所使用的外部数据需在竞赛报告书中说明。</li>
+          <li>外部数据：本赛题禁止使用外部数据</li>
         </ol>
       </div>
       <div class="introdution" v-show="activeName=='比赛数据'">
         <h4>比赛数据</h4>
-        <h5>数据介绍</h5>
-        <p>比赛数据均来源于真实的微博数据，包括近10万条用户的行为信息数据及相关的社交关系数据。比赛数据分为训练集和测试集两部分。</p>
-        <h5>数据集</h5>
-        <p>INPUT/TRAIN/weibo_content.csv, weibo_user.csv, weibo_relation.csv 训练集数据</p>
-        <p>INPUT/TRAIN/result.csv	训练集标注</p>
-        <p>INPUT/TEST/weibo_content.csv, weibo_user.csv, weibo_relation.csv	测试集数据</p>
-        <h5>数据格式</h5>
+        <p>比赛数据均来源于真实的大型问答类社交网站，数据集包括用户基本信息集，热门主题回答集，热门主题提问集，社交关系训练数据调试集，社交用户和主题标签的关系集，主题标签集，源社交用户集，目标社交用户集。比赛数据分为三部分，分别用于调试、训练以及最终的结果测试。</p>
+        <h5>1、数据集</h5>
+        <p>用户基本信息集包含超过10万条用户的基本信息数据。包含用户的id，用户名，位置信息，职业背景，受教育经历，个人简介，收到其他用户点赞的点赞数，收到其他用户感谢的感谢数，收藏帖子数，回答问题数，最多参与的主题，关注其他用户的关注数，被其他用户关注的被关注数，这些数据可以用来对用户进行用户画像帮助社交关系的预测。</p>
+        <p>&#9312; 用户基本信息集</p>
+        <p>由热门主题衍生的超过7万条热门回答，包含热门回答的一些基本信息，如作者id，点赞数，评论数，回答时间，回答所属主题，回答内容。</p>
+        <p>&#9313; 热门主题提问集</p>
+        <p>由热门主题衍生的近2000个热门问题，包含热门回答的一些基本信息，如作者id，点赞数，评论数，回答时间，回答所属的所有主题标签，问题描述，提问时间。</p>
+        <p>&#9314; 社交关系训练数据调试集</p>
+        <p>社交关系训练数据，包含社交网站中节点间的48万余条连接边关系。</p>
+        <p>&#9315; 社交用户和主题标签的关系集</p>
+        <p>在问答型社交网站中，用户会关注自己喜欢的主题，该集合中包含用户对热门主题的全部关注情况。</p>
+        <p>&#9316; 主题标签集</p>
+        <p>问答型社交网站的主题分类，各种标签数量达到2万6千条，主题是层次结构，由根节点衍生各个子主题。</p>
+        <p>&#9317; 社交关系测试数据集</p>
+        <p>社交关系测试数据集总共包含1700万条关系预测数据，作为测试数据集分为3份，分别包含100*1000条、300*1000条、600*1000条关系数据。每一份测试数据的评测分值占最终评测分值的10%、30%、60%。</p>
+        <h5>2、数据格式</h5>
+        <div v-html="compiledSjgxyc1"></div>
+        <div v-html="compiledSjgxyc2"></div>
+        <div v-html="compiledSjgxyc3"></div>
+        <div v-html="compiledSjgxyc4"></div>
+        <div v-html="compiledSjgxyc5"></div>
+        <div v-html="compiledSjgxyc6"></div>
+        <!--
         <p>用户基本信息（帐号，UID，性别，年龄，地点，个人主页等），用户发布的内容（如发表的微博和评论），用户的行为记录（浏览、转发、点赞、收藏），用户的链接关系（如用户之间的粉丝关注关系）等。</p>
         <p>训练数据包括三个文件：</p>
         <ol>
           <li>
             <p>weibo_content.csv,  用户发布微博内容文件，其数据格式为：</p>
-            <!-- <img :src="require('../../../../assets/contest/details/yhhx1.png')" alt='sjgxyc'> -->
+            <img :src="require('../../../../assets/contest/details/yhhx1.png')" alt='sjgxyc'>
             <table :class="tableClass">
               <thead>
                 <tr>
@@ -87,7 +103,7 @@
           </li>
           <li>
             <p>weibo_user.csv, 部分用户信息数据文件，其数据格式为：</p>
-            <!-- <img :src="require('../../../../assets/contest/details/sjgxyc2.png')" alt='sjgxyc'> -->
+            <img :src="require('../../../../assets/contest/details/sjgxyc2.png')" alt='sjgxyc'>
             <table :class="tableClass">
               <thead>
                 <tr>
@@ -137,7 +153,7 @@
           </li>
           <li>
             <p>weibo_relation.csv，用户关系数据文件，其数据格式为：</p>
-            <!-- <img :src="require('../../../../assets/contest/details/yhhx3.png')" alt='sjgxyc'> -->
+            <img :src="require('../../../../assets/contest/details/yhhx3.png')" alt='sjgxyc'>
             <table :class="tableClass">
               <thead>
                 <tr>
@@ -168,7 +184,7 @@
         </ol>
         <h5>数据样例</h5>
         <p>微博内容数据：</p>
-        <!-- <img :src="require('../../../../assets/contest/details/yhhx4.png')" alt='yhhx'> -->
+        <img :src="require('../../../../assets/contest/details/yhhx4.png')" alt='yhhx'>
         <table :class="tableClass">
           <thead>
             <tr>
@@ -240,7 +256,7 @@
         </table>
         <br>
         <p>微博用户数据：</p>
-        <!-- <img :src="require('../../../../assets/contest/details/yhhx5.jpeg')" alt='yhhx'> -->
+        <img :src="require('../../../../assets/contest/details/yhhx5.jpeg')" alt='yhhx'>
         <table :class="tableClass">
           <thead>
             <tr>
@@ -330,7 +346,7 @@
         </table>
         <br>
         <p>微博关系数据：</p>
-        <!-- <img :src="require('../../../../assets/contest/details/yhhx6.jpeg')" alt='yhhx'> -->
+        <img :src="require('../../../../assets/contest/details/yhhx6.jpeg')" alt='yhhx'>
         <table :class="tableClass">
           <thead>
             <tr>
@@ -382,19 +398,20 @@
             </tr>
           </tbody>
         </table>
+      -->
       </div>
       <div class="introdution" v-show="activeName=='评分标准'">
         <h4>评分标准</h4>
-        <p>根据比赛结果计算F1值、正确率和召回率，并根据F1值对各参赛团队进行综合排名。</p>
-        <p>正确率 = 提取出的正确关注条数 / 提取出的关注条数</p>
-        <p>召回率 = 提取出的正确关注条数 / 实际关注条数</p>
-        <p>F1 Value = 正确率*召回率 * 2 / (正确率+召回率)</p>
+        <p>根据预测正确标签数量的比例对比赛结果进行评分。</p>
+        <p>最终得分 = 预测正确标签数量/预测标签总数量</p>
+        <p>举例说明：如果总共需预测4类标签共2万个，某参赛团队总共正确预测了1.5万个标签，那么得分score=1.5/2=0.75。</p>
+        <p>按照得分从大到小进行排序，得到各参赛队排名。</p>
       </div>
       <div class="introdution" v-show="activeName=='提交要求'">
         <h4>提交要求</h4>
-        <p>提交结果文件为txt格式，不同字段之间用英文逗号做间隔，文件结构如下：</p>
+        <p>按照参考实例文件，左侧是前面介绍的源社交用户集的用户id，右侧是目标社交用户集子集的用户id，用“----”隔开。表示参赛者预测得到的左侧用户对右侧用户的关注关系。文件统一采用UTF-8编码。</p>
         <!-- <img :src="require('../../../../assets/contest/details/sjgxyc3.png')" alt='sjgxyc'> -->
-        <table :class="tableClass">
+        <table :class="tableClass" v-if="false">
           <thead>
             <tr>
               <th>字段名</th>
@@ -433,6 +450,7 @@
 <script>
 import store from '../../../../store'
 const myContestRank = require('../myContestRank')
+const Marked = require('marked')
 export default {
   data () {
     return {
@@ -451,7 +469,134 @@ export default {
         'table-hover': true,
         'table-striped': true,
         'table-condensed': true
-      }
+      },
+      sjgxyc1: `
+        <!--用户基本信息-->
+        <RECORD>
+          <id>-liudazhuang</id>
+          <user_name>柳大壮</user_name>
+          <location>北京</location>
+          <jobs>互联网</jobs>
+          <education></education>
+          <personal_description>
+            一个写正经答案的不正经女IT汪
+            普通长相，略有品味
+            业余爱好：研究花钱
+            时尚这条路要想走得好
+            无非比人多烧钱多踩雷
+            或者，关注我 :)
+          </personal_description>
+          <likes_num>52821</likes_num>
+          <thanks_num>20198</thanks_num>
+          <collection_num>226813</collection_num>
+          <answer_num>41</answer_num>
+          <source_topic_id>19554791</source_topic_id>
+          <source></source>
+          <follow_person_num>85</follow_person_num>
+          <follow_topics_num>29</follow_topics_num>
+          <updatetime>2017/4/12 11:09:15</updatetime>
+          <incId>1</incId>
+        </RECORD>
+      `,
+      sjgxyc2: `
+        <!--热门主题回答集-->
+        <RECORD>
+          <question_id>48959950</question_id>
+          <author_id>null</author_id>
+          <likes_num>664</likes_num>
+          <comment_num>612</comment_num>
+          <answer_time>2016/10/16 19:21:29</answer_time>
+          <topic>艺术</topic>
+          <answer_content>
+            今天第三次更新，想了想还是决定更在在前面！看了评论～大家也都好可爱！一个可以分享自己心情的地方，可以说出自己最真实的心声！可以真的跟大家当朋友，如果大家有什么问题类似于 人肉她 这样的评论，一会有时间会再在最下面继续回答大家的问题。
+            女演员，准确来说也唱过那么一两首歌，电视剧插曲之类的那种，给自己的定位就是没那么红。下面切入正题！关于拍吻戏，大家看电视的时候或许会很羡慕演员可以跟各种小鲜肉，或者是明星接吻，但其实一般都会有点尴尬，因为毕竟一部戏里的演员们彼此并没有大家眼中看到的那么相熟，导演不满意会要求无数次重来，所以吻到最后真的心里只有！妈蛋怎么还没完事。所以戏里大家不要入戏太深，cp这种东西，对我们来讲就是一种甜蜜的负担。
+          </answer_content>
+        </RECORD>
+      `,
+      sjgxyc3: `
+        <!--热门主题提问集-->
+        <RECORD>
+          <id>19551117</id>
+          <author_id>da-joy</author_id>
+          <topic_1>文化</topic_1>
+          <topic_2>文化差异，国民文化，工业，制造业，中国制造</topic_2>
+          <topic_3></topic_3>
+          <question>如何能使【中国制造】达到【德国制造】的水平？</question>
+          <question_description></question_description>
+          <followCnt>7779</followCnt>
+          <visitCnt>651584</visitCnt>
+          <commentCnt>27</commentCnt>
+          <questionTime>2010/12/26 02:34:44</questionTime>
+        </RECORD>
+      `,
+      sjgxyc4: `
+        <!--社交关系训练数据调试集-->
+        <RECORD>
+          <author_id>ggboy-60</author_id>
+          <followee_id>feifeimao</followee_id>
+        </RECORD>
+        <RECORD>
+          <author_id>chen-kk-95</author_id>
+          <followee_id>bo-he-chun-guang-jing</followee_id>
+        </RECORD>
+        <RECORD>
+          <author_id>chen-kk-95</author_id>
+          <followee_id>ccc-zhao</followee_id>
+        </RECORD>
+        <RECORD>
+          <author_id>chen-kk-95</author_id>
+          <followee_id>enostyle</followee_id>
+        </RECORD>
+      `,
+      sjgxyc5: `
+        <!--社交用户和主题标签的关系集-->
+        <RECORD>
+          <author_id>bai-cai-ai-chi-shui-guo</author_id>
+          <topic_id>19550240</topic_id>
+        </RECORD>
+        <RECORD>
+          <author_id>bu-ming-bu-bai-41</author_id>
+          <topic_id>19550240</topic_id>
+        </RECORD>
+        <RECORD>
+          <author_id>hong-xiao-feng-82</author_id>
+          <topic_id>19550240</topic_id>
+        </RECORD>
+      `,
+      sjgxyc6: `
+        <!--主题标签集-->
+        <RECORD>
+          <incId>1</incId>
+          <topic>电影</topic>
+          <id>19550429</id>
+          <super_topic_id>19550434</super_topic_id>
+          <topic_level>4</topic_level>
+          <topic_description>
+            电影是一种视听媒介，利用胶卷、录像带或数位媒体将影像和声音捕捉。
+          </topic_description>
+        </RECORD>
+      `
+
+    }
+  },
+  computed: {
+    compiledSjgxyc1 () {
+      return Marked(this.sjgxyc1, { sanitize: true })
+    },
+    compiledSjgxyc2 () {
+      return Marked(this.sjgxyc2, { sanitize: true })
+    },
+    compiledSjgxyc3 () {
+      return Marked(this.sjgxyc3, { sanitize: true })
+    },
+    compiledSjgxyc4 () {
+      return Marked(this.sjgxyc4, { sanitize: true })
+    },
+    compiledSjgxyc5 () {
+      return Marked(this.sjgxyc5, { sanitize: true })
+    },
+    compiledSjgxyc6 () {
+      return Marked(this.sjgxyc6, { sanitize: true })
     }
   },
   components: {

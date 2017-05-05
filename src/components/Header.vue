@@ -162,7 +162,7 @@ export default {
       }
       // const that = this
       setTimeout(() => {
-        if (!(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&_])[A-Za-z\d$@$!%*#?&_]{8,16}$/.test(value))) {
+        if (!(/(?=.*[a-z])(?=.*\d)(?=.*[#@!~%^&*_+-=])[a-z\d#@!~%^&*_+-=]{8,16}/i.test(value))) {
           callback(new Error('密码长度应在8-16位且包含至少包含字母,数字和特殊字符'))
         } else {
           callback()

@@ -73,24 +73,25 @@
         <h4>基本规则</h4>
         <ul>
           <li>单支队伍人数上限: 5人</li>
+          <li>单支队伍每份数据提交次数上限: 10次</li>
         </ul>
         <h4>附加规则</h4>
         <ol>
           <li>数据使用：本赛题数据仅允许用于本次竞赛相关活动，禁止参赛者用作它用。</li>
-          <li>外部数据：本赛题除了允许使用“竞赛数据”中提供的数据，仅允许使用所有参赛者
-            均可获取到的其它公开数据，不允许使用任何私有数据，所使用的外部数据需在竞赛
-            报告书中说明。</li>
+          <li>外部数据：本赛题禁止使用外部数。</li>
         </ol>
       </div>
       <div class="introdution" v-show="activeName=='比赛数据'">
         <h4>比赛数据</h4>
-        <h5>数据介绍</h5>
-        <p>数据均来源于互联网，主要为新浪网站的数据以及国外网站作为补充，其中事件类型涵盖国
-          际、国内、军事、财经以及社会五类。通过人工标注得到每类新闻事件所包含的实体，以
-          txt的形式保存作为标准结果。</p>
-        <h5>数据集</h5>
-        <p>INPUT/DOCUMENT 测试文档</p>
-        <h5>数据格式</h5>
+        <p>比赛数据为涵盖国际、国内、军事、财经以及社会五类的新闻报道，共20117万篇，其中包含401个事件，每个事件下包含的新闻数据比例严重倾斜。数据包含新闻调试集、新闻调试标注集和新闻测试集。</p>
+        <h5>1、数据集</h5>
+        <p>&#9312; 新闻调试集</p>
+        <p>新闻调试集包含99篇新闻报道，共10个类别，用于调试参赛系统（调试集数据可以在网站下载）。</p>
+        <p>&#9313; 新闻调试集标注集</p>
+        <p>新闻调试标注集包含新闻调试集中每篇新闻的识别的对应的事件关键元素（调试标注集数据可以在网站下载）。</p>
+        <p>&#9314; 新闻测试集</p>
+        <p>新闻测试集共包含20117篇新闻报道，分为3份，分别包含2011篇、6,033篇、12,073篇新闻。每一份测试数据的评测分值占最终评测分值的10%、30%、60%。</p>
+        <h5>2、数据格式</h5>
         <!-- <p>数据字段</p> -->
         <!-- <img :src="require('../../../../assets/contest/details/sjgjyssb2.png')" alt='sjgjyssb'> -->
         <p>数据样例:</p>
@@ -99,8 +100,12 @@
         <!-- <p style='text-align: center;'>图 1 测试文档样例</p> -->
         <!-- <img :src="require('../../../../assets/contest/details/sjgjyssb4.png')" alt='sjgjyssb' class='zhaolin'> -->
         <!-- <p style='text-align: center;'>图 2 标准结果文档样例</p> -->
-        <h5>数据获取</h5>
-        <p>竞赛数据仅向参赛者开放,请先登录或注册</p>
+        <h5>3、相关下载</h5>
+        <p>
+          <el-button type="primary" size="small">
+            <a href="http://omnwjdv5k.bkt.clouddn.com/sjgjyssb.zip" style="color: #fff;text-decoration: none;">测试集下载</a>
+          </el-button>
+        </p>
       </div>
       <div class="introdution" v-show="activeName=='评分标准'">
         <h4>评分标准</h4>
@@ -120,9 +125,11 @@
       <div class="introdution" v-show="activeName=='提交要求'">
         <h4>提交要求</h4>
         <ol>
-          <li>提交结果文件为txt格式，存放于OUTPUT/RESULT目录下。</li>
+          <li>提交结果文件为txt格式</li>
           <li>提交结果文件使用UTF-8无BOM编码。</li>
+          <li>结果文件中的每一行对应一篇新闻的关键元素识别结果，形式为“新闻ID号,实体,实体类型,(段落位置,起始位置,结束位置) ”。样例如下图所示，其中时间的表示形式为“yyyy-mm-dd”，若无年份则用xxxx表示，即“xxxx-12-28”。实体类型分为四类，LOC（地理位置），ORG（组织机构），PER（人物），TIME（时间）。其中符号均为英文半角符号。</li>
         </ol>
+        <img :src="require('assets/contest/details/sjgjyssb11.png')" alt="">
         <h4>实例文件</h4>
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/result_%E5%85%B3%E9%94%AE%E5%85%83%E7%B4%A0%E8%AF%86%E5%88%AB.txt.zip">下载</a></p>
       </div>
