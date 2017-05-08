@@ -138,7 +138,7 @@
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sjybfx_%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%9C%E6%A0%B7%E5%BC%8F.txt" download="sjybfx_输出结果样式">下载</a></p>
       </div>
       <div class="introdution" v-show="activeName=='队伍排名'">
-        <my-contest-rank :url="'sjybfx'"></my-contest-rank>
+        <my-contest-rank :url="'sjybfx'" :project="'sjybfx'"></my-contest-rank>
       </div>
     </div>
   </div>

@@ -441,7 +441,7 @@
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/%E7%A4%BE%E4%BA%A4%E5%85%B3%E7%B3%BB%E9%A2%84%E6%B5%8B%E7%BB%93%E6%9E%9C%E7%A4%BA%E4%BE%8B.txt.zip">下载</a></p>
       </div>
       <div class="introdution" v-show="activeName=='队伍排名'">
-        <my-contest-rank :url="'sjgxyc'"></my-contest-rank>
+        <my-contest-rank :url="'sjgxyc'" :project="'sjgxyc'"></my-contest-rank>
       </div>
     </div>
   </div>

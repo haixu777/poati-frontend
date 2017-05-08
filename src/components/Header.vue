@@ -84,7 +84,7 @@
               <div class="" style="">
                 <el-input v-model="userRegisterInfo.verificateCode" type=""></el-input>
               </div>
-              <div class="" style="">
+              <div class="" style="" @click="fetchVerificateCode">
                 <img :src="verificateCode" alt="verification" style="float: left;width: 90px;">
               </div>
             </el-form-item>
@@ -112,7 +112,7 @@
               <div class="" style="">
                 <el-input v-model="pwdResetInfo.verificateCode" type=""></el-input>
               </div>
-              <div class="" style="">
+              <div class="" style="" @click="fetchVerificateCode">
                 <img :src="verificateCode" alt="verification" style="float: left;width: 90px;">
               </div>
             </el-form-item>

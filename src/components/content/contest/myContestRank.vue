@@ -6,6 +6,11 @@
       <el-radio :label="2">2.0</el-radio>
       <el-radio :label="3">3.0</el-radio>
     </el-radio-group>
+    <br>
+    <el-radio-group v-model="wbfl_name" v-if="url === 'wbfl'" size="small" @change="handleWbfl">
+      <el-radio-button label="wbflwb">微博</el-radio-button>
+      <el-radio-button label="wbflxw">新闻</el-radio-button>
+    </el-radio-group>
     <el-table
       :data="tableData"
       height="444"
@@ -45,7 +50,8 @@ export default {
         dataVersion: 1,
         currentPage: 1,
         perItem: 10
-      }
+      },
+      wbfl_name: 'wbflwb'
     }
   },
   props: {
@@ -63,6 +69,11 @@ export default {
     zhibiao: {
       type: String,
       default: 'f1'
+    },
+    project: {
+      type: String,
+      default: '',
+      required: true
     }
   },
   methods: {
@@ -75,6 +86,10 @@ export default {
       this.fetchTableDataFromServer()
     },
     handleDataVersionChange () {
+      this.fetchTableDataFromServer()
+    },
+    handleWbfl () {
+      this.fetchDataCondition.project = this.wbfl_name
       this.fetchTableDataFromServer()
     },
     fetchTableDataFromServer () {
@@ -95,7 +110,11 @@ export default {
     }
   },
   mounted () {
-    this.fetchDataCondition.project = this.url
+    if (this.url === 'wbfl') {
+      this.fetchDataCondition.project = this.wbfl_name
+    } else {
+      this.fetchDataCondition.project = this.project
+    }
     this.fetchTableDataFromServer()
   }
 }

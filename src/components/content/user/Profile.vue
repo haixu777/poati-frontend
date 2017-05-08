@@ -111,7 +111,7 @@ export default {
       contestList: [
         { name: '事件样本发现', isExpire: false },
         { name: '事件关键元素识别', isExpire: false },
-        { name: '事件抽取', isExpire: false },
+        // { name: '事件抽取', isExpire: false },
         { name: '关键词抽取', isExpire: false },
         { name: '文本分类', isExpire: false },
         { name: '社交关系预测', isExpire: false },
