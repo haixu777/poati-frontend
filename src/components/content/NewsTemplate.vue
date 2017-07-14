@@ -76,7 +76,7 @@ export default {
     border: 1px solid #dfe6ec;
     padding: 0 50px 10px 50px;
     img {
-      max-width: 1037px;
+      width: 100%;
     }
     .news_header {
       border-bottom: 1px solid #eee;

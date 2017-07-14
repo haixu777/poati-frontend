@@ -77,22 +77,23 @@ export default {
     return {
       activeName: '全部',
       activeIndex: 0,
-      expertCategory: ['全部', '技术委员会主席', '技术委员会委员'],
+      expertCategory: ['全部', '比赛指导委员会联合主席', '比赛主席', '比赛技术委员会主席', '比赛技术委员会委员'],
       expertList: [
         { avatar: require('assets/experts/ZhangBo@.jpg'), name: '张钹', title: '中国科学院院士 | 清华大学教授', index: 1 },
-        { avatar: require('assets/experts/GaoWen@.jpg'), name: '高文', title: '中国工程院院士 | 北京大学教授', index: 1 },
+        // { avatar: require('assets/experts/GaoWen@.jpg'), name: '高文', title: '中国工程院院士 | 北京大学教授', index: 1 },
         { avatar: require('assets/experts/WuChaoHui@.jpg'), name: '吴朝晖', title: '浙江大学校长 | 教授', index: 1 },
-        { avatar: require('assets/experts/LiJuanZi.jpg'), name: '李涓子', title: '清华大学 | 教授', index: 1 },
-        { avatar: require('assets/experts/zhouMing@.jpg'), name: '周明', title: '微软亚洲研究院 | 研究员', index: 2 },
-        { avatar: require('assets/experts/ZhaoJun.jpg'), name: '赵军', title: '中国科学院自动化所 | 研究员', index: 2 },
-        { avatar: require('assets/experts/LiuTing.jpg'), name: '刘挺', title: '哈尔滨工业大学 | 教授', index: 2 },
-        { avatar: require('assets/experts/WangBin.jpg'), name: '王斌', title: '中国科学院信息工程研究所 | 研究员', index: 2 },
-        { avatar: require('assets/experts/ChenHuaJun@.jpg'), name: '陈华钧', title: '浙江大学 | 教授', index: 2 },
-        { avatar: require('assets/experts/QiGuiLin@.jpg'), name: '漆桂林', title: '东南大学 | 教授', index: 2 },
-        { avatar: require('assets/experts/ShenYang@.jpg'), name: '沈阳', title: '清华大学 | 教授', index: 2 },
-        { avatar: require('assets/experts/YuHaiTao.jpg'), name: '于海涛', title: '腾讯公司信息安全部 | 总经理', index: 2 },
-        { avatar: require('assets/experts/ShiShuiCai@.jpg'), name: '施水才', title: '北京拓尔思信息技术股份有限公司 | CEO', index: 2 },
-        { avatar: require('assets/experts/DuYueJin@.jpg'), name: '杜跃进', title: '阿里巴巴安全部 | 技术副总裁（拟邀请）', index: 2 }
+        { avatar: require('assets/experts/MengDan@.jpg'), name: '孟丹', title: '中国科学院信息工程研究所 | 所长', index: 2 },
+        { avatar: require('assets/experts/LiJuanZi.jpg'), name: '李涓子', title: '清华大学 | 教授', index: 3 },
+        { avatar: require('assets/experts/zhouMing@.jpg'), name: '周明', title: '微软亚洲研究院 | 研究员', index: 4 },
+        { avatar: require('assets/experts/ZhaoJun.jpg'), name: '赵军', title: '中国科学院自动化所 | 研究员', index: 4 },
+        { avatar: require('assets/experts/LiuTing.jpg'), name: '刘挺', title: '哈尔滨工业大学 | 教授', index: 4 },
+        { avatar: require('assets/experts/WangBin.jpg'), name: '王斌', title: '中国科学院信息工程研究所 | 研究员', index: 4 },
+        { avatar: require('assets/experts/ChenHuaJun@.jpg'), name: '陈华钧', title: '浙江大学 | 教授', index: 4 },
+        { avatar: require('assets/experts/QiGuiLin@.jpg'), name: '漆桂林', title: '东南大学 | 教授', index: 4 },
+        { avatar: require('assets/experts/ShenYang@.jpg'), name: '沈阳', title: '清华大学 | 教授', index: 4 },
+        { avatar: require('assets/experts/YuHaiTao.jpg'), name: '于海涛', title: '腾讯公司信息安全部 | 总经理', index: 4 },
+        { avatar: require('assets/experts/ShiShuiCai@.jpg'), name: '施水才', title: '北京拓尔思信息技术股份有限公司 | CEO', index: 4 }
+        // { avatar: require('assets/experts/DuYueJin@.jpg'), name: '杜跃进', title: '阿里巴巴安全部 | 技术副总裁（拟邀请）', index: 2 }
         // { avatar: require('assets/experts/LinJunYu.jpg'), name: '林俊宇', title: '中国科学院信息工程研究所', index: 2 }
       ]
     }

@@ -7,6 +7,7 @@
       <template v-for="item in partner_img_list">
         <div class="partner_card">
           <img :src="item.img" :alt="item.alt">
+          <span style="color:#48576a;">{{ item.gold }}</span>
         </div>
       </template>
     </div>
@@ -18,8 +19,8 @@ export default {
   data () {
     return {
       partner_img_list: [
-        { img: require('assets/partner/360.jpg'), alt: '360' },
-        { img: require('assets/partner/zhongkeshuguang.jpg'), alt: 'zhongkeshuguang' }
+        { img: require('assets/partner/360.jpg'), alt: '360', gold: '🏅️金牌赞助' },
+        { img: require('assets/partner/zhongkeshuguang.jpg'), alt: 'zhongkeshuguang', gold: '🥈银牌赞助' }
       ]
     }
   }
