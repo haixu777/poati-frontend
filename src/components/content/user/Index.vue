@@ -3,7 +3,6 @@
     <div class="info_left_container">
       <el-menu default-active="1" class="el-menu-vertical-demo" theme="dark" @open="handleOpen" @close="handleClose" :router="true">
         <el-menu-item index="1"  :route="{path: '/user/profile'}"><i class="el-icon-document"></i>团队信息</el-menu-item>
-        <!-- <el-menu-item index="2"  :route="{path: '/user/project'}"><i class="el-icon-setting"></i>任务管理</el-menu-item> -->
         <el-menu-item index="3"  :route="{path: '/user/result'}"><i class="el-icon-message"></i>测评结果</el-menu-item>
       </el-menu>
     </div>

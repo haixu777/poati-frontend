@@ -2,7 +2,7 @@
   <div class="footer">
     <div class="container">
       <div class="footer_link">
-        <router-link :to="'/help'">联系我们</router-link> |
+        <!-- <router-link :to="'/help'">联系我们</router-link> | -->
         <router-link :to="'/help'">关于我们</router-link>
       </div>
       <img :src="require('../assets/logo.png')" alt="logo" class="footer_logo">
@@ -48,6 +48,7 @@ export default {
     background: #324057;
     color: #a4aebd;
     line-height: 59px;
+    min-width: 1280px;
     .footer_link {
       float: left;
       a {

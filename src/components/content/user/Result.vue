@@ -102,6 +102,7 @@ export default {
             item.contest = '用户画像'
             break
         }
+        item.status = this.handleStatus(item.status)
       })
       return arr
     },
@@ -122,6 +123,62 @@ export default {
       }).catch((err) => {
         console.log(err)
       })
+    },
+    handleStatus (status) {
+      let str = ''
+      switch (status) {
+        case 'TooManyCommition':
+          str = '该数据版本提交超过次数限制'
+          break
+        case 'ConfigError':
+          str = '配置文件填写可能有误'
+          break
+        case 'TrainD:T':
+          str = '训练数据下载成功'
+          break
+        case 'TrainD:F':
+          str = '训练数据下载失败'
+          break
+        case 'Train:T':
+          str = '训练成功'
+          break
+        case 'Train:F':
+          str = '训练失败'
+          break
+        case 'TestD:T':
+          str = '测试数据下载成功'
+          break
+        case 'TestD:F':
+          str = '测试数据下载失败'
+          break
+        case 'Test:T':
+          str = '测试成功'
+          break
+        case 'Test:F':
+          str = '测试失败'
+          break
+        case 'Result:T':
+          str = '生成结果成功'
+          break
+        case 'Result:F':
+          str = '生成结果失败'
+          break
+        case 'Upload:T':
+          str = '结果上传成功'
+          break
+        case 'Upload:F':
+          str = '结果上传失败'
+          break
+        case 'Evalu:T':
+          str = '任务运行成功'
+          break
+        case 'Evalu:F':
+          str = '评分失败'
+          break
+        default:
+          str = status
+      }
+      return str
     }
   },
   mounted () {

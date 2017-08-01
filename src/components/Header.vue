@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="header">
     <div class="nav">
-      <div class="container">
+      <div class="_container" style="">
         <img src="../assets/logo.png" alt="logo" class="img_logo">
         <ul class="nav_list">
           <li v-for="item in navList" :class="item.text==activeText?'active':''" @click="toogleActive(item.text)">
@@ -11,14 +11,14 @@
         <ul class="login_list">
           <li class="btn_register" v-if="!isLogin">
             <div class="login">
-              <button type="button" name="button" class="btn btn-sm btn-primary" @click="dialogFormVisible=true; fetchVerificateCode()">登录</button>
+              <button type="button" name="button" class="btn btn-primary" style="font-size:15px;" @click="dialogFormVisible=true; fetchVerificateCode()">登录</button>
             </div>
           </li>
           <li class="btn_register" v-else>
             <el-dropdown trigger="click">
-              <span class="el-dropdown-link">
-                <img :src="team_avatar?team_avatar:require('../assets/avatar.png')" style="width: 40px;height: 40px;border-radius: 50%;border: 2px solid #ddd;" alt="">
-                {{ username }}<i class="el-icon-caret-bottom el-icon--right"></i>
+              <span class="el-dropdown-link" style="color:#fff;">
+                <!-- <img :src="team_avatar?team_avatar:require('../assets/avatar.png')" style="width: 40px;height: 40px;border-radius: 50%;" alt=""> -->
+                {{ '个人中心' }}<i class="el-icon-caret-bottom el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>
@@ -149,7 +149,7 @@ export default {
         return callback(new Error('邮箱不能为空'))
       }
       setTimeout(() => {
-        if (!(/[a-zA-Z0-9]{1,10}@[a-zA-Z0-9]{1,5}\.[a-zA-Z0-9]{1,5}/.test(value))) {
+        if (!(/[a-zA-Z0-9]{1,10}@[a-zA-Z0-9]{1,10}\.[a-zA-Z0-9]{1,5}/.test(value))) {
           callback(new Error('邮箱地址不合法'))
         } else {
           callback()
@@ -204,11 +204,13 @@ export default {
       verificateCode: require('assets/loading.gif'),
       navList: [
         { path: '/home', text: '首页' },
-        { path: '/contest', text: '邀请赛' },
-        { path: '/news', text: '新闻' },
-        { path: '/expert', text: '技术委员会' },
-        { path: '/help', text: '帮助' }
+        { path: '/contest', text: '邀请赛介绍' },
+        { path: '/expert', text: '大赛组织机构' },
+        // { path: '/news', text: '新闻' },
+        { path: '/previous', text: '往届回顾' },
+        { path: '/help', text: '关于我们' }
       ],
+      shouldLogin: false,
       username: localStorage.getItem('username'),
       dialogFormVisible: false,
       userLoginInfo: {
@@ -320,6 +322,7 @@ export default {
               message: response.body.msg
             })
           } else {
+            this.fetchVerificateCode()
             this.$message({
               type: 'info',
               message: '信息认证错误，无法重置密码'
@@ -338,7 +341,7 @@ export default {
         if (res.body.success) {
           localStorage.setItem('username', res.data.userInfo.teamName)
           localStorage.setItem('token', res.data.userInfo.token)
-          localStorage.setItem('isAdmin', res.data.userInfo.isAdmin)
+          res.data.userInfo.isAdmin ? localStorage.setItem('isAdmin', res.data.userInfo.isAdmin) : ''
           localStorage.setItem('team_avatar', res.data.userInfo.teamPictureUrl)
           this.isAdmin = res.data.userInfo.isAdmin
           this.isLogin = true
@@ -354,6 +357,7 @@ export default {
             message: res.body.msg,
             type: 'error'
           })
+          this.fetchVerificateCode()
           this.dialog_loading = false
           this.Logining = false
         }
@@ -368,7 +372,6 @@ export default {
     login: function (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log('login~')
           this.Logining = true
           let _this = this
           setTimeout(() => {
@@ -392,6 +395,7 @@ export default {
       this.handleRegisterToServer()
     },
     handleRegisterToServer: function () {
+      this.shouldLogin = true
       this.$http.post('register.do', this.userRegisterInfo)
         .then((response) => {
           this.loading = false
@@ -399,11 +403,23 @@ export default {
             this.dialogFormVisible = false
             this.resetForm('userRegisterInfo')
             this.$alert('请尽快登录账号完善个人信息，我们将在您提交个人资料后进行审核', '注册成功', {
-              confirmButtonText: '确定'
+              confirmButtonText: '确定',
+              close: () => {
+                if (this.shouldLogin) {
+                  this.dialogFormVisible = true
+                  this.activeName = 'login'
+                  this.shouldLogin = false
+                }
+              }
             })
           } else {
+            this.fetchVerificateCode()
             this.$alert(response.body.msg, '注册失败', {
               confirmButtonText: '确定'
+              // close: () => {
+              //   this.dialogFormVisible = true
+              //   this.activeName = 'register'
+              // }
             })
           }
         })
@@ -432,6 +448,12 @@ export default {
 </script>
 
 <style lang="scss">
+  ._container {
+    width: 1280px;
+    // padding-right: 15px;
+    // padding-left: 15px;
+    margin: 0 auto;
+  }
   .header_dialog {
     div.el-dialog.el-dialog-- {
       max-width: 600px;
@@ -467,7 +489,11 @@ export default {
 
   .nav {
     font-size: 20px;
-    border-bottom: 1px solid #eee;
+    // border-bottom: 1px solid #eee;
+    background: #324057;
+    // position: fixed;
+    // width: 100%;
+    min-width: 1280px;
     .img_logo {
       width: 100px;
       height: 60px;
@@ -488,7 +514,7 @@ export default {
       }
       .active {
         a {
-          color: #317fe1;
+          color: #fff;
         }
       }
     }

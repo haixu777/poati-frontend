@@ -18,10 +18,17 @@
     </div>
     <div class="container_right">
       <div class="introdution" v-show="activeName=='比赛介绍'">
-        <p>在对社交网络用户行为建模时，预测用户的关注行为是一个重要方面，根据用户的关注行为预测，可以得知用户之间的关联关系、用户的传播属性、社交网络的社群分布等。</p>
-        <p>本题目给出新浪微博中真实的局部社交网络结构，给出账号发布的内容及部分社交关系，要求参赛者预测两个用户之间是否存在关注关系。</p>
+        <p>本任务的目标是根据社交网络用户的基本信息、发布消息内容、回复消息内容、关注主题、用户间的社交关系（包括回帖、点赞、评论等），预测用户之间可能建立的关注关系。比赛不允许使用外部数据资源。</p>
       </div>
-      <div class="introdution" v-show="activeName=='比赛规则'">
+      <div class="introdution" v-show="activeName=='相关下载'">
+        <el-button @click="download">比赛题目下载</el-button>
+        <transition name="fade">
+          <div class="" v-if="canDownload">
+            <a :href="require('assets/contest/subject/社交关系预测.pdf')" download="社交关系预测.pdf">社交关系预测.pdf</a>
+          </div>
+        </transition>
+      </div>
+      <div class="introdution" v-if="activeName=='比赛规则'">
         <h4>基本规则</h4>
         <ul>
           <li>单支队伍人数上限: 5人</li>
@@ -33,7 +40,7 @@
           <li>外部数据：本赛题禁止使用外部数据</li>
         </ol>
       </div>
-      <div class="introdution" v-show="activeName=='比赛数据'">
+      <div class="introdution" v-if="activeName=='比赛数据'">
         <h4>比赛数据</h4>
         <p>比赛数据均来源于真实的大型问答类社交网站，数据集包括用户基本信息集，热门主题回答集，热门主题提问集，社交关系训练数据调试集，社交用户和主题标签的关系集，主题标签集，源社交用户集，目标社交用户集。比赛数据分为三部分，分别用于调试、训练以及最终的结果测试。</p>
         <h5>1、数据集</h5>
@@ -399,15 +406,21 @@
           </tbody>
         </table>
       -->
+      <h5>3、相关下载</h5>
+      <p>
+        <el-button type="primary" size="small">
+          <a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/sjgxyc.zip" style="color: #fff;text-decoration: none;">测试集下载</a>
+        </el-button>
+      </p>
       </div>
-      <div class="introdution" v-show="activeName=='评分标准'">
+      <div class="introdution" v-if="activeName=='评分标准'">
         <h4>评分标准</h4>
         <p>根据预测正确标签数量的比例对比赛结果进行评分。</p>
         <p>最终得分 = 预测正确标签数量/预测标签总数量</p>
         <p>举例说明：如果总共需预测4类标签共2万个，某参赛团队总共正确预测了1.5万个标签，那么得分score=1.5/2=0.75。</p>
         <p>按照得分从大到小进行排序，得到各参赛队排名。</p>
       </div>
-      <div class="introdution" v-show="activeName=='提交要求'">
+      <div class="introdution" v-if="activeName=='提交要求'">
         <h4>提交要求</h4>
         <p>按照参考实例文件，左侧是前面介绍的源社交用户集的用户id，右侧是目标社交用户集子集的用户id，用“----”隔开。表示参赛者预测得到的左侧用户对右侧用户的关注关系。文件统一采用UTF-8编码。</p>
         <!-- <img :src="require('../../../../assets/contest/details/sjgxyc3.png')" alt='sjgxyc'> -->
@@ -440,8 +453,15 @@
         <h4>实例文件</h4>
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/%E7%A4%BE%E4%BA%A4%E5%85%B3%E7%B3%BB%E9%A2%84%E6%B5%8B%E7%BB%93%E6%9E%9C%E7%A4%BA%E4%BE%8B.txt.zip">下载</a></p>
       </div>
-      <div class="introdution" v-show="activeName=='队伍排名'">
-        <my-contest-rank :url="'sjgxyc'" :project="'sjgxyc'"></my-contest-rank>
+      <div class="introdution" v-if="activeName=='队伍排名'">
+        <div class="introdution" v-if="activeName=='队伍排名'">
+          <div class="" v-if="checkRank">
+            <my-contest-rank :url="'sjgxyc'" :zhibiao="'precision'" :project="'sjgxyc'"></my-contest-rank>
+          </div>
+          <div class="" v-else>
+            您无权查看此项目排行
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -451,16 +471,21 @@
 import store from '../../../../store'
 const myContestRank = require('../myContestRank')
 const Marked = require('marked')
+const $utils = require('utils')
 export default {
   data () {
     return {
       activeName: '比赛介绍',
+      canDownload: false,
+      checkRank: false,
+      conditionStatus: null,
       detailsList: [
         { text: '比赛介绍' },
-        { text: '比赛规则' },
-        { text: '比赛数据' },
-        { text: '评分标准' },
-        { text: '提交要求' },
+        { text: '相关下载' },
+        // { text: '比赛规则' },
+        // { text: '比赛数据' },
+        // { text: '评分标准' },
+        // { text: '提交要求' },
         { text: '队伍排名' }
       ],
       tableClass: {
@@ -576,7 +601,6 @@ export default {
           </topic_description>
         </RECORD>
       `
-
     }
   },
   computed: {
@@ -602,7 +626,24 @@ export default {
   components: {
     myContestRank
   },
+  watch: {
+    activeName (name) {
+      if (name === '队伍排名') {
+        this.fetchUserinfoFromServer()
+      }
+    }
+  },
   methods: {
+    fetchUserinfoFromServer (cb) {
+      this.$http.get('user/fetchProfile.do')
+        .then((res) => {
+          if (!$utils.isEmptyObject(res.data)) {
+            this.conditionStatus = res.data.userInfo.conditionStatus
+            this.checkRank = $utils.contestDownload('事件关系预测', res.data.userInfo.contest)
+          }
+          cb ? cb() : ''
+        })
+    },
     handleTabClick: function (activeText) {
       this.activeName = activeText
     },
@@ -612,11 +653,37 @@ export default {
     backToContest: function () {
       let urls = location.href.split('/')
       localStorage.setItem('yearPick', urls[urls.length - 2])
+    },
+    download: function () {
+      this.fetchUserinfoFromServer(() => {
+        if (localStorage.getItem('username')) {
+          if (this.conditionStatus === 1) {
+            if (this.checkRank) {
+              this.canDownload = !this.canDownload
+            } else {
+              this.$message({
+                type: 'info',
+                message: '您没有权限下载此项目'
+              })
+            }
+          } else {
+            this.$message({
+              type: 'info',
+              message: '请耐心等待审核通过后下载'
+            })
+          }
+        } else {
+          this.$message({
+            type: 'info',
+            message: '请登录后下载'
+          })
+        }
+      })
     }
   },
   mounted () {
     document.documentElement.scrollTop = document.body.scrollTop = 0
-    store.commit('changeTitle', '邀请赛')
+    store.commit('changeTitle', '邀请赛介绍')
   }
 }
 </script>
@@ -626,6 +693,12 @@ export default {
     font-size: 15px;
   }
   img {
-    max-width: 900px;
+    // max-width: 900px;
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+    opacity: 0
   }
 </style>

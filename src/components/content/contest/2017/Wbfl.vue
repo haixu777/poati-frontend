@@ -18,9 +18,17 @@
     </div>
     <div class="container_right">
       <div class="introdution" v-show="activeName=='比赛介绍'">
-        <p>文本分类任务是对给定一组未经分词的文本文档中的每一篇文档指定唯一类别。按文本类型分为两个子任务：新闻报道分类和微博分类。其中，新闻报道10万篇，覆盖15个类别；微博10万条，覆盖15个类别。数据比例严重倾斜且动态变化。参赛者需要训练两个分类系统，实现对新闻报道和微博的自动分类。</p>
+        <p>给定一组未经分词的文本文档，对每一篇文档指定唯一类别。按文本类型分为两个子任务：新闻报道分类和短文本分类。新闻报道10万篇，包含15个类别；短文本10万条，包含15个类别。数据比例严重倾斜且动态变化。参赛者需要基于训练数据实现两个分类系统，实现两类文档的自动分类。</p>
       </div>
-      <div class="introdution" v-show="activeName=='比赛规则'">
+      <div class="introdution" v-show="activeName=='相关下载'">
+        <el-button @click="download">比赛题目下载</el-button>
+        <transition name="fade">
+          <div class="" v-if="canDownload">
+            <a :href="require('assets/contest/subject/文本分类.pdf')" download="文本分类.pdf">文本分类.pdf</a>
+          </div>
+        </transition>
+      </div>
+      <div class="introdution" v-if="activeName=='比赛规则'">
         <h4>基本规则</h4>
         <p>单只队伍人数上限：5人</p>
         <p>单支队伍每份数据提交上限: 10次</p>
@@ -28,7 +36,7 @@
         <p>数据使用：本赛题数据仅允许用于本次竞赛相关活动，禁止参赛者用作它用。</p>
         <p>外部使用：不允许使用外部数据资源。</p>
       </div>
-      <div class="introdution" v-show="activeName=='比赛数据'">
+      <div class="introdution" v-if="activeName=='比赛数据'">
         <h4>比赛数据</h4>
         <p>文本分类分为两个子任务，新闻报道长文本和微博短文本，但是数据比例严重倾斜。比赛数据集分为：新闻调试集、新闻调试标注集、新闻训练集、新闻训练标注集、新闻测试集，微博调试集、微博调试标注集、微博训练集、微博训练标注集、微博测试集。</p>
         <h5>1、数据集:</h5>
@@ -64,7 +72,7 @@
           </el-button>
         </p>
       </div>
-      <div class="introdution" v-show="activeName=='评分标准'">
+      <div class="introdution" v-if="activeName=='评分标准'">
         <h4>评分标准</h4>
         <p>文本分类评价采用准确率、召回率以及F值作为评价指标。评分综合每个类别的评价结果，每个类别的权重与该类别的样本数量成反比。新闻报道和微博分类的准确率、召回率和F值的计算公式如下：</p>
         <img :src="require('assets/contest/details/wbfl3.png')" alt='wbfl'>
@@ -81,7 +89,7 @@
         <img :src="require('../../../../assets/contest/details/wbfl2.png')" alt='wbfl'>
         <p>最后使用综合评测结果的F1值作为排名依据，新闻报道和微博分值各占50%。</p> -->
       </div>
-      <div class="introdution" v-show="activeName=='提交要求'">
+      <div class="introdution" v-if="activeName=='提交要求'">
         <h4>提交要求</h4>
         <ol>
           <li>提交结果文件为txt格式</li>
@@ -90,8 +98,15 @@
         <h4>实例文件</h4>
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB%E7%BB%93%E6%9E%9C%E7%A4%BA%E4%BE%8B.txt.zip">下载</a></p>
       </div>
-      <div class="introdution" v-show="activeName=='队伍排名'">
-        <my-contest-rank :url="'wbfl'" :project="'wbfl'"></my-contest-rank>
+      <div class="introdution" v-if="activeName=='队伍排名'">
+        <div class="introdution" v-if="activeName=='队伍排名'">
+          <div class="" v-if="checkRank">
+            <my-contest-rank :url="'wbfl'" :zhibiao="'precision'" :project="'wbfl'"></my-contest-rank>
+          </div>
+          <div class="" v-else>
+            您无权查看此项目排行
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -101,16 +116,21 @@
 import store from '../../../../store'
 const myContestRank = require('../myContestRank')
 const marked = require('marked')
+const $utils = require('utils')
 export default {
   data () {
     return {
       activeName: '比赛介绍',
+      canDownload: false,
+      checkRank: false,
+      conditionStatus: null,
       detailsList: [
         { text: '比赛介绍' },
-        { text: '比赛规则' },
-        { text: '比赛数据' },
-        { text: '评分标准' },
-        { text: '提交要求' },
+        { text: '相关下载' },
+        // { text: '比赛规则' },
+        // { text: '比赛数据' },
+        // { text: '评分标准' },
+        // { text: '提交要求' },
         { text: '队伍排名' }
       ],
       wbfl1: `
@@ -138,7 +158,24 @@ export default {
   components: {
     myContestRank
   },
+  watch: {
+    activeName (name) {
+      if (name === '队伍排名') {
+        this.fetchUserinfoFromServer()
+      }
+    }
+  },
   methods: {
+    fetchUserinfoFromServer (cb) {
+      this.$http.get('user/fetchProfile.do')
+        .then((res) => {
+          if (!$utils.isEmptyObject(res.data)) {
+            this.conditionStatus = res.data.userInfo.conditionStatus
+            this.checkRank = $utils.contestDownload('文本分类', res.data.userInfo.contest)
+          }
+          cb ? cb() : ''
+        })
+    },
     handleTabClick: function (activeText) {
       this.activeName = activeText
     },
@@ -148,6 +185,32 @@ export default {
     backToContest: function () {
       let urls = location.href.split('/')
       localStorage.setItem('yearPick', urls[urls.length - 2])
+    },
+    download: function () {
+      this.fetchUserinfoFromServer(() => {
+        if (localStorage.getItem('username')) {
+          if (this.conditionStatus === 1) {
+            if (this.checkRank) {
+              this.canDownload = !this.canDownload
+            } else {
+              this.$message({
+                type: 'info',
+                message: '您没有权限下载此项目'
+              })
+            }
+          } else {
+            this.$message({
+              type: 'info',
+              message: '请耐心等待审核通过后下载'
+            })
+          }
+        } else {
+          this.$message({
+            type: 'info',
+            message: '请登录后下载'
+          })
+        }
+      })
     }
   },
   computed: {
@@ -160,7 +223,7 @@ export default {
   },
   mounted () {
     document.documentElement.scrollTop = document.body.scrollTop = 0
-    store.commit('changeTitle', '邀请赛')
+    store.commit('changeTitle', '邀请赛介绍')
     if (location.href.split('#')[1] === 'rank') {
       this.activeName = '队伍排名'
     }
@@ -173,6 +236,12 @@ export default {
     font-size: 15px;
   }
   img {
-    max-width: 900px;
+    // max-width: 900px;
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+    opacity: 0
   }
 </style>

@@ -36,7 +36,7 @@
                     <el-form-item label="分组情况" v-if="props.row.group"><span>{{ props.row.group }}</span></el-form-item>
                     <el-form-item label="IP地址"><span>{{ props.row.ipAddress }}</span></el-form-item>
                     <el-form-item label="os"><span>{{ props.row.os }}</span></el-form-item>
-                    <el-form-item label="队伍头像"><span><img :src="props.row.teamPictureUrl?props.row.teamPictureUrl:require('assets/avatar.png')" alt="avatar" style="width: 60px;height: 60px;border-radius: 50%;border: 3px solid #eee;"></span></el-form-item>
+                    <!-- <el-form-item label="队伍头像"><span><img :src="props.row.teamPictureUrl?props.row.teamPictureUrl:require('assets/avatar.png')" alt="avatar" style="width: 60px;height: 60px;border-radius: 50%;border: 3px solid #eee;"></span></el-form-item> -->
                     <el-form-item label="研究方向" class="el_form_full"><span>{{ props.row.research }}</span></el-form-item>
                     <el-form-item label="拒绝理由" class="el_form_full" v-if="props.row.status == 2"><span>{{ props.row.rejectedReason }}</span></el-form-item>
                   </el-form>
@@ -52,7 +52,7 @@
                 width="140">
                 <template scope="scope">
                   <el-button @click="handleAccepted(scope.$index, tableData)" type="success" size="small" :disabled="tableData[scope.$index].status==1">通过</el-button>
-                  <el-button @click="handleRejected(scope.$index, tableData)" type="danger" size="small" :disabled="tableData[scope.$index].status==2">拒绝</el-button>
+                  <el-button @click="handleRejected(scope.$index, tableData)" type="danger" size="small" :disabled="(tableData[scope.$index].status==2) || (tableData[scope.$index].status==1)">拒绝</el-button>
                 </template>
               </el-table-column>
             </el-table>

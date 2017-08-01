@@ -6,6 +6,7 @@
       <div class="basic_container">
         <div class="title">基本信息</div>
         <el-upload
+          v-if="false"
           class="avatar-uploader"
           :action="interfaceUrl+'/user/uploadAvatar.do'"
           :show-file-list="false"
@@ -190,7 +191,6 @@ export default {
       // return isLt2M
     },
     handleSubmit (formName) {
-      console.log(this.profileForm)
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.loading = true

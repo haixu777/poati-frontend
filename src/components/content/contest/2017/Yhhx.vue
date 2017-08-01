@@ -18,16 +18,21 @@
     </div>
     <div class="container_right">
       <div class="introdution" v-show="activeName=='比赛介绍'">
-        <p>社交网络是web 2.0的重要组成部分。在社交网络中根据用户信息构建用户画像，在商业广
-          告、金融信贷、舆情管控等领域都将发挥重大作用。本题目为参赛者提供真实微博数据，对用
-          户画像中的用户标签问题进行分析，希望发现和培养在社交网络大数据挖掘领域的专业技术人才。</p>
-        <p>参赛队伍利用给定的新浪微博数据（包括用户个人信息、用户行为信息、用户微博文本以及用户粉丝列表，详见数据格式部分），进行微博用户画像，具体包括以下四个标签:</p>
-        <p>标签1： 推断用户的年龄（共3个标签：-1979/1980-1989/1990+）</p>
+        <p>给定一批社交网络用户数据，包括用户个人信息、用户行为信息、用户社交网络文本以及用户粉丝列表等，预测社交网络用户的四类属性标签。</p>
+        <p>标签1：推断用户的年龄（共3个标签：-1979/1980-1989/1990+）</p>
         <p>标签2：推断用户的性别（共2个标签：男/女）</p>
         <p>标签3：推断用户的地域（共8个标签：东北/华北/华中/华东/西北/西南/华南/境外）</p>
         <p>标签4：推断用户的兴趣（共13个标签：体育/健康/军事/女性/娱乐/教育/旅游/汽车/社会/科技/航空/读书/财经）</p>
       </div>
-      <div class="introdution" v-show="activeName=='比赛规则'">
+      <div class="introdution" v-show="activeName=='相关下载'">
+        <el-button @click="download">比赛题目下载</el-button>
+        <transition name="fade">
+          <div class="" v-if="canDownload">
+            <a :href="require('assets/contest/subject/用户画像.pdf')" download="用户画像.pdf">用户画像.pdf</a>
+          </div>
+        </transition>
+      </div>
+      <div class="introdution" v-if="activeName=='比赛规则'">
         <h4>基本规则</h4>
         <ul>
           <li>单支队伍人数上限: 5人</li>
@@ -39,7 +44,7 @@
           <li>外部数据：不允许使用外部数据资源。</li>
         </ol>
       </div>
-      <div class="introdution" v-show="activeName=='比赛数据'">
+      <div class="introdution" v-if="activeName=='比赛数据'">
         <h4>比赛数据</h4>
         <p>比赛数据包含、微博调试集，微博调试标注集，微博训练集，微博训练标注集，微博测试集。</p>
         <h5>1、数据集:</h5>
@@ -427,15 +432,21 @@
             </tr>
           </tbody>
         </table>
+        <h5>3、相关下载</h5>
+        <p>
+          <el-button type="primary" size="small">
+            <a href="http://omnwjdv5k.bkt.clouddn.com/yhhx.zip" style="color: #fff;text-decoration: none;">测试集下载</a>
+          </el-button>
+        </p>
       </div>
-      <div class="introdution" v-show="activeName=='评分标准'">
+      <div class="introdution" v-if="activeName=='评分标准'">
         <h4>评分标准</h4>
         <p>用户画像评价根据标签预测正确率及相应的标签权重对比赛结果进行评分。其中，四类标签的权重分别为0.1，0.2，0.3，0.4。</p>
         <p>最终得分 = 性别画像正确率*0.1 + 年龄画像正确率*0.2 + 地域画像正确率*0.3 + 兴趣画像正确率*0.4</p>
         <p>举例说明：如果总共需预测4类标签共4万个，某参赛团队对四类标签预测正确的个数分别为0.8万、0.5万、0.6万和0.1万，那么score = 0.8*0.1 + 0.5*0.2 + 0.6*0.3 + 0.1*0.4 = 0.4（满分为1分）。</p>
         <p>按照得分从大到小进行排序，得到各参赛队排名。</p>
       </div>
-      <div class="introdution" v-show="activeName=='提交要求'">
+      <div class="introdution" v-if="activeName=='提交要求'">
         <h4>提交要求</h4>
         <p>提交结果文件为txt格式，不同字段之间用英文逗号做间隔，文件结构如下：</p>
         <!-- <img :src="require('../../../../assets/contest/details/yhhx7.png')" alt='yhhx'> -->
@@ -469,8 +480,13 @@
         <h4>实例文件</h4>
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/%E7%94%A8%E6%88%B7%E7%94%BB%E5%83%8F%E7%BB%93%E6%9E%9C%E7%A4%BA%E4%BE%8B.txt.zip">下载</a></p>
       </div>
-      <div class="introdution" v-show="activeName=='队伍排名'">
-        <my-contest-rank :url="'yhhx'" :zhibiao="'precision'" :project="'yhhx'"></my-contest-rank>
+      <div class="introdution" v-if="activeName=='队伍排名'">
+        <div class="" v-if="checkRank">
+          <my-contest-rank :url="'yhhx'" :zhibiao="'precision'" :project="'yhhx'"></my-contest-rank>
+        </div>
+        <div class="" v-else>
+          您无权查看此项目排行
+        </div>
       </div>
     </div>
   </div>
@@ -480,16 +496,21 @@
 import store from '../../../../store'
 const myContestRank = require('../myContestRank')
 const marked = require('marked')
+const $utils = require('utils')
 export default {
   data () {
     return {
       activeName: '比赛介绍',
+      canDownload: false,
+      checkRank: false,
+      conditionStatus: null,
       detailsList: [
         { text: '比赛介绍' },
-        { text: '比赛规则' },
-        { text: '比赛数据' },
-        { text: '评分标准' },
-        { text: '提交要求' },
+        { text: '相关下载' },
+        // { text: '比赛规则' },
+        // { text: '比赛数据' },
+        // { text: '评分标准' },
+        // { text: '提交要求' },
         { text: '队伍排名' }
       ],
       tableClass: {
@@ -531,7 +552,24 @@ export default {
   components: {
     myContestRank
   },
+  watch: {
+    activeName (name) {
+      if (name === '队伍排名') {
+        this.fetchUserinfoFromServer()
+      }
+    }
+  },
   methods: {
+    fetchUserinfoFromServer (cb) {
+      this.$http.get('user/fetchProfile.do')
+        .then((res) => {
+          if (!$utils.isEmptyObject(res.data)) {
+            this.conditionStatus = res.data.userInfo.conditionStatus
+            this.checkRank = $utils.contestDownload('用户画像', res.data.userInfo.contest)
+          }
+          cb ? cb() : ''
+        })
+    },
     handleTabClick: function (activeText) {
       this.activeName = activeText
     },
@@ -541,11 +579,37 @@ export default {
     backToContest: function () {
       let urls = location.href.split('/')
       localStorage.setItem('yearPick', urls[urls.length - 2])
+    },
+    download: function () {
+      this.fetchUserinfoFromServer(() => {
+        if (localStorage.getItem('username')) {
+          if (this.conditionStatus === 1) {
+            if (this.checkRank) {
+              this.canDownload = !this.canDownload
+            } else {
+              this.$message({
+                type: 'info',
+                message: '您没有权限下载此项目'
+              })
+            }
+          } else {
+            this.$message({
+              type: 'info',
+              message: '请耐心等待审核通过后下载'
+            })
+          }
+        } else {
+          this.$message({
+            type: 'info',
+            message: '请登录后下载'
+          })
+        }
+      })
     }
   },
   mounted () {
     document.documentElement.scrollTop = document.body.scrollTop = 0
-    store.commit('changeTitle', '邀请赛')
+    store.commit('changeTitle', '邀请赛介绍')
   }
 }
 </script>
@@ -556,5 +620,11 @@ export default {
   }
   p, li {
     font-size: 15px;
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+    opacity: 0
   }
 </style>

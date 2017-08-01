@@ -7,7 +7,7 @@
       <el-breadcrumb-item :to="{ path: '/contest' }">
         <a href="javascipt:;" @click="backToContest()">比赛列表</a>
       </el-breadcrumb-item>
-      <el-breadcrumb-item>关键词抽取</el-breadcrumb-item>
+      <el-breadcrumb-item>音频对比</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="container_left">
       <ul>
@@ -18,17 +18,16 @@
     </div>
     <div class="container_right">
       <div class="introdution" v-show="activeName=='比赛介绍'">
-        <p>关键词提取是从文档中把跟这篇文章意义最相关的一些词抽取出来。这样就可以通过关键词大
-          致了解该篇文章的内容，是自然语言处理领域的重要问题。本赛题提供新浪专题新闻文档，参赛者需要设计一个关键词抽取系统，抽取每篇文档的关键词。</p>
+        <p>本次评测的对象为音频比对技术，即给定音频样本，从海量待检索数据库中筛选出 与音频样本一致或包含部分音频样本片段的音频文件。</p>
       </div>
-      <div class="introdution" v-show="activeName=='比赛规则'">
+      <div class="introdution" v-if="activeName=='比赛规则'">
         <h4>基本规则</h4>
         <p>单只队伍人数上限：5人</p>
         <p>单支队伍每日提交次数上限：20次</p>
         <h4>附加规则</h4>
         <p>数据使用：本赛题数据仅允许用于本次竞赛相关活动，禁止参赛者用作它用。</p>
       </div>
-      <div class="introdution" v-show="activeName=='比赛数据'">
+      <div class="introdution" v-if="activeName=='比赛数据'">
         <h4>比赛数据</h4>
         <h5>1、数据集:</h5>
         <p>TRAIN/DOCUMENT_TRAIN  训练集文档</p>
@@ -47,7 +46,7 @@
         <img :src="require('../../../../assets/contest/details/gjccq6.png')" alt='gjccq6'>
         <p>训练集数据和对应的标注文档id相同，参赛队伍需要读取训练数据和对应关键词标注文档进行训练。</p>
       </div>
-      <div class="introdution" v-show="activeName=='评分标准'">
+      <div class="introdution" v-if="activeName=='评分标准'">
         <h4>评分标准</h4>
         <p>需要分别对每篇文档的抽取结果进行评价，本评测采用MRR(mean reciprocal rank)进行评价。对于文档i，假设人工标注的关键词词典大小是n，评测公式定义如下：</p>
         <img :src="require('../../../../assets/contest/details/gjccq2.png')" alt='gjccq'>
@@ -56,7 +55,7 @@
         <img :src="require('../../../../assets/contest/details/gjccq3.png')" alt='gjccq'>
         <p>最后选用综合评的结果，给出每个参赛队伍得分。</p>
       </div>
-      <div class="introdution" v-show="activeName=='提交要求'">
+      <div class="introdution" v-if="activeName=='提交要求'">
         <h4>提交要求</h4>
         <ol>
           <li>提交结果文件为txt格式</li>
@@ -75,11 +74,11 @@ export default {
     return {
       activeName: '比赛介绍',
       detailsList: [
-        { text: '比赛介绍' },
-        { text: '比赛规则' },
-        { text: '比赛数据' },
-        { text: '评分标准' },
-        { text: '提交要求' }
+        { text: '比赛介绍' }
+        // { text: '比赛规则' },
+        // { text: '比赛数据' },
+        // { text: '评分标准' },
+        // { text: '提交要求' }
       ]
     }
   },

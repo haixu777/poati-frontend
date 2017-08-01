@@ -4,6 +4,7 @@
     <!-- <router-view></router-view> -->
     <el-alert
       v-if="firstTime"
+      style="min-width:1280px;"
       title="浏览器兼容信息：IE9+，Chrome，Safari"
       type="success"
       @close="info">
@@ -63,7 +64,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  min-width: 1170px;
+  // min-width: 1172px;
 }
 .wechat {
   position: fixed;

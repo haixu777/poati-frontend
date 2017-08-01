@@ -18,7 +18,7 @@
     </div>
     <div class="container_right">
       <div class="introdution" v-show="activeName=='比赛介绍'">
-        <p>事件样本发现任务是针对每一个事件，在语料库中找出报道该事件的新闻样本。即给出一系列输入样例，每个样例包括事件信息和与该事件相关的若干篇报道，从给定新闻语料中找出描述该事件的相关新闻样本。</p>
+        <p>本任务的目标是从给定语料中查找与指定事件对应的新闻语料。任务的输入为N个专题事件及每个事件对应的若干篇种子文档，要求从给定新闻语料中找出与这N个事件对应的全部新闻文档。</p>
         <!-- <p>给定事件名称和该事件下的4-5篇新闻报道，从全部语料中发现描述该事件的相关样本。</p>
         <ul>
           <li>输入：事件名称、相关报道4-5篇。</li>
@@ -78,7 +78,15 @@
         </table>
         <p>说明：给定事件名称“我国拟特赦四类服刑罪犯”以及以上相关4篇报道，上表中“相关样本”一列为从给定的样本中发现的相关样本。</p> -->
       </div>
-      <div class="introdution" v-show="activeName=='比赛规则'">
+      <div class="introdution" v-show="activeName=='相关下载'">
+        <el-button @click="download">比赛题目下载</el-button>
+        <transition name="fade">
+          <div class="" v-if="canDownload">
+            <a :href="require('assets/contest/subject/事件样本发现.pdf')" download="事件样本发现.pdf">事件样本发现.pdf</a>
+          </div>
+        </transition>
+      </div>
+      <div class="introdution" v-if="activeName=='比赛规则'">
         <h4>基本规则</h4>
         <ul>
           <li>单支队伍人数上限: 5人</li>
@@ -90,7 +98,7 @@
           <li>外部数据：不允许使用外部数据资源。</li>
         </ol>
       </div>
-      <div class="introdution" v-show="activeName=='比赛数据'">
+      <div class="introdution" v-if="activeName=='比赛数据'">
         <h4>比赛数据</h4>
         <!-- <h5>数据介绍</h5> -->
         <p>比赛数据集分为：调试语料集、调试样例集、调试样例标注集、新闻语料集、测试样例集。</p>
@@ -120,7 +128,7 @@
           </el-button>
         </p>
       </div>
-      <div class="introdution" v-show="activeName=='评分标准'">
+      <div class="introdution" v-if="activeName=='评分标准'">
         <h4>评分标准</h4>
         <p>事件样本发现评价采用准确率、召回率以及F值作为评价指标。评分综合每个类别的评价结果，每个类别的权重与该类别的样本数量成反比。事件样本发现的准确率、召回率和F值的计算公式如下：</p>
         <img :src="require('assets/contest/details/sjybfx11.png')" alt="">
@@ -128,7 +136,7 @@
         <img :src="require('assets/contest/details/sjybfx12.png')" alt="">
         <p>最终排名以综合评分的F值作为依据。</p>
       </div>
-      <div class="introdution" v-show="activeName=='提交要求'">
+      <div class="introdution" v-if="activeName=='提交要求'">
         <h4>提交要求</h4>
         <ol>
           <li>提交结果文件为txt格式。</li>
@@ -137,8 +145,15 @@
         <h4>实例文件</h4>
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sjybfx_%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%9C%E6%A0%B7%E5%BC%8F.txt" download="sjybfx_输出结果样式">下载</a></p>
       </div>
-      <div class="introdution" v-show="activeName=='队伍排名'">
-        <my-contest-rank :url="'sjybfx'" :project="'sjybfx'"></my-contest-rank>
+      <div class="introdution" v-if="activeName=='队伍排名'">
+        <div class="introdution" v-if="activeName=='队伍排名'">
+          <div class="" v-if="checkRank">
+            <my-contest-rank :url="'sjybfx'" :zhibiao="'precision'" :project="'sjybfx'"></my-contest-rank>
+          </div>
+          <div class="" v-else>
+            您无权查看此项目排行
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -148,16 +163,21 @@
 import store from '../../../../store'
 const myContestRank = require('../myContestRank')
 const marked = require('marked')
+const $utils = require('utils')
 export default {
   data () {
     return {
       activeName: '比赛介绍',
+      canDownload: false,
+      checkRank: false,
+      conditionStatus: null,
       detailsList: [
         { text: '比赛介绍' },
-        { text: '比赛规则' },
-        { text: '比赛数据' },
-        { text: '评分标准' },
-        { text: '提交要求' },
+        { text: '相关下载' },
+        // { text: '比赛规则' },
+        // { text: '比赛数据' },
+        // { text: '评分标准' },
+        // { text: '提交要求' },
         { text: '队伍排名' }
       ],
       tableClass: {
@@ -208,7 +228,24 @@ export default {
   components: {
     myContestRank
   },
+  watch: {
+    activeName (name) {
+      if (name === '队伍排名') {
+        this.fetchUserinfoFromServer()
+      }
+    }
+  },
   methods: {
+    fetchUserinfoFromServer (cb) {
+      this.$http.get('user/fetchProfile.do')
+        .then((res) => {
+          if (!$utils.isEmptyObject(res.data)) {
+            this.conditionStatus = res.data.userInfo.conditionStatus
+            this.checkRank = $utils.contestDownload('事件样本发现', res.data.userInfo.contest)
+          }
+          cb ? cb() : ''
+        })
+    },
     handleTabClick: function (activeText) {
       this.activeName = activeText
     },
@@ -218,6 +255,32 @@ export default {
     backToContest: function () {
       let urls = location.href.split('/')
       localStorage.setItem('yearPick', urls[urls.length - 2])
+    },
+    download: function () {
+      this.fetchUserinfoFromServer(() => {
+        if (localStorage.getItem('username')) {
+          if (this.conditionStatus === 1) {
+            if (this.checkRank) {
+              this.canDownload = !this.canDownload
+            } else {
+              this.$message({
+                type: 'info',
+                message: '您没有权限下载此项目'
+              })
+            }
+          } else {
+            this.$message({
+              type: 'info',
+              message: '请耐心等待审核通过后下载'
+            })
+          }
+        } else {
+          this.$message({
+            type: 'info',
+            message: '请登录后下载'
+          })
+        }
+      })
     }
   },
   computed: {
@@ -230,7 +293,7 @@ export default {
   },
   mounted () {
     document.documentElement.scrollTop = document.body.scrollTop = 0
-    store.commit('changeTitle', '邀请赛')
+    store.commit('changeTitle', '邀请赛介绍')
   }
 }
 </script>

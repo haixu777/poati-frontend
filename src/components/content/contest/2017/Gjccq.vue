@@ -18,10 +18,17 @@
     </div>
     <div class="container_right">
       <div class="introdution" v-show="activeName=='比赛介绍'">
-        <p>关键词抽取任务是从一篇新闻文档中抽取与该文档主题最相关的一些词或者短语。对于给定的一组文档，参赛者需要设计一个关键词抽取系统，用于抽取每篇文档的关键词，提供的关键词数量不允许超过10个。参赛者不允许使用外部数据资源，且关键词必须从文本中提取。
-        </p>
+        <p>给定一组新闻文档，从每一篇文档中抽取出与该文档主题最相关的一些词或者短语。参赛者需要设计一个关键词抽取系统，用于抽取每篇文档的关键词，提供的关键词数量不允许超过10个。</p>
       </div>
-      <div class="introdution" v-show="activeName=='比赛规则'">
+      <div class="introdution" v-show="activeName=='相关下载'">
+        <el-button @click="download">比赛题目下载</el-button>
+        <transition name="fade">
+          <div class="" v-if="canDownload">
+            <a :href="require('assets/contest/subject/关键词抽取.pdf')" download="关键词抽取.pdf">关键词抽取.pdf</a>
+          </div>
+        </transition>
+      </div>
+      <div class="introdution" v-if="activeName=='比赛规则'">
         <h4>基本规则</h4>
         <p>单只队伍人数上限：5人</p>
         <p>单支队伍每份数据提交次数上限: 10次</p>
@@ -29,7 +36,7 @@
         <p>数据使用：本赛题数据仅允许用于本次竞赛相关活动，禁止参赛者用作它用。</p>
         <p>外部数据：本赛题禁止使用外部数据。</p>
       </div>
-      <div class="introdution" v-show="activeName=='比赛数据'">
+      <div class="introdution" v-if="activeName=='比赛数据'">
         <h4>比赛数据</h4>
         <p>本次比赛使用的数据包含：新闻调试集、新闻调试标注集、新闻训练集、新闻训练标注集、新闻测试集。</p>
         <h5>1、数据集:</h5>
@@ -90,7 +97,7 @@
           </el-button>
         </p>
       </div>
-      <div class="introdution" v-show="activeName=='评分标准'">
+      <div class="introdution" v-if="activeName=='评分标准'">
         <h4>评分标准</h4>
         <p>需要分别对每篇文档的抽取结果进行评价，本评测采用MRR(mean reciprocal rank)进行评价。对于文档i，假设人工标注的关键词词典大小是n，评测公式定义如下：</p>
         <img :src="require('../../../../assets/contest/details/gjccq2.png')" alt='gjccq'>
@@ -98,7 +105,7 @@
         <p>为了对任务进行综合评价，我们综合每篇文档的评价结果，对关键词抽取系统进行综合评价，采用MRR的均值作为评价指标，假设一共有K篇文档，则:</p>
         <img :src="require('../../../../assets/contest/details/gjccq3.png')" alt='gjccq'>
       </div>
-      <div class="introdution" v-show="activeName=='提交要求'">
+      <div class="introdution" v-if="activeName=='提交要求'">
         <h4>提交要求</h4>
         <ol>
           <li>提交结果文件为txt格式</li>
@@ -108,8 +115,13 @@
         <h4>实例文件</h4>
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/%E7%BB%93%E6%9E%9C%E7%A4%BA%E4%BE%8B.txt.zip">下载</a></p>
       </div>
-      <div class="introdution" v-show="activeName=='队伍排名'">
-        <my-contest-rank :url="'gjccq'" :zhibiao="'precision'" :project="'gjccq'"></my-contest-rank>
+      <div class="introdution" v-if="activeName=='队伍排名'">
+        <div class="" v-if="checkRank">
+          <my-contest-rank :url="'gjccq'" :zhibiao="'precision'" :project="'gjccq'"></my-contest-rank>
+        </div>
+        <div class="" v-else>
+          您无权查看此项目排行
+        </div>
       </div>
     </div>
   </div>
@@ -119,16 +131,18 @@
 import store from '../../../../store'
 const Marked = require('marked')
 const myContestRank = require('../myContestRank')
+const $utils = require('utils')
 export default {
   data () {
     return {
       activeName: '比赛介绍',
       detailsList: [
         { text: '比赛介绍' },
-        { text: '比赛规则' },
-        { text: '比赛数据' },
-        { text: '评分标准' },
-        { text: '提交要求' },
+        { text: '相关下载' },
+        // { text: '比赛规则' },
+        // { text: '比赛数据' },
+        // { text: '评分标准' },
+        // { text: '提交要求' },
         { text: '队伍排名' }
       ],
       tableClass: {
@@ -158,7 +172,10 @@ export default {
         <ID>1</ID>
         <keywords>习近平 十三五 发展蓝图 经济发展</keywords>
       </Class>
-      `
+      `,
+      canDownload: false,
+      checkRank: false,
+      conditionStatus: null
     }
   },
   components: {
@@ -172,7 +189,24 @@ export default {
       return Marked(this.gjccq2, { sanitize: true })
     }
   },
+  watch: {
+    activeName (name) {
+      if (name === '队伍排名') {
+        this.fetchUserinfoFromServer()
+      }
+    }
+  },
   methods: {
+    fetchUserinfoFromServer (cb) {
+      this.$http.get('user/fetchProfile.do')
+        .then((res) => {
+          if (!$utils.isEmptyObject(res.data)) {
+            this.conditionStatus = res.data.userInfo.conditionStatus
+            this.checkRank = $utils.contestDownload('关键词抽取', res.data.userInfo.contest)
+          }
+          cb ? cb() : ''
+        })
+    },
     handleTabClick: function (activeText) {
       this.activeName = activeText
     },
@@ -182,20 +216,52 @@ export default {
     backToContest: function () {
       let urls = location.href.split('/')
       localStorage.setItem('yearPick', urls[urls.length - 2])
+    },
+    download: function () {
+      this.fetchUserinfoFromServer(() => {
+        if (localStorage.getItem('username')) {
+          if (this.conditionStatus === 1) {
+            if (this.checkRank) {
+              this.canDownload = !this.canDownload
+            } else {
+              this.$message({
+                type: 'info',
+                message: '您没有权限下载此项目'
+              })
+            }
+          } else {
+            this.$message({
+              type: 'info',
+              message: '请耐心等待审核通过后下载'
+            })
+          }
+        } else {
+          this.$message({
+            type: 'info',
+            message: '请登录后下载'
+          })
+        }
+      })
     }
   },
   mounted () {
     document.documentElement.scrollTop = document.body.scrollTop = 0
-    store.commit('changeTitle', '邀请赛')
+    store.commit('changeTitle', '邀请赛介绍')
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   p, li {
     font-size: 15px;
   }
   img {
-    max-width: 900px;
+    // max-width: 900px;
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+    opacity: 0
   }
 </style>

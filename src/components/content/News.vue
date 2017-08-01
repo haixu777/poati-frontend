@@ -71,7 +71,7 @@ export default {
     }
   },
   mounted () {
-    store.commit('changeTitle', '新闻')
+    store.commit('changeTitle', '往届回顾')
     this.fetchNewsListFromServer()
     document.documentElement.scrollTop = document.body.scrollTop = 0
   }

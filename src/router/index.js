@@ -6,6 +6,7 @@ const myContest = r => require.ensure([], () => r(require('components/content/Co
 const myNews = r => require.ensure([], () => r(require('components/content/News')), 'news')
 const myHelp = r => require.ensure([], () => r(require('components/content/Help')), 'help')
 const myExpert = r => require.ensure([], () => r(require('components/content/expert')), 'expert')
+const myPrevious = r => require.ensure([], () => r(require('components/content/previous')), 'previous')
 const myLogin = r => require.ensure([], () => r(require('components/login/index')), 'login')
 const myContestDetails = r => require.ensure([], () => r(require('components/content/ContestTemplate')), 'contestDetails')
 const myNewsDetails = r => require.ensure([], () => r(require('components/content/NewsTemplate')), 'newsTemplate')
@@ -74,7 +75,7 @@ export default new Router({
       children: [
         { path: 'rlsb', component: myContestRlsb },
         { path: 'shrsb', component: myContestShrsb },
-        { path: 'spkdjc', component: myContestSpkdjc },
+        { path: 'spkbjc', component: myContestSpkdjc },
         { path: 'spwbgjcjc', component: myContestSpwbgjcjc },
         { path: 'tdspsb', component: myContestTdspsb },
         { path: 'ypdb', component: myContestYpdb },
@@ -105,6 +106,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: myLogin
+    },
+    {
+      path: '/previous',
+      name: 'previous',
+      component: myPrevious
     },
     {
       path: '/user',

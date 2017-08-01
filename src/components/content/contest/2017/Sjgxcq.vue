@@ -29,7 +29,7 @@
             <li>输出：每篇新闻文档对应的新闻事件类别，以及该事件类别下每一个角色参数对应的基本实体。</li>
           </ol>
       </div>
-      <div class="introdution" v-show="activeName=='比赛规则'">
+      <div class="introdution" v-if="activeName=='比赛规则'">
         <h4>基本规则</h4>
         <ul>
           <li>单支队伍人数上限: 5人</li>
@@ -40,7 +40,7 @@
           <li>外部数据：本赛题除了允许使用“竞赛数据”中提供的数据，仅允许使用所有参赛者均可获取到的其它公开数据，不允许使用任何私有数据，所使用的外部数据需在竞赛报告书中说明。</li>
         </ol>
       </div>
-      <div class="introdution" v-show="activeName=='比赛数据'">
+      <div class="introdution" v-if="activeName=='比赛数据'">
         <h4>比赛数据</h4>
         <h5>数据介绍</h5>
         <p>数据均来源于互联网新闻，涵盖国际、国内、军事、财经以及社会五类。</p>
@@ -57,7 +57,7 @@
         <h5>数据获取</h5>
         <p>竞赛数据仅向参赛者开放,请先登录或注册</p>
       </div>
-      <div class="introdution" v-show="activeName=='评分标准'">
+      <div class="introdution" v-if="activeName=='评分标准'">
         <h4>评分标准</h4>
         <p>关系抽取采用准确率、召回率以及F1-Measure作为评价指标。事件中的每个角色可以转换成一个Tuple:</p>
         <img :src="require('../../../../assets/contest/details/sjgxcq3.png')" alt='sjgxcq'>
@@ -67,7 +67,7 @@
           <p>基于以上等价关系，我们定义集合R与G的交集为</p>
           <img :src="require('../../../../assets/contest/details/sjgxcq4.png')" alt='sjgxcq'>
       </div>
-      <div class="introdution" v-show="activeName=='提交要求'">
+      <div class="introdution" v-if="activeName=='提交要求'">
         <h4>提交要求</h4>
         <ol>
           <li>代码相关文件：完整代码、代码说明文档、算法说明文档</li>
@@ -332,7 +332,7 @@ export default {
   },
   mounted () {
     document.documentElement.scrollTop = document.body.scrollTop = 0
-    store.commit('changeTitle', '邀请赛')
+    store.commit('changeTitle', '邀请赛介绍')
   }
 }
 </script>

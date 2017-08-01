@@ -18,58 +18,17 @@
     </div>
     <div class="container_right">
       <div class="introdution" v-show="activeName=='比赛介绍'">
-        <p>给定事件名称及报道该事件的多篇新闻，从每篇新闻中抽取该事件的关键元素，包括时间、地点、参与人物及参与组织等实体。</p>
-        <ol>
-          <li>输入：多个新闻事件，其中每个新闻事件对应多篇新闻报道。</li>
-          <li>输出：每篇新闻报道中的事件关键元素。</li>
-        </ol>
-        <p>如下事例:<p>
-        <h6>新闻事件 > 河北官方：尽快做好特赦工作 不错放不漏赦</h6>
-        <p>8月30日上午，河北省召开全省特赦部分服刑罪犯电视电话会议，省委政法委常务副书记王立
-          山要求全省各级各有关部门充分认识这次特赦的重大意义，认真学习全国人大常委会《关于特
-          赦部分服刑罪犯的决定》和中央政法部门制定的实施办法，准确把握特赦条件和基本要求，依
-          法准确尽快做好特赦工作，不能错放一人，也不能漏赦一人。</p>
-        <p>识别结果：</p>
-        <!-- <img :src="require('../../../../assets/contest/details/sjgjyssb1.png')" alt='sjgjyssb'> -->
-        <table :class="tableClass">
-          <thead>
-            <tr>
-              <th>新闻标题</th>
-              <th>事件关键元素</th>
-              <th>类型</th>
-              <th>位置</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>河北官方：尽快做好特赦工作 不错放不漏赦</td>
-              <td>8月30日</td>
-              <td>时间</td>
-              <td>(1,1,4)</td>
-            </tr>
-            <tr>
-              <td></td>
-              <td>河北省</td>
-              <td>地点</td>
-              <td>(1,8,10)</td>
-            </tr>
-            <tr>
-              <td></td>
-              <td>王立山</td>
-              <td>人物</td>
-              <td>(1,40,42)</td>
-            </tr>
-            <tr>
-              <td></td>
-              <td>全国人大常委会</td>
-              <td>组织</td>
-              <td>(1,72,78)</td>
-            </tr>
-          </tbody>
-        </table>
-        <p style="text-align: center;">说明：上表中“位置”一列的三元组表示(段落位置，起始位置,结束位置)。</p>
+        <p>本任务的目标是从给定语料中抽取出描述指定事件的关键元素。任务的输入为一系列专题事件以及与这些事件对应的文档集合，要求针对每个事件从其对应文档中抽取事件关键元素（注意并非每篇文档中的全部实体），关键元素类型包括时间、地点、参与人物及参与组织等实体，语料中不同事件的新闻数量比例严重倾斜。</p>
       </div>
-      <div class="introdution" v-show="activeName=='比赛规则'">
+      <div class="introdution" v-show="activeName=='相关下载'">
+        <el-button @click="download">比赛题目下载</el-button>
+        <transition name="fade">
+          <div class="" v-if="canDownload">
+            <a :href="require('assets/contest/subject/事件关键元素识别.pdf')" download="事件关键元素识别.pdf">事件关键元素识别.pdf</a>
+          </div>
+        </transition>
+      </div>
+      <div class="introdution" v-if="activeName=='比赛规则'">
         <h4>基本规则</h4>
         <ul>
           <li>单支队伍人数上限: 5人</li>
@@ -78,12 +37,12 @@
         <h4>附加规则</h4>
         <ol>
           <li>数据使用：本赛题数据仅允许用于本次竞赛相关活动，禁止参赛者用作它用。</li>
-          <li>外部数据：本赛题禁止使用外部数。</li>
+          <li>外部数据：本赛题禁止使用外部数据。</li>
         </ol>
       </div>
-      <div class="introdution" v-show="activeName=='比赛数据'">
+      <div class="introdution" v-if="activeName=='比赛数据'">
         <h4>比赛数据</h4>
-        <p>比赛数据为涵盖国际、国内、军事、财经以及社会五类的新闻报道，共20117万篇，其中包含401个事件，每个事件下包含的新闻数据比例严重倾斜。数据包含新闻调试集、新闻调试标注集和新闻测试集。</p>
+        <p>比赛数据为涵盖国际、国内、军事、财经以及社会五类的新闻报道，共20,117篇，其中包含401个事件，每个事件下包含的新闻数据比例严重倾斜。数据包含新闻调试集、新闻调试标注集和新闻测试集。</p>
         <h5>1、数据集</h5>
         <p>&#9312; 新闻调试集</p>
         <p>新闻调试集包含99篇新闻报道，共10个类别，用于调试参赛系统（调试集数据可以在网站下载）。</p>
@@ -107,7 +66,7 @@
           </el-button>
         </p>
       </div>
-      <div class="introdution" v-show="activeName=='评分标准'">
+      <div class="introdution" v-if="activeName=='评分标准'">
         <h4>评分标准</h4>
         <p>事件关键元素识别采用准确率、召回率以及F1-Measure作为评价指标。参赛系统的输出
           结果的实体集合记为 S = { S1, S2, ... , Sm },标准结果的(Gold Standard)的
@@ -122,7 +81,7 @@
         <p>基于以上等价关系,基于以上等价关系，我们定义集合与的交集为</p>
         <img :src="require('../../../../assets/contest/details/sjgjyssb5.png')" alt="sjgjyssb">
       </div>
-      <div class="introdution" v-show="activeName=='提交要求'">
+      <div class="introdution" v-if="activeName=='提交要求'">
         <h4>提交要求</h4>
         <ol>
           <li>提交结果文件为txt格式</li>
@@ -133,8 +92,15 @@
         <h4>实例文件</h4>
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/result_%E5%85%B3%E9%94%AE%E5%85%83%E7%B4%A0%E8%AF%86%E5%88%AB.txt.zip">下载</a></p>
       </div>
-      <div class="introdution" v-show="activeName=='队伍排名'">
-        <my-contest-rank :url="'sjgjyssb'" :project="'sjgjyssb'"></my-contest-rank>
+      <div class="introdution" v-if="activeName=='队伍排名'">
+        <div class="introdution" v-if="activeName=='队伍排名'">
+          <div class="" v-if="checkRank">
+            <my-contest-rank :url="'sjgjyssb'" :zhibiao="'precision'" :project="'sjgjyssb'"></my-contest-rank>
+          </div>
+          <div class="" v-else>
+            您无权查看此项目排行
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -144,16 +110,21 @@
 import store from '../../../../store'
 const myContestRank = require('../myContestRank')
 const marked = require('marked')
+const $utils = require('utils')
 export default {
   data () {
     return {
       activeName: '比赛介绍',
+      canDownload: false,
+      checkRank: false,
+      conditionStatus: false,
       detailsList: [
         { text: '比赛介绍' },
-        { text: '比赛规则' },
-        { text: '比赛数据' },
-        { text: '评分标准' },
-        { text: '提交要求' },
+        { text: '相关下载' },
+        // { text: '比赛规则' },
+        // { text: '比赛数据' },
+        // { text: '评分标准' },
+        // { text: '提交要求' },
         { text: '队伍排名' }
       ],
       tableClass: {
@@ -187,7 +158,24 @@ export default {
   components: {
     myContestRank
   },
+  watch: {
+    activeName (name) {
+      if (name === '队伍排名') {
+        this.fetchUserinfoFromServer()
+      }
+    }
+  },
   methods: {
+    fetchUserinfoFromServer (cb) {
+      this.$http.get('user/fetchProfile.do')
+        .then((res) => {
+          if (!$utils.isEmptyObject(res.data)) {
+            this.conditionStatus = res.data.userInfo.conditionStatus
+            this.checkRank = $utils.contestDownload('事件关键元素识别', res.data.userInfo.contest)
+          }
+          cb ? cb() : ''
+        })
+    },
     handleTabClick: function (activeText) {
       this.activeName = activeText
     },
@@ -197,6 +185,32 @@ export default {
     backToContest: function () {
       let urls = location.href.split('/')
       localStorage.setItem('yearPick', urls[urls.length - 2])
+    },
+    download: function () {
+      this.fetchUserinfoFromServer(() => {
+        if (localStorage.getItem('username')) {
+          if (this.conditionStatus === 1) {
+            if (this.checkRank) {
+              this.canDownload = !this.canDownload
+            } else {
+              this.$message({
+                type: 'info',
+                message: '您没有权限下载此项目'
+              })
+            }
+          } else {
+            this.$message({
+              type: 'info',
+              message: '请耐心等待审核通过后下载'
+            })
+          }
+        } else {
+          this.$message({
+            type: 'info',
+            message: '请登录后下载'
+          })
+        }
+      })
     }
   },
   computed: {
@@ -206,7 +220,7 @@ export default {
   },
   mounted () {
     document.documentElement.scrollTop = document.body.scrollTop = 0
-    store.commit('changeTitle', '邀请赛')
+    store.commit('changeTitle', '邀请赛介绍')
   }
 }
 </script>
@@ -216,6 +230,12 @@ export default {
     font-size: 15px;
   }
   img {
-    max-width: 900px;
+    // max-width: 900px;
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+    opacity: 0
   }
 </style>

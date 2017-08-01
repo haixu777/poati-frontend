@@ -1,16 +1,22 @@
 <template lang="html">
   <div class="home_container">
-    <el-carousel height="450px">
+    <el-carousel height="450px" v-if="false">
       <el-carousel-item v-for="item in banner_list">
         <img :src="item.img" alt="banner" style="width: 100%;height: 100%;">
       </el-carousel-item>
     </el-carousel>
+    <div class="banner" style="height:450px;padding:0;">
+      <img
+        src="http://omnwjdv5k.bkt.clouddn.com/images/banner/banner_earth_new8.jpg"
+        style="width:100%;height:100%;"
+        alt="banner">
+    </div>
     <!-- 最新竞赛 -->
     <contest-newest></contest-newest>
     <!-- 比赛排行 -->
     <contest-rank v-if="false"></contest-rank>
     <!-- 最新动态 -->
-    <contest-news></contest-news>
+    <contest-news v-if="false"></contest-news>
     <!-- 专家报告 -->
     <contest-expert v-if="false"></contest-expert>
     <!-- 合作伙伴 -->
@@ -36,11 +42,10 @@ export default {
   },
   data () {
     return {
+      show: true,
       banner_list: [
-        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner/banner13.jpg' },
-        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner/banner12.jpg' },
-        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner/banner14.jpg' },
-        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner/banner11.jpg' }
+        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner/banner_new2.jpg' },
+        { img: 'http://omnwjdv5k.bkt.clouddn.com/images/banner/banner_new3.jpg' }
       ]
     }
   },
@@ -53,8 +58,8 @@ export default {
 }
 </script>
 <style lang="scss">
-
   .home_container {
+    // margin-top: 60px;
     width: 100%;
     > div {
       margin-bottom: 20px;

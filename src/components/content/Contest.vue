@@ -10,16 +10,16 @@
     <template v-for="item in contestList['year_'+yearPick]">
       <div class="contest_item_container">
         <img :src="handleStatus(item.status).img" alt="contest_tag" style="position: absolute;left: 20px;top: -6px;">
-        <el-row><el-col :span="4" :offset="16">比赛状态</el-col><el-col :span="4">比赛时间</el-col></el-row>
+        <el-row><el-col :span="3" :offset="17">比赛状态</el-col><el-col :span="4">比赛时间</el-col></el-row>
         <el-row>
-          <el-col :span="4">
+          <el-col :span="5">
             <div class="" style="padding-left: 30px;">
               <router-link :to="'/contest'+item.path" style="text-decoration: none;">
                 <h4 style="display: inline;">{{ item.title }}</h4>
               </router-link>
             </div>
           </el-col>
-          <el-col :span="4" :offset="12">
+          <el-col :span="3" :offset="12">
             <span :style="handleStatus(item.status).color+';font-size: 18px;font-weight: 400;'">{{ handleStatus(item.status).text }}</span>
           </el-col>
           <el-col :span="4">
@@ -86,22 +86,22 @@ export default {
     return {
       contestList: {
         year_2016: [
-          { logo: '', path: '/2016/shrsb', title: '说话人识别', introdution: '2016行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园2016', status: -1 },
-          { logo: '', path: '/2016/ypdb', title: '音频对比', introdution: '行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: -1 },
-          { logo: '', path: '/2016/yygjcjc', title: '语音关键词检测', introdution: '行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: -1 },
-          { logo: '', path: '/2016/spkbjc', title: '视频拷贝检测', introdution: '行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: -1 },
-          { logo: '', path: '/2016/tdspsb', title: '特定视频识别', introdution: '行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: -1 },
-          { logo: '', path: '/2016/spwbgjcjc', title: '视频文本关键词检测', introdution: '行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: -1 },
-          { logo: '', path: '/2016/rlsb', title: '人脸识别', introdution: '行人属性精细化识别是智能监控技术的重要组成部分。本赛题提供监控场景下多张带有标注信息的行人图像，要', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: -1 }
+          { logo: '', path: '/2016/shrsb', title: '说话人识别', introdution: '本项评测的对象为有害音频中的说话人检测技术，即检测测试音频库中是否存在目 标说话人的音频。', time: '2016/11/1 - 2016/11/3', location: '北京益园2016', status: -1 },
+          { logo: '', path: '/2016/ypdb', title: '音频对比', introdution: '本次评测的对象为音频比对技术，即给定音频样本，从海量待检索数据库中筛选出 与音频样本一致或包含部分音频样本片段的音频文件。', time: '2016/11/1 - 2016/11/3', location: '北京益园', status: -1 },
+          { logo: '', path: '/2016/yygjcjc', title: '语音关键词检测', introdution: '本项评测的对象为有害音频特定关键词检测技术，即检测给定音频内容中是否存在 有害信息相关的关键词。', time: '2016/11/1 - 2016/11/3', location: '北京益园', status: -1 },
+          { logo: '', path: '/2016/spkbjc', title: '视频拷贝检测', introdution: '给定待检测视频数据集与若干视频样本，逐一检测待检数据中是 否存在给定的视频样本或片段。', time: '2016/11/1 - 2016/11/3', location: '北京益园', status: -1 },
+          { logo: '', path: '/2016/tdspsb', title: '特定视频识别', introdution: '本项评测的对象为特定视频识别技术，即给定待识别视频数据集和若干类别 定义，逐一判断待识别数据属于每个类别的概率。', time: '2016/11/1 - 2016/11/3', location: '北京益园', status: -1 },
+          { logo: '', path: '/2016/spwbgjcjc', title: '视频文本关键词检测', introdution: '给出待检测视频数据集和若干关键词，逐一检测待检数据中是否存在给定关键词。 测试文字为中文，包括简体与繁体。', time: '2016/11/1 - 2016/11/3', location: '北京益园', status: -1 },
+          { logo: '', path: '/2016/rlsb', title: '人脸识别', introdution: '本项评测的对象任务是:给定的一组目标人物图像，在待测试的视频中判断 是否出现目标人物，以及目标人物出现的位置。', time: '2016/11/1 - 2016/11/3', location: '北京益园', status: -1 }
         ],
         year_2017: [
-          { logo: '', path: '/2017/gjccq', title: '关键词抽取', introdution: '给定一组互联网新闻文档，参赛者需要设计一个关键词抽取系统，抽取每篇文档的关键词。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: 0 },
-          { logo: '', path: '/2017/wbfl', title: '文本分类', introdution: '文本分类任务是对一组新闻文档和一组微博文档进行自动分类。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园2017', status: 0 },
-          { logo: '', path: '/2017/sjybfx', title: '事件样本发现', introdution: '给定事件名称和该事件下的4-5篇新闻报道，从全部语料中发现描述该事件的相关样本。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: 0 },
-          { logo: '', path: '/2017/sjgjyssb', title: '事件关键元素识别', introdution: '给定新闻事件样本，抽取其中的基本实体，包括时间、地点、参与人物和参与组织。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: 0 },
-          // { logo: '', path: '/2017/sjgxcq', title: '事件关系抽取', introdution: '从新闻文档中提取相应新闻事件的相关参数。本任务提供每一篇新闻文档对应的新闻事件及关 键元素集合，需要识别出事件的类别，以及该事件类别下每一个参数对应的基本实体。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: 0 },
-          { logo: '', path: '/2017/sjgxyc', title: '社交关系预测', introdution: '本题目给出某局部社交网络的结构，并给出1万个账号节点及部分关注关联关系，判断给出的两个用户之间是否存在关注关系。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: 0 },
-          { logo: '', path: '/2017/yhhx', title: '用户画像', introdution: '参赛队伍利用给定的新浪微博数据（包括用户个人信息、用户行为信息、用户微博文本以及用户粉丝列表，详见数据格式部分），进行微博用户画像。', time: '2017-4-12 ~ 2017-5-10', location: '北京益园', status: 0 }
+          { logo: '', path: '/2017/gjccq', title: '关键词抽取', introdution: '给定一组新闻文档，从每一篇文档中抽取出与该文档主题最相关的一些词或者短语。', time: '2017/09/01 - 2017/09/17', location: '北京益园', status: 0 },
+          { logo: '', path: '/2017/wbfl', title: '文本分类', introdution: '给定一组未经分词的文本文档，对每一篇文档指定唯一类别。按文本类型分为两个子任务：新闻报道分类和短文本分类。', time: '2017/09/01 - 2017/09/17', location: '北京益园2017', status: 0 },
+          { logo: '', path: '/2017/sjybfx', title: '事件样本发现', introdution: '本任务的目标是从给定语料中查找与指定事件对应的新闻语料。', time: '2017/09/01 - 2017/09/17', location: '北京益园', status: 0 },
+          { logo: '', path: '/2017/sjgjyssb', title: '事件关键元素识别', introdution: '本任务的目标是从给定语料中抽取出描述指定事件的关键元素。', time: '2017/09/01 - 2017/09/17', location: '北京益园', status: 0 },
+          // { logo: '', path: '/2017/sjgxcq', title: '事件关系抽取', introdution: '从新闻文档中提取相应新闻事件的相关参数。本任务提供每一篇新闻文档对应的新闻事件及关 键元素集合，需要识别出事件的类别，以及该事件类别下每一个参数对应的基本实体。', time: '2017/09/01 - 2017/09/17', location: '北京益园', status: 0 },
+          { logo: '', path: '/2017/sjgxyc', title: '社交关系预测', introdution: '本任务的目标是根据社交网络用户的基本信息、发布消息内容、回复消息内容、关注主题、用户间的社交关系（包括回帖、点赞、评论等），预测用户之间可能建立的关注关系。', time: '2017/09/01 - 2017/09/17', location: '北京益园', status: 0 },
+          { logo: '', path: '/2017/yhhx', title: '用户画像', introdution: '给定一批社交网络用户数据，包括用户个人信息、用户行为信息、用户社交网络文本以及用户粉丝列表等，预测社交网络用户的四类属性标签。', time: '2017/09/01 - 2017/09/17', location: '北京益园', status: 0 }
         ]
       },
       yearPick: localStorage.getItem('yearPick') || 2017
@@ -138,7 +138,7 @@ export default {
     }
   },
   mounted: function () {
-    store.commit('changeTitle', '邀请赛')
+    store.commit('changeTitle', '邀请赛介绍')
     document.documentElement.scrollTop = document.body.scrollTop = 0
   }
 }

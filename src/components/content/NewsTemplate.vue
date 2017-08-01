@@ -48,7 +48,7 @@ export default {
     }
   },
   mounted () {
-    store.commit('changeTitle', '新闻')
+    store.commit('changeTitle', '往届回顾')
     let urls = location.href.split('/')
     this.newsId = urls[urls.length - 1]
     this.handleFetchNewsDetail()

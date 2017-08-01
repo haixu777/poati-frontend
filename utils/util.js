@@ -216,4 +216,20 @@ function formatNewsList (newsList) {
   return initNewsList
 }
 
-export { Cookie, formatNewsList, formatTime, cutString }
+function contestDownload (contest, contestList) {
+  for (var i=0; i<contestList.length; i++) {
+    if (contest == contestList[i]) {
+      return true
+    }
+  }
+  return false
+}
+
+function isEmptyObject (obj) {
+  for (var prop in obj) {
+    return false
+  }
+  return true
+}
+
+export { Cookie, formatNewsList, formatTime, cutString, contestDownload, isEmptyObject }
