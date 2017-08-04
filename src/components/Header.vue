@@ -208,6 +208,7 @@ export default {
         { path: '/expert', text: '大赛组织机构' },
         // { path: '/news', text: '新闻' },
         { path: '/previous', text: '往届回顾' },
+        { path: '/sponsor', text: '大赛赞助' },
         { path: '/help', text: '关于我们' }
       ],
       shouldLogin: false,

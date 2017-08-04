@@ -18,9 +18,35 @@
     </div>
     <div class="container_right">
       <div class="introdution" v-show="activeName=='比赛介绍'">
-        <p>本任务的目标是根据社交网络用户的基本信息、发布消息内容、回复消息内容、关注主题、用户间的社交关系（包括回帖、点赞、评论等），预测用户之间可能建立的关注关系。比赛不允许使用外部数据资源。</p>
+        <div class="">
+          <h4>任务介绍</h4>
+          <p>本任务的目标是根据社交网络用户的基本信息、发布消息内容、回复消息内容、关注主题、用户间的社交关系（包括回帖、点赞、评论等），预测用户之间可能建立的关注关系。比赛不允许使用外部数据资源。</p>
+          <h4>数据集</h4>
+          <div class="">
+            <h5>1.&nbsp;&nbsp;&nbsp;用户基本信息集</h5>
+            <p>用户基本信息集包含超过10万条用户的基本信息数据，包括用户id，用户名，位置信息，职业背景，受教育经历，个人简介，收到其他用户的点赞数，收藏帖子数，回贴数，关注数和被关注数。</p>
+            <h5>2.&nbsp;&nbsp;&nbsp;热门发帖集</h5>
+            <p>包含近2000个热门发帖的基本信息，如作者id，点赞数，评论数，发帖时间、发帖内容、回帖时间、回帖内容所属的所有主题标签。</p>
+            <h5>3.&nbsp;&nbsp;&nbsp;热门回帖集</h5>
+            <p>包含近7万条回帖的基本信息，如作者id，点赞数，评论数，回帖时间，回帖所属主题，回帖内容。</p>
+            <h5>4.&nbsp;&nbsp;&nbsp;主题标签集</h5>
+            <p>包含社交网站的26,000个主题，包括主题的描述及主题的分类层次。</p>
+            <h5>5.&nbsp;&nbsp;&nbsp;主题关注集</h5>
+            <p>包含网站用户对热门主题的关注情况。</p>
+            <h5>6.&nbsp;&nbsp;&nbsp;社交关系训练集</h5>
+            <p>训练数据包含1762个用户的关注与被关注关系。</p>
+            <h5>7.&nbsp;&nbsp;&nbsp;社交关系测试集</h5>
+            <p>测试数据包含1000个待预测用户的关注与被关注关系。</p>
+          </div>
+          <el-button @click="download" size="small" type="info">比赛题目下载</el-button>
+          <transition name="fade">
+            <div class="" v-if="canDownload">
+              <a :href="require('assets/contest/subject/社交关系预测.pdf')" download="社交关系预测.pdf">社交关系预测.pdf</a>
+            </div>
+          </transition>
+        </div>
       </div>
-      <div class="introdution" v-show="activeName=='相关下载'">
+      <div class="introdution" v-if="activeName=='相关下载'">
         <el-button @click="download">比赛题目下载</el-button>
         <transition name="fade">
           <div class="" v-if="canDownload">
@@ -453,6 +479,9 @@
         <h4>实例文件</h4>
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/%E7%A4%BE%E4%BA%A4%E5%85%B3%E7%B3%BB%E9%A2%84%E6%B5%8B%E7%BB%93%E6%9E%9C%E7%A4%BA%E4%BE%8B.txt.zip">下载</a></p>
       </div>
+      <div class="introdution" v-if="activeName=='重要日期'">
+        <my-schedule></my-schedule>
+      </div>
       <div class="introdution" v-if="activeName=='队伍排名'">
         <div class="introdution" v-if="activeName=='队伍排名'">
           <div class="" v-if="checkRank">
@@ -470,6 +499,7 @@
 <script>
 import store from '../../../../store'
 const myContestRank = require('../myContestRank')
+const mySchedule = require('./schedule2017')
 const Marked = require('marked')
 const $utils = require('utils')
 export default {
@@ -481,11 +511,12 @@ export default {
       conditionStatus: null,
       detailsList: [
         { text: '比赛介绍' },
-        { text: '相关下载' },
+        // { text: '相关下载' },
         // { text: '比赛规则' },
         // { text: '比赛数据' },
         // { text: '评分标准' },
         // { text: '提交要求' },
+        { text: '重要日期' },
         { text: '队伍排名' }
       ],
       tableClass: {
@@ -624,7 +655,8 @@ export default {
     }
   },
   components: {
-    myContestRank
+    myContestRank,
+    mySchedule
   },
   watch: {
     activeName (name) {
@@ -689,16 +721,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  p, li {
-    font-size: 15px;
+.introdution {
+  padding-bottom: 20px;
+  h4 {
+    padding-left: 10px;
+    border-left: 4px solid #24ca85;
   }
-  img {
-    // max-width: 900px;
-  }
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity .5s
-  }
-  .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
-    opacity: 0
-  }
+}
+p, li {
+  font-size: 15px;
+}
+img {
+  // max-width: 900px;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+  opacity: 0
+}
 </style>

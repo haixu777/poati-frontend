@@ -18,7 +18,23 @@
     </div>
     <div class="container_right">
       <div class="introdution" v-show="activeName=='比赛介绍'">
+        <h4>任务介绍</h4>
         <p>本任务的目标是从给定语料中查找与指定事件对应的新闻语料。任务的输入为N个专题事件及每个事件对应的若干篇种子文档，要求从给定新闻语料中找出与这N个事件对应的全部新闻文档。</p>
+        <h4>数据集</h4>
+        <div class="">
+          <h5>1.&nbsp;&nbsp;&nbsp;训练语料集</h5>
+          <p>训练语料集共包含6000篇新闻报道，新闻报道均来自互联网，涵盖国际、国内、军事、财经、社会五类。新闻内容未经过分词处理。</p>
+          <h5>2.&nbsp;&nbsp;&nbsp;测试语料集</h5>
+          <p>测试语料集包含4000篇新闻报道，新闻报道均来自互联网，涵盖国际、国内、军事、财经、社会五类。新闻内容未经过分词处理。</p>
+        </div>
+        <div class="">
+          <el-button @click="download" size="small" type="info">比赛题目下载</el-button>
+          <transition name="fade">
+            <div class="" v-if="canDownload">
+              <a :href="require('assets/contest/subject/事件样本发现.pdf')" download="事件样本发现.pdf">事件样本发现.pdf</a>
+            </div>
+          </transition>
+        </div>
         <!-- <p>给定事件名称和该事件下的4-5篇新闻报道，从全部语料中发现描述该事件的相关样本。</p>
         <ul>
           <li>输入：事件名称、相关报道4-5篇。</li>
@@ -145,6 +161,9 @@
         <h4>实例文件</h4>
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sjybfx_%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%9C%E6%A0%B7%E5%BC%8F.txt" download="sjybfx_输出结果样式">下载</a></p>
       </div>
+      <div class="introdution" v-if="activeName=='重要日期'">
+        <my-schedule></my-schedule>
+      </div>
       <div class="introdution" v-if="activeName=='队伍排名'">
         <div class="introdution" v-if="activeName=='队伍排名'">
           <div class="" v-if="checkRank">
@@ -162,6 +181,7 @@
 <script>
 import store from '../../../../store'
 const myContestRank = require('../myContestRank')
+const mySchedule = require('./schedule2017')
 const marked = require('marked')
 const $utils = require('utils')
 export default {
@@ -173,11 +193,12 @@ export default {
       conditionStatus: null,
       detailsList: [
         { text: '比赛介绍' },
-        { text: '相关下载' },
+        // { text: '相关下载' },
         // { text: '比赛规则' },
         // { text: '比赛数据' },
         // { text: '评分标准' },
         // { text: '提交要求' },
+        { text: '重要日期' },
         { text: '队伍排名' }
       ],
       tableClass: {
@@ -226,7 +247,8 @@ export default {
     }
   },
   components: {
-    myContestRank
+    myContestRank,
+    mySchedule
   },
   watch: {
     activeName (name) {
@@ -299,10 +321,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  p, li {
-    font-size: 15px;
+.introdution {
+  padding-bottom: 20px;
+  h4 {
+    padding-left: 10px;
+    border-left: 4px solid #24ca85;
   }
-  img {
-    max-width: 900px;
-  }
+}
+p, li {
+  font-size: 15px;
+}
+img {
+  // max-width: 900px;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+  opacity: 0
+}
 </style>

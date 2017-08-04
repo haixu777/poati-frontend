@@ -18,13 +18,31 @@
     </div>
     <div class="container_right">
       <div class="introdution" v-show="activeName=='比赛介绍'">
+        <h4>任务介绍</h4>
         <p>给定一批社交网络用户数据，包括用户个人信息、用户行为信息、用户社交网络文本以及用户粉丝列表等，预测社交网络用户的四类属性标签。</p>
         <p>标签1：推断用户的年龄（共3个标签：-1979/1980-1989/1990+）</p>
         <p>标签2：推断用户的性别（共2个标签：男/女）</p>
         <p>标签3：推断用户的地域（共8个标签：东北/华北/华中/华东/西北/西南/华南/境外）</p>
         <p>标签4：推断用户的兴趣（共13个标签：体育/健康/军事/女性/娱乐/教育/旅游/汽车/社会/科技/航空/读书/财经）</p>
+        <h4>数据集</h4>
+        <div class="">
+          <h5>1.&nbsp;&nbsp;&nbsp;社交网络训练集</h5>
+          <p>社交网络训练集包含6000条社交网络用户信息，以及每一个社交网络用户的关注用户和粉丝用户数据。</p>
+          <h5>2.&nbsp;&nbsp;&nbsp;社交网络训练标注集</h5>
+          <p>社交网络训练标注集为社交网络训练集中每一个社交网络用户的属性标签。</p>
+          <h5>3.&nbsp;&nbsp;&nbsp;社交网络测试集</h5>
+          <p>社交网络测试集共包含6000条的待分类用户信息，以及每一个待分类用户的关注用户和粉丝用户的用户数据。</p>
+        </div>
+        <div class="">
+          <el-button @click="download" size="small" type="info">比赛题目下载</el-button>
+          <transition name="fade">
+            <div class="" v-if="canDownload">
+              <a :href="require('assets/contest/subject/用户画像.pdf')" download="用户画像.pdf">用户画像.pdf</a>
+            </div>
+          </transition>
+        </div>
       </div>
-      <div class="introdution" v-show="activeName=='相关下载'">
+      <div class="introdution" v-if="activeName=='相关下载'">
         <el-button @click="download">比赛题目下载</el-button>
         <transition name="fade">
           <div class="" v-if="canDownload">
@@ -480,6 +498,9 @@
         <h4>实例文件</h4>
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/%E7%94%A8%E6%88%B7%E7%94%BB%E5%83%8F%E7%BB%93%E6%9E%9C%E7%A4%BA%E4%BE%8B.txt.zip">下载</a></p>
       </div>
+      <div class="introdution" v-if="activeName=='重要日期'">
+        <my-schedule></my-schedule>
+      </div>
       <div class="introdution" v-if="activeName=='队伍排名'">
         <div class="" v-if="checkRank">
           <my-contest-rank :url="'yhhx'" :zhibiao="'precision'" :project="'yhhx'"></my-contest-rank>
@@ -495,6 +516,7 @@
 <script>
 import store from '../../../../store'
 const myContestRank = require('../myContestRank')
+const mySchedule = require('./schedule2017')
 const marked = require('marked')
 const $utils = require('utils')
 export default {
@@ -506,11 +528,12 @@ export default {
       conditionStatus: null,
       detailsList: [
         { text: '比赛介绍' },
-        { text: '相关下载' },
+        // { text: '相关下载' },
         // { text: '比赛规则' },
         // { text: '比赛数据' },
         // { text: '评分标准' },
         // { text: '提交要求' },
+        { text: '重要日期' },
         { text: '队伍排名' }
       ],
       tableClass: {
@@ -550,7 +573,8 @@ export default {
     }
   },
   components: {
-    myContestRank
+    myContestRank,
+    mySchedule
   },
   watch: {
     activeName (name) {
@@ -615,16 +639,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  img {
-    max-width: 900px;
+.introdution {
+  padding-bottom: 20px;
+  h4 {
+    padding-left: 10px;
+    border-left: 4px solid #24ca85;
   }
-  p, li {
-    font-size: 15px;
-  }
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity .5s
-  }
-  .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
-    opacity: 0
-  }
+}
+p, li {
+  font-size: 15px;
+}
+img {
+  // max-width: 900px;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+  opacity: 0
+}
 </style>

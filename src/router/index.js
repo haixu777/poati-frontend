@@ -7,6 +7,7 @@ const myNews = r => require.ensure([], () => r(require('components/content/News'
 const myHelp = r => require.ensure([], () => r(require('components/content/Help')), 'help')
 const myExpert = r => require.ensure([], () => r(require('components/content/expert')), 'expert')
 const myPrevious = r => require.ensure([], () => r(require('components/content/previous')), 'previous')
+const mySponsor = r => require.ensure([], () => r(require('components/content/Sponsor')), 'sponsor')
 const myLogin = r => require.ensure([], () => r(require('components/login/index')), 'login')
 const myContestDetails = r => require.ensure([], () => r(require('components/content/ContestTemplate')), 'contestDetails')
 const myNewsDetails = r => require.ensure([], () => r(require('components/content/NewsTemplate')), 'newsTemplate')
@@ -53,6 +54,11 @@ export default new Router({
       path: '/contest',
       name: 'contest',
       component: myContest
+    },
+    {
+      path: '/sponsor',
+      name: 'sponsor',
+      component: mySponsor
     },
     {
       path: '/contest/2017',

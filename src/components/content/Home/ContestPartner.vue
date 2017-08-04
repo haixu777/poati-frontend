@@ -5,7 +5,9 @@
       <h3 id="partner_title" style="font-size:28px;font-weight:700;padding: 0 25px 20px 25px;border-bottom:1px solid #009ee3;">2017年大赛赞助单位</h3>
     </div>
     <div class="partner_container" style="padding-bottom: 60px;">
-      <span style="font-size:20px;color:#f40;">虚席以待!</span>
+      <span>
+        <router-link to="/sponsor" style="font-size:20px;color:#f40;">虚席以待</router-link>
+      </span>
       <template v-for="item in partner_2017">
         <div class="partner_item">
           <img :src="item.img" :alt="item.alt">

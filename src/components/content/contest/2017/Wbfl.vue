@@ -18,9 +18,33 @@
     </div>
     <div class="container_right">
       <div class="introdution" v-show="activeName=='比赛介绍'">
+        <h4>任务说明</h4>
         <p>给定一组未经分词的文本文档，对每一篇文档指定唯一类别。按文本类型分为两个子任务：新闻报道分类和短文本分类。新闻报道10万篇，包含15个类别；短文本10万条，包含15个类别。数据比例严重倾斜且动态变化。参赛者需要基于训练数据实现两个分类系统，实现两类文档的自动分类。</p>
+        <h4>数据集</h4>
+        <div class="">
+          <h5>1.&nbsp;&nbsp;&nbsp;新闻训练集</h5>
+          <p>新闻训练集包含70,000篇新闻报道，文本未经过分词处理。</p>
+          <h5>2.&nbsp;&nbsp;&nbsp;新闻训练标注集</h5>
+          <p>新闻训练标注集包含新闻训练集中每篇新闻的对应类别，共15个类别。</p>
+          <h5>3.&nbsp;&nbsp;&nbsp;新闻测试集</h5>
+          <p>新闻测试集共包含30,000篇新闻报道供测评阶段使用，文本未经过分词处理。</p>
+          <h5>4.&nbsp;&nbsp;&nbsp;短文本训练集</h5>
+          <p>短文本训练集包含70,000条短文本，文本未经过分词处理。</p>
+          <h5>5.&nbsp;&nbsp;&nbsp;短文本训练标注集</h5>
+          <p>短文本训练标注集包含短文本训练集中每条短文本的对应类别，共15个类别。</p>
+          <h5>6.&nbsp;&nbsp;&nbsp;短文本测试集</h5>
+          <p>短文本测试集共包含30,000条短文本供测评阶段使用，文本未经过分词处理。</p>
+        </div>
+        <div class="">
+          <el-button @click="download" size="small" type="info">比赛题目下载</el-button>
+          <transition name="fade">
+            <div class="" v-if="canDownload">
+              <a :href="require('assets/contest/subject/文本分类.pdf')" download="文本分类.pdf">文本分类.pdf</a>
+            </div>
+          </transition>
+        </div>
       </div>
-      <div class="introdution" v-show="activeName=='相关下载'">
+      <div class="introdution" v-if="activeName=='相关下载'">
         <el-button @click="download">比赛题目下载</el-button>
         <transition name="fade">
           <div class="" v-if="canDownload">
@@ -98,6 +122,9 @@
         <h4>实例文件</h4>
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB%E7%BB%93%E6%9E%9C%E7%A4%BA%E4%BE%8B.txt.zip">下载</a></p>
       </div>
+      <div class="introdution" v-if="activeName=='重要日期'">
+        <my-schedule></my-schedule>
+      </div>
       <div class="introdution" v-if="activeName=='队伍排名'">
         <div class="introdution" v-if="activeName=='队伍排名'">
           <div class="" v-if="checkRank">
@@ -115,6 +142,7 @@
 <script>
 import store from '../../../../store'
 const myContestRank = require('../myContestRank')
+const mySchedule = require('./schedule2017')
 const marked = require('marked')
 const $utils = require('utils')
 export default {
@@ -126,11 +154,12 @@ export default {
       conditionStatus: null,
       detailsList: [
         { text: '比赛介绍' },
-        { text: '相关下载' },
+        // { text: '相关下载' },
         // { text: '比赛规则' },
         // { text: '比赛数据' },
         // { text: '评分标准' },
         // { text: '提交要求' },
+        { text: '重要日期' },
         { text: '队伍排名' }
       ],
       wbfl1: `
@@ -156,7 +185,8 @@ export default {
     }
   },
   components: {
-    myContestRank
+    myContestRank,
+    mySchedule
   },
   watch: {
     activeName (name) {
@@ -232,16 +262,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  p, li {
-    font-size: 15px;
+.introdution {
+  padding-bottom: 20px;
+  h4 {
+    padding-left: 10px;
+    border-left: 4px solid #24ca85;
   }
-  img {
-    // max-width: 900px;
-  }
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity .5s
-  }
-  .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
-    opacity: 0
-  }
+}
+p, li {
+  font-size: 15px;
+}
+img {
+  // max-width: 900px;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+  opacity: 0
+}
 </style>

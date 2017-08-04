@@ -300,7 +300,7 @@ export default {
       ],
       expertUnionChairman: [
         { avatar: require('assets/experts_80_110/zhangbo.jpg'), name: '张钹', title: '中国科学院院士 | 清华大学教授', index: 1 },
-        { avatar: require('assets/experts_80_110/wuchaohui.jpg'), name: '吴朝晖', title: '浙江大学校长 | 教授', index: 1 }
+        { avatar: require('assets/experts_80_110/wuchaohui.jpg'), name: '吴朝晖', title: '浙江大学 | 校长', index: 1 }
       ],
       expertChairman: [
         { avatar: require('assets/experts_80_110/mengdan.jpg'), name: '孟丹', title: '中国科学院信息工程研究所 | 所长', index: 2 }

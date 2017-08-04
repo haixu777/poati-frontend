@@ -18,9 +18,25 @@
     </div>
     <div class="container_right">
       <div class="introdution" v-show="activeName=='比赛介绍'">
+        <h4>任务介绍</h4>
         <p>本任务的目标是从给定语料中抽取出描述指定事件的关键元素。任务的输入为一系列专题事件以及与这些事件对应的文档集合，要求针对每个事件从其对应文档中抽取事件关键元素（注意并非每篇文档中的全部实体），关键元素类型包括时间、地点、参与人物及参与组织等实体，语料中不同事件的新闻数量比例严重倾斜。</p>
+        <h4>数据集</h4>
+        <div class="">
+          <h5>1.&nbsp;&nbsp;&nbsp;新闻训练集</h5>
+          <p>新闻训练集共包含6000篇新闻报道，新闻报道均来自互联网，涵盖国际、国内、军事、财经、社会五类。新闻内容未经过分词处理。</p>
+          <h5>2.&nbsp;&nbsp;&nbsp;新闻测试集</h5>
+          <p>新闻测试集共包含4000篇新闻报道，新闻报道均来自互联网，涵盖国际、国内、军事、财经、社会五类。新闻内容未经过分词处理。</p>
+        </div>
+        <div class="">
+          <el-button @click="download" size="small" type="info">比赛题目下载</el-button>
+          <transition name="fade">
+            <div class="" v-if="canDownload">
+              <a :href="require('assets/contest/subject/事件关键元素识别.pdf')" download="事件关键元素识别.pdf">事件关键元素识别.pdf</a>
+            </div>
+          </transition>
+        </div>
       </div>
-      <div class="introdution" v-show="activeName=='相关下载'">
+      <div class="introdution" v-if="activeName=='相关下载'">
         <el-button @click="download">比赛题目下载</el-button>
         <transition name="fade">
           <div class="" v-if="canDownload">
@@ -92,6 +108,9 @@
         <h4>实例文件</h4>
         <p>提交参考实例文件<a href="http://omnwjdv5k.bkt.clouddn.com/sample_data/result_%E5%85%B3%E9%94%AE%E5%85%83%E7%B4%A0%E8%AF%86%E5%88%AB.txt.zip">下载</a></p>
       </div>
+      <div class="introdution" v-if="activeName=='重要日期'">
+        <my-schedule></my-schedule>
+      </div>
       <div class="introdution" v-if="activeName=='队伍排名'">
         <div class="introdution" v-if="activeName=='队伍排名'">
           <div class="" v-if="checkRank">
@@ -109,6 +128,7 @@
 <script>
 import store from '../../../../store'
 const myContestRank = require('../myContestRank')
+const mySchedule = require('./schedule2017')
 const marked = require('marked')
 const $utils = require('utils')
 export default {
@@ -120,11 +140,12 @@ export default {
       conditionStatus: false,
       detailsList: [
         { text: '比赛介绍' },
-        { text: '相关下载' },
+        // { text: '相关下载' },
         // { text: '比赛规则' },
         // { text: '比赛数据' },
         // { text: '评分标准' },
         // { text: '提交要求' },
+        { text: '重要日期' },
         { text: '队伍排名' }
       ],
       tableClass: {
@@ -156,7 +177,8 @@ export default {
     }
   },
   components: {
-    myContestRank
+    myContestRank,
+    mySchedule
   },
   watch: {
     activeName (name) {
@@ -226,16 +248,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  p, li {
-    font-size: 15px;
+.introdution {
+  padding-bottom: 20px;
+  h4 {
+    padding-left: 10px;
+    border-left: 4px solid #24ca85;
   }
-  img {
-    // max-width: 900px;
-  }
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity .5s
-  }
-  .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
-    opacity: 0
-  }
+}
+p, li {
+  font-size: 15px;
+}
+img {
+  // max-width: 900px;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+  opacity: 0
+}
 </style>
