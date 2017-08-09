@@ -2,9 +2,11 @@
   <div class="container help_container">
     <h4 class="title" style="font-size: 24px;">关于我们</h4>
     <p>中国科学院信息工程研究所是2011年批准成立的中国科学院直属科研机构。研究所按照“软硬兼修，矛盾兼容，开合有法，张弛有度”的办所方针，秉承“打造一流平台，集聚一流人才，支撑国家需求，引领学科发展，努力成为国家在信息工程领域的战略科技力量”的组织目标，面向国家战略需求，在信息安全科技领域，开展基础理论与前沿技术研究，开发应用性技术与系统，为国家信息化进程提供核心关键技术支撑与系统解决方案。</p>
-    <p>中国科学院信息工程研究所网络空间技术实验室于2015年2月成立，实验室面向国家战略需求，基于云计算和大数据、数据挖掘和机器学习、知识图谱技术解决网络与信息安全问题。近年来，实验室人员在SIGMOD、 VLDB、 ICDE、OOPSLA、 ICDCS等国际顶级会议以及IEEE/ACMTransactions等国际权威期刊上发表数十篇高水平学术论文，并承担了多项国家重大项目，课题经费充足。</p>
+    <p>中国科学院信息工程研究所网络空间技术实验室于2015年2月成立，实验室面向国家战略需求，基于云计算和大数据、数据挖掘和机器学习、知识图谱技术解决网络与信息安全问题。近年来，实验室人员在SIGMOD、 VLDB、 ICDE、OOPSLA、 ICDCS等国际顶级会议以及IEEE/ACMTransactions等国际权威期刊上发表数十篇高水平学术论文，并承担了多项国家重大项目。</p>
     <br>
-    <h5 style="margin-top:10px;">研究方向</h5>
+    <h5 style="margin-top:10px;margin-bottom:10px;">研究方向</h5>
+    <p>大数据存储、分布式计算、多媒体分析、信息内容挖掘等。</p>
+    <!--
     <p>网络空间技术实验室旨在面向互联网+时代的大数据处理战略需求，研究大数据的存储与管理、分布式计算与并行处理、网络信息内容挖掘分析、多媒体分析以及网络空间安全的前瞻性、基础性技术，开发自主可控的技术平台，并在国家重大项目和重点行业互联网+发展中进行应用。</p>
     <h5>&nbsp;&nbsp;&nbsp;1.大数据存储: 致力于研究解决企业级大数据处理中的性能优化与可靠性问题。</h5>
     <p>在智能电网的大规模数据处理需求的牵引下，提出了企业级大数据处理问题，研究形成了多维索引DFGIndex、SQL-MapReduce翻译方法QMapper、支持更新的混合存储模型DualTable，并在国家电网投入实际应用。该工作发表于数据库顶级会议PVLDB 2014，ICDE 2015，SIGMOD 2015上。</p>
@@ -29,12 +31,13 @@
     </div>
     <h5>&nbsp;&nbsp;&nbsp;<span style="display:inline-block;vertical-align:top;">5.</span><span style="width:1200px;display:inline-block;vertical-align:top;">网络空间安全:致力于研究解决漏洞挖掘、网络与系统脆弱性分析与风险评估方法、智能终端安全、恶意代码分析与防范、入侵检测和取证、网络攻防、网络安全体系结构等问题。</span></h5>
     <p>目前已承担了国家部委重大科技计划项目，所研发的成果已在实际环境中得到应用。在IEEE Transactions期刊等国内外知名期刊和会议上发表多篇学术论文。</p>
+  -->
     <h4 class="title" style="font-size:24px;margin-top:40px;">联系我们</h4>
     <div class="" style="width:400px;height:80px;margin-left:60px;margin-bottom:10px;">
       <img :src="require('assets/lct.png')" alt="lct" style="width:100%;height:100%;">
     </div>
     <p><span style="display:inline-block;width:90px;">地址</span>: 北京市海淀区闵庄路甲89号</p>
-    <p><span style="display:inline-block;width:90px;">邮箱</span>: linjunyu@iie.ac.cn</p>
+    <p><span style="display:inline-block;width:90px;">邮箱</span>: poati@iie.ac.cn</p>
     <p><span style="display:inline-block;width:90px;">联系人</span>: 林老师</p>
   </div>
 </template>

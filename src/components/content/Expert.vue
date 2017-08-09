@@ -61,6 +61,7 @@
           <span style="margin-left:20px;">{{ item.title }}</span>
         </div>
       </div>
+      <!--
       <div class="title clearfix">
         <h4>比赛组织委员会成员</h4>
       </div>
@@ -73,6 +74,7 @@
           <span style="margin-left:20px;">{{ item.title }}</span>
         </div>
       </div>
+      -->
       <div class="title clearfix">
         <h4>比赛评测主席</h4>
       </div>
@@ -299,29 +301,29 @@ export default {
         // { avatar: require('assets/experts/LinJunYu.jpg'), name: '林俊宇', title: '中国科学院信息工程研究所', index: 2 }
       ],
       expertUnionChairman: [
-        { avatar: require('assets/experts_80_110/zhangbo.jpg'), name: '张钹', title: '中国科学院院士 | 清华大学教授', index: 1 },
+        { avatar: require('assets/experts_80_110/zhangbo.jpg'), name: '张钹', title: '中国科学院院士 | 清华大学', index: 1 },
         { avatar: require('assets/experts_80_110/wuchaohui.jpg'), name: '吴朝晖', title: '浙江大学 | 校长', index: 1 }
       ],
       expertChairman: [
         { avatar: require('assets/experts_80_110/mengdan.jpg'), name: '孟丹', title: '中国科学院信息工程研究所 | 所长', index: 2 }
       ],
       expertCommitteeChairman: [
-        { avatar: require('assets/experts_80_110/LiJuanZi.jpg'), name: '李涓子', title: '清华大学 | 教授', index: 3 }
+        { avatar: require('assets/experts_80_110/LiJuanZi.jpg'), name: '李涓子', title: '清华大学', index: 3 }
       ],
       expertMembers: [
-        { avatar: require('assets/experts_80_110/zhouming.jpg'), name: '周明', title: '微软亚洲研究院 | 研究员', index: 4 },
-        { avatar: require('assets/experts_80_110/liuting.jpg'), name: '刘挺', title: '哈尔滨工业大学 | 教授', index: 4 },
-        { avatar: require('assets/experts_80_110/ZhaoJun.jpg'), name: '赵军', title: '中国科学院自动化所 | 研究员', index: 4 },
-        { avatar: require('assets/experts_80_110/WangBin.jpg'), name: '王斌', title: '中国科学院信息工程研究所 | 研究员', index: 4 },
-        { avatar: require('assets/experts_80_110/chenhuajun.jpg'), name: '陈华钧', title: '浙江大学 | 教授', index: 4 },
-        { avatar: require('assets/experts_80_110/qiguilin.jpg'), name: '漆桂林', title: '东南大学 | 教授', index: 4 },
-        { avatar: require('assets/experts_80_110/shenyang.jpg'), name: '沈阳', title: '清华大学 | 教授', index: 4 },
-        { avatar: require('assets/experts_80_110/YuHaiTao.jpg'), name: '于海涛', title: '腾讯公司信息安全部 | 总经理', index: 4 },
-        { avatar: require('assets/experts_80_110/shishuicai.jpg'), name: '施水才', title: '北京拓尔思信息技术股份有限公司 | CEO', index: 4 },
-        { avatar: require('assets/experts_80_110/zhanghuaping.jpg'), name: '张华平', title: '北京理工大学 | 副教授', index: 3 }
+        { avatar: require('assets/experts_80_110/zhouming.jpg'), name: '周明', title: '微软亚洲研究院', index: 4 },
+        { avatar: require('assets/experts_80_110/liuting.jpg'), name: '刘挺', title: '哈尔滨工业大学', index: 4 },
+        { avatar: require('assets/experts_80_110/ZhaoJun.jpg'), name: '赵军', title: '中国科学院自动化所', index: 4 },
+        { avatar: require('assets/experts_80_110/WangBin.jpg'), name: '王斌', title: '中国科学院信息工程研究所', index: 4 },
+        { avatar: require('assets/experts_80_110/chenhuajun.jpg'), name: '陈华钧', title: '浙江大学', index: 4 },
+        { avatar: require('assets/experts_80_110/qiguilin.jpg'), name: '漆桂林', title: '东南大学', index: 4 },
+        { avatar: require('assets/experts_80_110/shenyang.jpg'), name: '沈阳', title: '清华大学', index: 4 },
+        { avatar: require('assets/experts_80_110/YuHaiTao.jpg'), name: '于海涛', title: '腾讯公司信息安全部', index: 4 },
+        { avatar: require('assets/experts_80_110/shishuicai.jpg'), name: '施水才', title: '北京拓尔思信息技术股份有限公司', index: 4 },
+        { avatar: require('assets/experts_80_110/zhanghuaping.jpg'), name: '张华平', title: '北京理工大学', index: 3 }
       ],
       expertOrgChairman: [
-        { avatar: require('assets/experts_80_110/hanjizhong.jpg'), name: '韩冀中', title: '中国科学院信息工程研究所 | 网络空间技术实验室执行主任', index: 3 }
+        { avatar: require('assets/experts_80_110/hanjizhong.jpg'), name: '韩冀中', title: '中国科学院信息工程研究所', index: 3 }
       ],
       expertsOrgMember: [
         { avatar: require('assets/experts_80_110/liuwantao.jpg'), name: '刘万涛', title: '中国科学院信息工程研究所', index: 3 },
@@ -329,19 +331,19 @@ export default {
         { avatar: require('assets/experts_80_110/zhouwei.jpg'), name: '周  薇', title: '中国科学院信息工程研究所', index: 3 }
       ],
       expertsTestChairman: [
-        { avatar: require('assets/experts_80_110/husonglin.jpg'), name: '虎嵩林', title: '中国科学院信息工程研究所 | 网络空间技术实验室 | 研究员', index: 3 }
+        { avatar: require('assets/experts_80_110/husonglin.jpg'), name: '虎嵩林', title: '中国科学院信息工程研究所', index: 3 }
       ],
       expertsTestMember: [
         { avatar: require('assets/experts_80_110/liukang.jpg'), name: '刘  康', title: '中国科学院自动化研究所', index: 3 },
         { avatar: require('assets/experts_80_110/hanxianpei.jpg'), name: '韩先培', title: '中国科学院软件所', index: 3 },
         { avatar: require('assets/experts_80_110/liuzhiyuan.jpg'), name: '刘知远', title: '清华大学', index: 3 },
-        { avatar: require('assets/experts_80_110/wanhuaiyu.jpg'), name: '万怀宇', title: '北京交通大学', index: 3 },
-        { avatar: require('assets/experts_80_110/zangliangjun.jpg'), name: '臧良俊', title: '中国科学院信息工程研究所', index: 3 },
-        { avatar: require('assets/experts_80_110/huanglongtao.jpg'), name: '黄龙涛', title: '中国科学院信息工程研究所', index: 3 }
+        { avatar: require('assets/experts_80_110/wanhuaiyu.jpg'), name: '万怀宇', title: '北京交通大学', index: 3 }
+        // { avatar: require('assets/experts_80_110/zangliangjun.jpg'), name: '臧良俊', title: '中国科学院信息工程研究所', index: 3 },
+        // { avatar: require('assets/experts_80_110/huanglongtao.jpg'), name: '黄龙涛', title: '中国科学院信息工程研究所', index: 3 }
       ],
       expertsInspectChairman: [
-        { avatar: require('assets/experts_80_110/liuting.jpg'), name: '刘 挺', title: '哈尔滨工业大学 | 教授', index: 3 },
-        { avatar: require('assets/experts_80_110/wangweiping.jpg'), name: '王伟平', title: '中国科学院信息工程研究所 | 研究员', index: 3 }
+        { avatar: require('assets/experts_80_110/liuting.jpg'), name: '刘 挺', title: '哈尔滨工业大学', index: 3 },
+        { avatar: require('assets/experts_80_110/wangweiping.jpg'), name: '王伟平', title: '中国科学院信息工程研究所', index: 3 }
       ],
       expertsInspectMember: [
         { avatar: require('assets/experts_80_110/tangjie.jpg'), name: '唐 杰', title: '清华大学', index: 3 },
