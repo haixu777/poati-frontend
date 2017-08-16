@@ -13,6 +13,7 @@ const myContestDetails = r => require.ensure([], () => r(require('components/con
 const myNewsDetails = r => require.ensure([], () => r(require('components/content/NewsTemplate')), 'newsTemplate')
 const myUserInfo = r => require.ensure([], () => r(require('components/content/user/Index')), 'user')
 const myVerify = r => require.ensure([], () => r(require('components/content/Verify')), 'verify')
+const myProtocol = r => require.ensure([], () => r(require('components/content/Protocol')), 'protocol')
 
 const myContestWbfl = r => require.ensure([], () => r(require('components/content/contest/2017/Wbfl')), 'Wbfl')
 const myContestGjccq = r => require.ensure([], () => r(require('components/content/contest/2017/Gjccq')), 'Gjccq')
@@ -59,6 +60,11 @@ export default new Router({
       path: '/sponsor',
       name: 'sponsor',
       component: mySponsor
+    },
+    {
+      path: '/protocol',
+      name: 'protocol',
+      component: myProtocol
     },
     {
       path: '/contest/2017',

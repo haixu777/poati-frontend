@@ -150,7 +150,7 @@ export default {
           { required: true, message: '请选择一个操作系统', trigger: 'blur' }
         ],
         contest: [
-          { type: 'array', required: true, message: '请至少参加一个项目', trigger: 'change' }
+          { type: 'array', required: true, trigger: 'change' }
         ],
         ipAddress: [
           { type: 'string', required: true, validator: validateIPAddress, trigger: 'blur' }
@@ -252,7 +252,7 @@ export default {
             this.loading = false
             this.submitText = '提交完成'
             this.submited = Boolean(d.body.submited)
-            this.$alert('您的个人信息已经提交成功，我们将会尽快审核', '通知', {
+            this.$alert('您的团队信息已经提交，我们将尽快审核，谢谢您的参加！', '通知', {
               confirmButtonText: '确定'
             })
           } else {

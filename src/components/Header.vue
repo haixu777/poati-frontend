@@ -11,7 +11,9 @@
         <ul class="login_list">
           <li class="btn_register" v-if="!isLogin">
             <div class="login">
-              <button type="button" name="button" class="btn btn-primary" style="font-size:15px;" @click="dialogFormVisible=true; fetchVerificateCode()">登录</button>
+              <button type="button" name="button" class="btn btn-link my_btn" style="font-size:15px;" @click="activeName='login'; dialogFormVisible=true; fetchVerificateCode()">登录</button>
+              <span style="color:#fff;"> | </span>
+              <button type="button" name="button" class="btn btn-link my_btn" style="font-size:15px;" @click="activeName='register'; dialogFormVisible=true; fetchVerificateCode()">注册</button>
             </div>
           </li>
           <li class="btn_register" v-else>
@@ -208,7 +210,7 @@ export default {
         { path: '/expert', text: '大赛组织机构' },
         // { path: '/news', text: '新闻' },
         { path: '/previous', text: '往届回顾' },
-        { path: '/sponsor', text: '大赛赞助' },
+        { path: '/protocol', text: '大赛协议' },
         { path: '/help', text: '关于我们' }
       ],
       shouldLogin: false,
@@ -403,7 +405,7 @@ export default {
           if (response.body.success) {
             this.dialogFormVisible = false
             this.resetForm('userRegisterInfo')
-            this.$alert('请尽快登录账号完善个人信息，我们将在您提交个人资料后进行审核', '注册成功', {
+            this.$alert('请尽快登陆账号完善团队信息，我们将在您提交完整的团队信息后进行审核，审核通过后我们将发送大赛参赛确认邮件邀请您参加本次比赛。', '注册成功', {
               confirmButtonText: '确定',
               close: () => {
                 if (this.shouldLogin) {
@@ -455,6 +457,14 @@ export default {
     // padding-left: 15px;
     margin: 0 auto;
   }
+  .my_btn {
+    text-decoration: none !important;
+    color: #99a9bf !important;
+    outline: none !important;
+    &:hover {
+      color: #fff !important;
+    }
+  }
   .header_dialog {
     div.el-dialog.el-dialog-- {
       max-width: 600px;
@@ -489,7 +499,7 @@ export default {
 
 
   .nav {
-    font-size: 20px;
+    font-size: 18px;
     // border-bottom: 1px solid #eee;
     background: #324057;
     // position: fixed;
