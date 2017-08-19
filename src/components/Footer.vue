@@ -3,7 +3,7 @@
     <div class="container">
       <div class="footer_link">
         <!-- <router-link :to="'/help'">联系我们</router-link> | -->
-        <router-link :to="'/help'">联系我们</router-link>
+        <router-link :to="'/help/poati'">帮助</router-link>
       </div>
       <img :src="require('../assets/logo.png')" alt="logo" class="footer_logo">
       <div class="copyright">

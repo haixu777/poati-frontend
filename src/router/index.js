@@ -5,6 +5,10 @@ const myHome = r => require.ensure([], () => r(require('components/content/Home'
 const myContest = r => require.ensure([], () => r(require('components/content/Contest')), 'contest')
 const myNews = r => require.ensure([], () => r(require('components/content/News')), 'news')
 const myHelp = r => require.ensure([], () => r(require('components/content/Help')), 'help')
+const myHelpAbout = r => require.ensure([], () => r(require('components/content/help/about')), 'helpAbout')
+const myHelpContact = r => require.ensure([], () => r(require('components/content/help/contact')), 'helpContact')
+const myHelpCourse = r => require.ensure([], () => r(require('components/content/help/course')), 'helpCourse')
+const myHelpPoati = r => require.ensure([], () => r(require('components/content/help/poati')), 'helpPoati')
 const myExpert = r => require.ensure([], () => r(require('components/content/expert')), 'expert')
 const myPrevious = r => require.ensure([], () => r(require('components/content/previous')), 'previous')
 const mySponsor = r => require.ensure([], () => r(require('components/content/Sponsor')), 'sponsor')
@@ -112,7 +116,13 @@ export default new Router({
     {
       path: '/help',
       name: 'help',
-      component: myHelp
+      component: myHelp,
+      children: [
+        { path: 'about', component: myHelpAbout, name: 'about' },
+        { path: 'contact', component: myHelpContact, name: 'contact' },
+        { path: 'course', component: myHelpCourse, name: 'course' },
+        { path: 'poati', component: myHelpPoati, name: 'poati' }
+      ]
     },
     {
       path: '/login',

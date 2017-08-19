@@ -210,8 +210,8 @@ export default {
         { path: '/expert', text: '大赛组织机构' },
         // { path: '/news', text: '新闻' },
         { path: '/previous', text: '往届回顾' },
-        { path: '/protocol', text: '大赛协议' },
-        { path: '/help', text: '关于我们' }
+        { path: '/protocol', text: '大赛协议' }
+        // { path: '/help', text: '关于我们' }
       ],
       shouldLogin: false,
       username: localStorage.getItem('username'),
