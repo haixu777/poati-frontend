@@ -9,7 +9,7 @@
       type="success"
       @close="info">
     </el-alert>
-    <el-tooltip class="wechat" effect="dark" placement="bottom">
+    <el-tooltip class="wechat" effect="dark" placement="bottom" v-if="false">
       <div slot="content">
         <div class="footer-popover-title" style="border-bottom: 1px solid #d1dbe5; text-align: center;">网络舆情</div>
         <img src="./assets/QR_code.jpg" alt="qr_code" style="width: 90px; height: 90px;">

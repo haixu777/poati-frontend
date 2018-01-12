@@ -7,7 +7,7 @@
     </el-carousel>
     <div class="banner" style="height:450px;padding:0;">
       <img
-        src="http://omnwjdv5k.bkt.clouddn.com/images/banner/banner_1280_new2.jpg"
+        src="http://omnwjdv5k.bkt.clouddn.com/images/banner/banner_new0824_2.jpg"
         style="width:100%;height:100%;"
         alt="banner">
     </div>

@@ -138,7 +138,7 @@
       </div>
       <div class="introdution" v-if="activeName=='队伍排名'">
         <div class="" v-if="checkRank">
-          <my-contest-rank :url="'gjccq'" :zhibiao="'precision'" :project="'gjccq'"></my-contest-rank>
+          <my-contest-rank :url="'gjccq'" :zhibiao="'precision'" :project="'gjccq'" :value="['mrr']"></my-contest-rank>
         </div>
         <div class="" v-else>
           您无权查看此项目排行

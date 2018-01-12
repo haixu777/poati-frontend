@@ -1,6 +1,7 @@
 <template lang="html">
   <div class="_container">
     <div class="experts_container clearfix">
+      <h2 style="text-align:center;background:#4fc08d;color:#fff;">2017年</h2>
       <div class="title">
         <h4>比赛指导委员会联合主席</h4>
       </div>
@@ -135,6 +136,93 @@
           <span style="margin-left:20px;">{{ item.title }}</span>
         </div>
       </div>
+      <div class="title clearfix">
+        <h2 style="text-align:center;background:#4fc08d;color:#fff;">2016年</h2>
+      </div>
+      <div class="title clearfix">
+        <h4>比赛指导委员会联合主席</h4>
+      </div>
+      <div class="experts_item" v-for="item in zdwyhzx2016">
+        <div class="experts_avatar">
+          <img :src="item.avatar" alt="" style="">
+        </div>
+        <div class="experts_desc">
+          <span style="color:rgb(29, 140, 224);font-weight:600;">{{ item.name }}</span>
+          <span style="margin-left:20px;">{{ item.title }}</span>
+        </div>
+      </div>
+      <div class="title clearfix">
+        <h4>比赛技术委员会主席</h4>
+      </div>
+      <div class="experts_item" v-for="item in jswyhzx2016">
+        <div class="experts_avatar">
+          <img :src="item.avatar" alt="" style="">
+        </div>
+        <div class="experts_desc">
+          <span style="color:rgb(29, 140, 224);font-weight:600;">{{ item.name }}</span>
+          <span style="margin-left:20px;">{{ item.title }}</span>
+        </div>
+      </div>
+      <div class="title clearfix">
+        <h4>比赛技术委员会委员</h4>
+      </div>
+      <div class="experts_item" v-for="item in jswyhwy2016">
+        <div class="experts_avatar">
+          <img :src="item.avatar" alt="" style="">
+        </div>
+        <div class="experts_desc">
+          <span style="color:rgb(29, 140, 224);font-weight:600;">{{ item.name }}</span>
+          <span style="margin-left:20px;">{{ item.title }}</span>
+        </div>
+      </div>
+      <div class="title clearfix">
+        <h4>大赛主席</h4>
+      </div>
+      <div class="experts_item" v-for="item in dszx2016">
+        <div class="experts_avatar">
+          <img :src="item.avatar" alt="" style="">
+        </div>
+        <div class="experts_desc">
+          <span style="color:rgb(29, 140, 224);font-weight:600;">{{ item.name }}</span>
+          <span style="margin-left:20px;">{{ item.title }}</span>
+        </div>
+      </div>
+      <div class="title clearfix">
+        <h4>比赛组织委员会主席</h4>
+      </div>
+      <div class="experts_item" v-for="item in zzwyhzx2016">
+        <div class="experts_avatar">
+          <img :src="item.avatar" alt="" style="">
+        </div>
+        <div class="experts_desc">
+          <span style="color:rgb(29, 140, 224);font-weight:600;">{{ item.name }}</span>
+          <span style="margin-left:20px;">{{ item.title }}</span>
+        </div>
+      </div>
+      <div class="title clearfix">
+        <h4>比赛监督委员会主席</h4>
+      </div>
+      <div class="experts_item" v-for="item in jdwyhzx2016">
+        <div class="experts_avatar">
+          <img :src="item.avatar" alt="" style="">
+        </div>
+        <div class="experts_desc">
+          <span style="color:rgb(29, 140, 224);font-weight:600;">{{ item.name }}</span>
+          <span style="margin-left:20px;">{{ item.title }}</span>
+        </div>
+      </div>
+      <div class="title clearfix">
+        <h4>比赛宣传主席</h4>
+      </div>
+      <div class="experts_item" v-for="item in xczx2016">
+        <div class="experts_avatar">
+          <img :src="item.avatar" alt="" style="">
+        </div>
+        <div class="experts_desc">
+          <span style="color:rgb(29, 140, 224);font-weight:600;">{{ item.name }}</span>
+          <span style="margin-left:20px;">{{ item.title }}</span>
+        </div>
+      </div>
     </div>
 
 
@@ -256,7 +344,6 @@
           </div>
         </el-card>
       </div>
-
     </div>
   </div>
 </template>
@@ -351,6 +438,39 @@ export default {
       ],
       expertsProChairman: [
         { avatar: require('assets/experts_80_110/wanghaofen.jpg'), name: '王昊奋', title: '深圳狗尾草智能科技有限公司', index: 3 },
+        { avatar: require('assets/experts_80_110/linjunyu.jpg'), name: '林俊宇', title: '中国科学院信息工程研究所', index: 3 }
+      ],
+      zdwyhzx2016: [ // 比赛指导委员会联合主席
+        { avatar: require('assets/experts_80_110/gaowen.jpg'), name: '高文', title: '中国工程院院士 | 北京大学教授', index: 1 },
+        { avatar: require('assets/experts_80_110/fangbinxing.jpg'), name: '方滨兴', title: '中国工程院院士 | CEC首席科学家', index: 1 },
+        { avatar: require('assets/experts_80_110/wuchaohui.jpg'), name: '吴朝晖', title: '浙江大学 | 校长', index: 1 }
+      ],
+      jswyhzx2016: [ // 比赛技术委员会主席
+        { avatar: require('assets/experts_80_110/huangqingming.jpg'), name: '黄庆明', title: '中国科学院大学 | 教授 | 杰青', index: 1 }
+      ],
+      jswyhwy2016: [ // 比赛技术委员会委员
+        { avatar: require('assets/experts_80_110/chenxilin.jpg'), name: '陈熙霖', title: '中国科学院计算技术研究所 | 研究员 | 杰青', index: 1 },
+        { avatar: require('assets/experts_80_110/huangtiejun.jpg'), name: '黄铁军', title: '北京大学 | 教授 | 杰青', index: 1 },
+        { avatar: require('assets/experts_80_110/yanyonghong.jpg'), name: '颜永红', title: '中国科学院声学所 | 研究员 | 杰青', index: 1 },
+        { avatar: require('assets/experts_80_110/taojianhua.jpg'), name: '陶建华', title: '中国科学院自动化研究所 | 研究员 | 杰青', index: 1 },
+        { avatar: require('assets/experts_80_110/zengbing.jpg'), name: '曾兵', title: '电子科技大学 | 教授 | 千人', index: 1 },
+        { avatar: require('assets/experts_80_110/shanshiguang.jpg'), name: '山世光', title: '中科视拓（北京）科技有限公司 | CTO | 优青', index: 1 },
+        { avatar: require('assets/experts_80_110/caoxiaochun.jpg'), name: '操晓春', title: '中国科学院信息工程研究所 | 研究员 | 优青', index: 1 },
+        { avatar: require('assets/experts_80_110/jiangyugang.jpg'), name: '姜育刚', title: '复旦大学 | 教授 | 优青', index: 1 },
+        { avatar: require('assets/experts_80_110/baixiang.jpg'), name: '白翔', title: '华中科技大学 | 教授 | 优青', index: 1 },
+        { avatar: require('assets/experts_80_110/shenyang.jpg'), name: '沈阳', title: '清华大学 | 教授', index: 1 },
+        { avatar: require('assets/experts_80_110/zhanghuaping.jpg'), name: '张华平', title: '北京理工大学 | 副教授', index: 1 }
+      ],
+      dszx2016: [ // 大赛主席
+        { avatar: require('assets/experts_80_110/mengdan.jpg'), name: '孟丹', title: '中国科学院信息工程研究所 | 所长', index: 2 }
+      ],
+      zzwyhzx2016: [ // 比赛组织委员会主席
+        { avatar: require('assets/experts_80_110/hanjizhong.jpg'), name: '韩冀中', title: '中国科学院信息工程研究所', index: 3 }
+      ],
+      jdwyhzx2016: [ // 比赛监督委员会主席
+        { avatar: require('assets/experts_80_110/yanyonghong.jpg'), name: '颜永红', title: '中国科学院声学所 | 研究员 | 杰青', index: 3 }
+      ],
+      xczx2016: [ // 比赛宣传主席
         { avatar: require('assets/experts_80_110/linjunyu.jpg'), name: '林俊宇', title: '中国科学院信息工程研究所', index: 3 }
       ]
     }

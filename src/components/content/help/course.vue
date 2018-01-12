@@ -3,9 +3,9 @@
     <h3>参赛流程</h3>
     <div class="course_content">
       <div class="course_icon">
-        icon
+        <img :src="require('assets/course.png')" alt="course">
       </div>
-      <div class="course_content">
+      <div class="course_content_right">
         <ol>
           <li v-for="item, index in courseList">
             <h5 class="course_title">{{ (index+1) + '. ' + item.title }}</h5>
@@ -38,11 +38,17 @@ export default {
     display: flex;
     display: -webkit-flex;
     justify-content: space-between;
+    margin-top: 20px;
     .course_icon {
-      width: 140px;
+      width: 68px;
+      height: 486px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
-    .course_content {
-      width: calc(100% - 150px);
+    .course_content_right {
+      width: calc(100% - 70px);
       .course_title {
         font-size: 18px;
         font-weight: 700;

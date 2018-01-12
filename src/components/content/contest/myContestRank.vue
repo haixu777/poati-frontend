@@ -20,7 +20,7 @@
       <el-table-column prop="createTime" label="开始时间" width="180"></el-table-column>
       <el-table-column prop="finishTime" label="结束时间" width="180"></el-table-column>
       <template v-for="item in value">
-        <el-table-column :prop="item" :label="item" :className="item===zhibiao?'zhibiao':''"></el-table-column>
+        <el-table-column :prop="(item === 'mrr' || 'score') ? 'precision' : item" :label="item" :className="item===zhibiao?'zhibiao':''"></el-table-column>
       </template>
     </el-table>
     <el-pagination

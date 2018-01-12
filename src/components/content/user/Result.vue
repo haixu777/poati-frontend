@@ -19,14 +19,14 @@
         <el-table-column type="expand">
           <template scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
-              <el-form-item label="F1">
-                <span>{{ props.row.f1 || 'null' }}</span>
+              <el-form-item label="F1" v-if="props.row.f1">
+                <span>{{ props.row.f1}}</span>
               </el-form-item>
-              <el-form-item label="recall">
-                <span>{{ props.row.recall || 'null' }}</span>
+              <el-form-item label="recall" v-if="props.row.recall">
+                <span>{{ props.row.recall}}</span>
               </el-form-item>
-              <el-form-item label="precision">
-                <span>{{ props.row.precision || 'null' }}</span>
+              <el-form-item :label="(props.row.contest === '关键词抽取' || '用户画像') ? (props.row.contest === '关键词抽取' ? 'mrr' : 'score' ): 'precision'" v-if="props.row.precision">
+                <span>{{ props.row.precision}}</span>
               </el-form-item>
             </el-form>
           </template>
